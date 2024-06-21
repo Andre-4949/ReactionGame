@@ -12,7 +12,7 @@ class ResultsHandler {
   double avgTime;
   std::vector<double> best3Times;
 public:
-  ResultsHandler(std::string pName);
+  ResultsHandler(std::string pName="");
   void calcAvgTime();
   void calcBest3Times();
   void printResults();

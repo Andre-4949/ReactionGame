@@ -6,7 +6,7 @@
 
 Scenery::Scenery(int pNumberOfFrames):numberOfFrames(pNumberOfFrames)
 {
-    
+
 }
 
 void Scenery::mouseEvents(int event, int x, int y, int flags, void *userdata) {
@@ -18,11 +18,13 @@ void Scenery::keyEvents() {
 }
 
 std::vector<KittiObject> Scenery::getClickedObjects(int x, int y) {
-    return std::vector<KittiObject>();
+    return this->frames.front().processClicks(x,y);
 }
 
-void Scenery::render() {
-    for (Frame &item: this->frames){
-        item.render();
-    }
+void Scenery::render(cv::InputOutputArray &img) {
+    this->frames.front().render(img);
+}
+
+const ResultsHandler &Scenery::getResultsHandler() const {
+    return resultsHandler;
 }

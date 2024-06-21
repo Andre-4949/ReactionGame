@@ -4,7 +4,6 @@
 
 #include <random>
 #include "../../include/Scene/Frame.h"
-#include "../../include/Scene/HelperClasses/GTBoundingBox.h"
 
 void Frame::render(cv::InputOutputArray &img) {
     for (KittiObject &item: this->objects){

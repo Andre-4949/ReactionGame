@@ -9,5 +9,5 @@ void Game::start(){
   Menu menu;
   session = menu.getOptions();
   session.loop();
-  menu.printResults(session.getScene()->resultsHandler);
+  menu.printResults(session.getScene()->getResultsHandler());
 }

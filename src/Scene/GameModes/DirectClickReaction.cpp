@@ -5,3 +5,11 @@ Scenery(pNumberOfFrames)
 {
 
 }
+
+DirectClickReaction::~DirectClickReaction() {
+
+}
+
+void DirectClickReaction::processClicks() {
+
+}

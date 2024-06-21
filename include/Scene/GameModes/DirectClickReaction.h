@@ -5,8 +5,10 @@
 
 class DirectClickReaction: public Scenery {
   public:
-    DirectClickReaction(int pNumberOfFrames);
+    explicit DirectClickReaction(int pNumberOfFrames);
     void processClicks() override;
+
+    virtual ~DirectClickReaction();
 };
 
 
