@@ -5,7 +5,7 @@
 #include "../../../include/Scene/HelperClasses/GTBoundingBox.h"
 
 bool GTBoundingBox::hasBeenClicked(int x, int y) {
-    return this->topLeft.greaterXY(x, y) and this->bottomRight.smallerXY(x, y);
+    return this->topLeft.greaterXY(x, y) && this->bottomRight.smallerXY(x, y);
 }
 
 void GTBoundingBox::render() {
