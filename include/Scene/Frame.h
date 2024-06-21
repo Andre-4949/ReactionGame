@@ -12,8 +12,19 @@
 class Frame {
 private:
     std::vector<KittiObject> objects;
+    KittiObject randomlySelectedObject;
 public:
-    void render();
+    //TODO Constructor
+
+    void render(cv::InputOutputArray &img);
+    std::vector<KittiObject> processClicks(int x, int y);
+    void chooseRandomObject();
+
+    void setAllKittiObjectVisible();
+    void setAllKittiObjectInvisible();
+    const std::vector<KittiObject> &getObjects() const;
+
+    const KittiObject &getRandomlySelectedObject() const;
 };
 
 

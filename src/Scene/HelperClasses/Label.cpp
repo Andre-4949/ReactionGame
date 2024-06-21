@@ -29,7 +29,7 @@ std::vector<Label> Label::loadLabelsFromFile(std::string filename)
 
         if (!ss.fail())
         {
-            cv::Rect bbox(static_cast<int>(bbox_left), static_cast<int>(bbox_top),
+            GTBoundingBox bbox(static_cast<int>(bbox_left), static_cast<int>(bbox_top),
                           static_cast<int>(bbox_right - bbox_left), static_cast<int>(bbox_bottom - bbox_top));
             labels.emplace_back(frame, type, bbox);
         }
@@ -39,4 +39,12 @@ std::vector<Label> Label::loadLabelsFromFile(std::string filename)
         }
     }
     return labels;
+}
+
+const std::string &Label::getMType() const {
+    return m_type;
+}
+
+GTBoundingBox Label::getBoundingBox() {
+    return boundingBox;
 }

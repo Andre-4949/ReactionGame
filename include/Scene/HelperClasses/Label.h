@@ -5,6 +5,7 @@
 #ifndef REACTIONGAME_LABEL_H
 #define REACTIONGAME_LABEL_H
 
+#include <utility>
 #include <vector>
 #include <fstream>
 #include <opencv2/opencv.hpp>
@@ -12,17 +13,22 @@
 #include "GTBoundingBox.h"
 
 class Label {
-public:
+private:
     int m_frame;            //Frame number, where the bounding box corresponds to
     std::string m_type;     //Class of the bounding box (e.g. Pedestrian, Car, Cyclist) --> DontCare should be ignored
-    cv::Rect m_bbox;
+
     GTBoundingBox boundingBox;
-    Label() : m_frame(0), m_type(""), m_bbox(cv::Rect()) {}
+public:
+    Label() : m_frame(0), m_type(""), boundingBox(cv::Rect()) {}
 
-    Label(int frame, const std::string &type, const cv::Rect &bbox) : m_frame(frame), m_type(type), m_bbox(bbox) {}
-
+    Label(int frame, std::string type, GTBoundingBox bbox) : m_frame(frame), m_type(std::move(type)),
+                                                                      boundingBox(std::move(bbox)) {}
 
     static std::vector<Label> loadLabelsFromFile(std::string filename);
+
+    const std::string &getMType() const;
+
+    GTBoundingBox getBoundingBox();
 };
 
 #endif //REACTIONGAME_LABEL_H

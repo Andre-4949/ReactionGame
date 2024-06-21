@@ -6,21 +6,35 @@
 #define REACTIONGAME_GTBOUNDINGBOX_H
 
 #include <inttypes.h>
+#include <opencv2/core/types.hpp>
 #include "Point.h"
 
-class GTBoundingBox {
-    private:
-    bool visible;
+
+class GTBoundingBox : cv::Rect {
+private:
+    bool visible=false;
+    helper::Point topLeft = helper::Point(0, 0);
+    helper::Point topRight = helper::Point(0, 0);
+    helper::Point bottomLeft = helper::Point(0, 0);
+    helper::Point bottomRight = helper::Point(0, 0);
+    cv::Scalar color = cv::Scalar(255, 0, 0);
 public:
-    GTBoundingBox();
 
-    Point topLeft=Point(0,0), topRight=Point(0,0), bottomLeft=Point(0,0), bottomRight=Point(0,0);
-//    uint8_t rgbColor[3] = {0, 0, 0};
+    GTBoundingBox(cv::Rect rect);
 
-    //TODO Constructor
-    void render();
+    GTBoundingBox(int x, int y, int width, int height);
 
-    bool hasBeenClicked(int x, int y);
+    void render(cv::InputOutputArray &img);
+
+    bool getClicked(int x, int y);
+
+    const cv::Scalar &getColor() const;
+
+    void setColor(const cv::Scalar &color);
+
+    bool isVisible() const;
+
+    void setVisible(bool visible);
 };
 
 
