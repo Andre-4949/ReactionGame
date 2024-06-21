@@ -9,6 +9,8 @@
 #include "Point.h"
 
 class GTBoundingBox {
+    private:
+    bool visible;
 public:
     GTBoundingBox();
 
