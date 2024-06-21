@@ -4,6 +4,11 @@
 
 #include "../../include/Scene/Scenery.h"
 
+Scenery::Scenery(int pNumberOfFrames):numberOfFrames(pNumberOfFrames)
+{
+    
+}
+
 void Scenery::mouseEvents(int event, int x, int y, int flags, void *userdata) {
 
 }

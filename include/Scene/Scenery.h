@@ -9,12 +9,17 @@
 #include <vector>
 #include "Frame.h"
 #include "KittiObject.h"
+#include "ResultsHandler.h"
 
 class Scenery {
 private:
     int numberOfFrames;
-    std::vector<Frame> frames;
+    std::vector<Frame> frameNames;
 public:
+    Scenery(int pNumberOfFrames);
+
+    ResultsHandler resultsHandler;
+
     virtual void processClicks() = 0;
 
     void render();
