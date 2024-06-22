@@ -16,6 +16,8 @@ namespace helper {
         bool greaterXY(int x, int y) const;
 
         bool smallerXY(int x, int y);
+        int getX();
+        int getY();
     };
 }
 #endif //REACTIONGAME_POINT_H

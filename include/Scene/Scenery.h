@@ -13,18 +13,20 @@
 #include "queue"
 
 class Scenery {
-private:
+protected:
     int numberOfFrames;
     int sequence;
     std::vector<std::string> frameNames;
     std::queue<Frame> frames;
     ResultsHandler resultsHandler;
     static inline int currentFrameNumber = 1;
+    std::chrono::_V2::system_clock::time_point showingObjTimePoint;
 public:
 
     Scenery(int pNumberOfFrames, int pSequence);
 
-    virtual void processClicks() = 0;
+    virtual void processClicks(int x, int y) = 0;
+    virtual void update(int& frameCounter) = 0;
 
     void render(cv::InputOutputArray &window);
 
@@ -35,7 +37,7 @@ public:
     void keyEvents();
 
     const ResultsHandler &getResultsHandler() const;
-    void loadFrames(int sequence);
+    void loadFrames();
 };
 
 

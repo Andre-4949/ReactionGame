@@ -35,6 +35,9 @@ public:
     bool isVisible() const;
 
     void setVisible(bool visible);
+
+    helper::Point getTopLeft();
+    helper::Point getBottomRight();
 };
 
 

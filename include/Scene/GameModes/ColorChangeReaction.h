@@ -6,11 +6,13 @@
 
 class ColorChangeReaction : public Scenery {
 public:
-    explicit ColorChangeReaction(int pNumberOfFrames);
+    explicit ColorChangeReaction(int pNumberOfFrames, int pSequence);
 
-    void processClicks() override;
+    void processClicks(int x, int y) override;
 
-    virtual ~ColorChangeReaction();
+    void update(int& frameCounter) override;
+
+    ~ColorChangeReaction();
 };
 
 

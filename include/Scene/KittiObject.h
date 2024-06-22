@@ -23,6 +23,8 @@ public:
     bool processClicks(int x, int y);
 
     Label getLabel() const;
+
+    bool operator==(KittiObject &other);
 };
 
 

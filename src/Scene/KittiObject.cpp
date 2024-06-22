@@ -29,3 +29,10 @@ Label KittiObject::getLabel() const {
 KittiObject::KittiObject(Label label) : label(std::move(label)) {}
 
 KittiObject::KittiObject() = default;
+
+bool KittiObject::operator==(KittiObject &other){
+    return (label.getBoundingBox().getTopLeft().getX() == other.label.getBoundingBox().getTopLeft().getX()) 
+            && (label.getBoundingBox().getTopLeft().getY() == other.label.getBoundingBox().getTopLeft().getY())
+            && (label.getBoundingBox().getBottomRight().getX() == other.label.getBoundingBox().getBottomRight().getX())
+            && (label.getBoundingBox().getBottomRight().getY() == other.label.getBoundingBox().getBottomRight().getY()) ;
+}

@@ -5,12 +5,15 @@
 
 
 class DirectClickReaction : public Scenery {
+    bool waitingOnClick = false;
 public:
-    explicit DirectClickReaction(int pNumberOfFrames);
+    explicit DirectClickReaction(int pNumberOfFrames, int pSequence);
 
-    void processClicks() override;
+    void processClicks(int x, int y) override;
 
-    virtual ~DirectClickReaction();
+    void update(int& frameCounter) override;
+
+    ~DirectClickReaction();
 };
 
 

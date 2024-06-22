@@ -22,16 +22,10 @@ public:
 
     void loop();
 
-    void render();
+    void render(cv::InputOutputArray& img);
 
-    void update();
-<<<<<<< Updated upstream
-
-    void *mouseEvents(int event, int x, int y, int flags, void *userdata);
-
-=======
-    static void* mouseEvents(int event, int x, int y, int flags, void* userdata);
->>>>>>> Stashed changes
+    void update(int& frameCounter);
+    void* mouseEvents(int event, int x, int y, int flags, void* userdata);
     void keyEvents();
 
     Scenery *getScene();

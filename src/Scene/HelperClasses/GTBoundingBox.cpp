@@ -47,3 +47,13 @@ bool GTBoundingBox::isVisible() const {
 void GTBoundingBox::setVisible(bool visible) {
     this->visible = visible;
 }
+
+helper::Point GTBoundingBox::getTopLeft()
+{
+  return topLeft;
+}
+
+helper::Point GTBoundingBox::getBottomRight()
+{
+  return bottomRight;
+}

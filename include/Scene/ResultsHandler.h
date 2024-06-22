@@ -21,6 +21,8 @@ public:
 
     void printResults();
 
+    void addTime(double time_in_ms);
+
 };
 
 #endif //REACTIONGAME_RESULTSHANDLER_H

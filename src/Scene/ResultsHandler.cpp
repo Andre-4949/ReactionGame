@@ -32,3 +32,7 @@ void ResultsHandler::printResults() {
     }
 }
 
+void ResultsHandler::addTime(double time_in_ms)
+{
+    times.push_back(time_in_ms);
+}

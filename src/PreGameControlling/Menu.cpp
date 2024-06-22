@@ -42,10 +42,10 @@ GameSession Menu::getOptions() {
     Scenery *scene;
     switch (gameMode) {
         case 1:
-            scene = new DirectClickReaction(numberOfFrames);
+            scene = new DirectClickReaction(numberOfFrames, sequence);
             break;
         case 2:
-            scene = new ColorChangeReaction(numberOfFrames);
+            scene = new ColorChangeReaction(numberOfFrames, sequence);
         default:
             break;
     }
