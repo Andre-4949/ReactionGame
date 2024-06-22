@@ -18,7 +18,7 @@ void Scenery::keyEvents() {
 }
 
 std::vector<KittiObject> Scenery::getClickedObjects(int x, int y) {
-    return this->frames.front().processClicks(x,y);
+    return this->frames.front().processClicks(x, y);
 }
 
 void Scenery::render(cv::InputOutputArray &img) {

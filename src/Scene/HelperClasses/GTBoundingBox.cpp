@@ -11,7 +11,7 @@ bool GTBoundingBox::getClicked(int x, int y) {
 }
 
 void GTBoundingBox::render(cv::InputOutputArray &img) {
-    if(!visible)return;
+    if (!visible)return;
     cv::line(img, topLeft, bottomLeft, color);
     cv::line(img, bottomLeft, bottomRight, color);
     cv::line(img, bottomRight, topRight, color);

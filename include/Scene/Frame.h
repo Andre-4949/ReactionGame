@@ -12,19 +12,30 @@
 class Frame {
 private:
     std::vector<KittiObject> objects;
-    KittiObject randomlySelectedObject;
+    KittiObject randomlySelectedObject = KittiObject();
+    cv::Mat img;
 public:
-    //TODO Constructor
+    Frame();
+    Frame(std::vector<Label> labels, cv::Mat img, int imageNumber);
+
+    void setObjects(const std::vector<KittiObject> &objects);
+
 
     void render(cv::InputOutputArray &img);
+
     std::vector<KittiObject> processClicks(int x, int y);
+
     void chooseRandomObject();
 
     void setAllKittiObjectVisible();
+
     void setAllKittiObjectInvisible();
+
     const std::vector<KittiObject> &getObjects() const;
 
     const KittiObject &getRandomlySelectedObject() const;
+
+    void setImg(const cv::Mat &img);
 };
 
 

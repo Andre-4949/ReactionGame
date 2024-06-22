@@ -5,15 +5,15 @@
 #include <ctime>
 #include <chrono>
 #include <opencv2/highgui/highgui.hpp>
+#include <opencv2/highgui/highgui_c.h>
 
 #include "../../include/PreGameControlling/GameSession.h"
+#include "../../include/PreGameControlling/Game.h"
 
 GameSession::GameSession(Gamemode pMode, Scenery *pScene, std::string pName) : mode(pMode), scene(pScene), name(pName) {
 }
 
-void test(int a, int b, int c, int d, void *e) {
-    GameSession::mouseEvents(a, b, c, d, e);
-}
+void test(int event, int x, int y, int flags, void *userdata);
 
 void GameSession::loop() {
     int millisecondsPerFrame = (int) (1000.0 / 60.0);
@@ -25,15 +25,15 @@ void GameSession::loop() {
     std::cin >> path;
     cv::Mat img = cv::imread(path);
     cv::namedWindow("test", 1);
-
-    cv::setMouseCallback("test", test, 0);
+    cv::setWindowProperty("test",cv::WindowPropertyFlags::WND_PROP_FULLSCREEN,cv::WindowPropertyFlags::WND_PROP_FULLSCREEN);
+    cv::setMouseCallback("test", test, nullptr);
 //
-    cv::imshow("test", img);
     while (this->gameSessionRunning) {
         time_in_nanoseconds = (int) std::chrono::duration_cast<std::chrono::nanoseconds>(
                 std::chrono::high_resolution_clock::now() - lastUpdate).count();
         millisecondCounter += static_cast<int>(time_in_nanoseconds) * 0.000001;
         render();
+        cv::imshow("test", img);
         if (millisecondCounter > millisecondsPerFrame) {
             update();
             lastUpdate = std::chrono::high_resolution_clock::now();
@@ -52,7 +52,10 @@ void GameSession::update() {
 }
 
 void *GameSession::mouseEvents(int event, int x, int y, int flags, void *userdata) {
-
+    if (event == cv::EVENT_LBUTTONDOWN) {
+        std::cout << "x: " << x << " | y: " << y << std::endl;
+    }
+    this->scene->mouseEvents(event,x,y,flags,userdata);
     return nullptr;
 }
 
@@ -65,3 +68,7 @@ Scenery *GameSession::getScene() {
     return scene;
 }
 
+
+void test(int event, int x, int y, int flags, void *userdata) {
+    Game::session.mouseEvents(event, x, y, flags, userdata);
+}

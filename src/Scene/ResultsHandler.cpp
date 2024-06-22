@@ -17,7 +17,7 @@ void ResultsHandler::calcBest3Times() {
     std::vector<double> sortedTimes = times;
     std::sort(sortedTimes.begin(), sortedTimes.end());
 
-    int index3 = sortedTimes.size() >= 3 ? 2 : (int)sortedTimes.size();
+    int index3 = sortedTimes.size() >= 3 ? 2 : (int) sortedTimes.size();
 
     std::vector<double> newBest3Times(sortedTimes.begin(), sortedTimes.begin() + index3);
     best3Times = newBest3Times;

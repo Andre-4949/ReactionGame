@@ -4,17 +4,23 @@
 
 #include "GameSession.h"
 #include <String>
+
 #ifndef REACTIONGAME_MENU_H
 #define REACTIONGAME_MENU_H
 
-enum inputType{tNumberOfFrames, tSequence, tGameMode};
+enum inputType {
+    tNumberOfFrames, tSequence, tGameMode
+};
 
 class Menu {
-  private:
+private:
     int getIntInput(inputType t);
+
     std::string getStringInput();
-  public:
+
+public:
     GameSession getOptions();
+
     void printResults(ResultsHandler resultsHandler);
 };
 

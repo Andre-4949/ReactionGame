@@ -3,15 +3,14 @@
 //
 
 #include "GameSession.h"
+
 #ifndef REACTIONGAME_GAME_H
 #define REACTIONGAME_GAME_H
 
 
 class Game {
-  GameSession session;
-  public:
+public:
+    static inline GameSession session = GameSession();
     void start();
 };
-
-
 #endif //REACTIONGAME_GAME_H

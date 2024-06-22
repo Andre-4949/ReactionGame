@@ -22,11 +22,13 @@ public:
     Label() : m_frame(0), m_type(""), boundingBox(cv::Rect()) {}
 
     Label(int frame, std::string type, GTBoundingBox bbox) : m_frame(frame), m_type(std::move(type)),
-                                                                      boundingBox(std::move(bbox)) {}
+                                                             boundingBox(std::move(bbox)) {}
 
     static std::vector<Label> loadLabelsFromFile(std::string filename);
 
     const std::string &getMType() const;
+
+    int getMFrame() const;
 
     GTBoundingBox getBoundingBox();
 };

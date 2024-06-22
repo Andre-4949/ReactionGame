@@ -7,8 +7,8 @@
 
 
 enum Gamemode {
-  directClickMode,
-  colorChangeMode
+    directClickMode,
+    colorChangeMode
 };
 
 

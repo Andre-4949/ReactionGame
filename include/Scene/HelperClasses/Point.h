@@ -4,9 +4,11 @@
 
 #ifndef REACTIONGAME_POINT_H
 #define REACTIONGAME_POINT_H
+
 #include "opencv2/opencv.hpp"
+
 namespace helper {
-class Point : public cv::Point2i {
+    class Point : public cv::Point2i {
         int x, y;
     public:
         Point(int x, int y);

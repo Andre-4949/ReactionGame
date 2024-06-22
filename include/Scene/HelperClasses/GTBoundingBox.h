@@ -12,7 +12,7 @@
 
 class GTBoundingBox : cv::Rect {
 private:
-    bool visible=false;
+    bool visible = false;
     helper::Point topLeft = helper::Point(0, 0);
     helper::Point topRight = helper::Point(0, 0);
     helper::Point bottomLeft = helper::Point(0, 0);

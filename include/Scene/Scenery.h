@@ -11,6 +11,7 @@
 #include "KittiObject.h"
 #include "ResultsHandler.h"
 #include "queue"
+
 class Scenery {
 private:
     int numberOfFrames;
@@ -26,7 +27,9 @@ public:
     void render(cv::InputOutputArray &img);
 
     std::vector<KittiObject> getClickedObjects(int x, int y);
-    void mouseEvents(int event, int x, int y, int flags, void* userdata);
+
+    void mouseEvents(int event, int x, int y, int flags, void *userdata);
+
     void keyEvents();
 
     const ResultsHandler &getResultsHandler() const;

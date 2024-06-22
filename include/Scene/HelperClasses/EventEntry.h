@@ -3,12 +3,13 @@
 //
 
 #include "../KittiObject.h"
+
 #ifndef REACTIONGAME_EVENTENTRY_H
 #define REACTIONGAME_EVENTENTRY_H
 
 
 class EventEntry {
-  private:
+private:
     double time;
     KittiObject obj;
 };

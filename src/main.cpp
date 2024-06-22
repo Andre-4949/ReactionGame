@@ -9,6 +9,7 @@
 #include <chrono>
 #include "../include/Scene/HelperClasses/Label.h"
 #include "../include/PreGameControlling/Game.h"
+
 //TODO KITTI_PATH environmental variable (data_tracking_image_2, data_tracking_label_2)
 //"C:\Users\linus\OneDrive\Desktop\DHBW\Module\2Semester\C++\cmake-3.30.0-rc3-windows-x86_64\cmake-3.30.0-rc3-windows-x86_64\bin\cmake.exe" .. .
 int main() {
@@ -27,5 +28,5 @@ int main() {
 
     Game game;
     game.start();
-
+    return 0;
 }
