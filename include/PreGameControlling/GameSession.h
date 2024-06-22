@@ -25,9 +25,13 @@ public:
     void render();
 
     void update();
+<<<<<<< Updated upstream
 
     void *mouseEvents(int event, int x, int y, int flags, void *userdata);
 
+=======
+    static void* mouseEvents(int event, int x, int y, int flags, void* userdata);
+>>>>>>> Stashed changes
     void keyEvents();
 
     Scenery *getScene();
