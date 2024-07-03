@@ -15,6 +15,8 @@ private:
     Gamemode mode;
     Scenery *scene;
     std::string name;
+    std::string windowName = "ReactionGame";
+    cv::Mat currentImage;
 public:
     GameSession() {};
 
@@ -22,13 +24,21 @@ public:
 
     void loop();
 
-    void render(cv::InputOutputArray& img);
+    void render();
 
     void update(int& frameCounter);
     void* mouseEvents(int event, int x, int y, int flags, void* userdata);
     void keyEvents();
 
     Scenery *getScene();
+
+    const std::string &getWindowName() const;
+
+    void setWindowName(const std::string &windowName);
+
+    const cv::Mat &getCurrentImage() const;
+
+    void setCurrentImage(const cv::Mat &currentImage);
 };
 
 

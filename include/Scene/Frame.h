@@ -20,8 +20,7 @@ public:
 
     void setObjects(const std::vector<KittiObject> &objects);
 
-
-    void render(cv::InputOutputArray &img);
+    void render();
 
     std::vector<KittiObject> processClicks(int x, int y);
 
@@ -36,6 +35,8 @@ public:
     const KittiObject &getRandomlySelectedObject() const;
 
     void setImg(const cv::Mat &img);
+
+    const cv::Mat &getImg() const;
 };
 
 

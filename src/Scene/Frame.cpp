@@ -5,9 +5,9 @@
 #include <random>
 #include "../../include/Scene/Frame.h"
 
-void Frame::render(cv::InputOutputArray &img) {
+void Frame::render() {
     for (KittiObject &item: this->objects) {
-        item.render(img);
+        item.render(this->img);
     }
 }
 
@@ -68,4 +68,8 @@ Frame::Frame(std::vector<Label> labels, cv::Mat img, int frameNumber) {
 
 void Frame::setImg(const cv::Mat &img) {
     Frame::img = img;
+}
+
+const cv::Mat &Frame::getImg() const {
+    return img;
 }

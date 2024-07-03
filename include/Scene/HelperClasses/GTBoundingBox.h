@@ -24,7 +24,7 @@ public:
 
     GTBoundingBox(int x, int y, int width, int height);
 
-    void render(cv::InputOutputArray &img);
+    void render();
 
     bool getClicked(int x, int y);
 

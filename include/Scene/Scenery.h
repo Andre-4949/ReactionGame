@@ -26,9 +26,10 @@ public:
     Scenery(int pNumberOfFrames, int pSequence);
 
     virtual void processClicks(int x, int y) = 0;
+
     virtual void update(int& frameCounter) = 0;
 
-    void render(cv::InputOutputArray &window);
+    void render();
 
     std::vector<KittiObject> getClickedObjects(int x, int y);
 
@@ -37,7 +38,13 @@ public:
     void keyEvents();
 
     const ResultsHandler &getResultsHandler() const;
+
     void loadFrames();
+
+
+    const std::queue<Frame> &getFrames() const;
+
+    void loadFrame(int frameNum, int sequence);
 };
 
 

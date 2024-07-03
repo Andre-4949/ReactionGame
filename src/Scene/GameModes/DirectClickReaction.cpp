@@ -2,7 +2,7 @@
 
 DirectClickReaction::DirectClickReaction(int pNumberOfFrames, int pSequence) :
         Scenery(pNumberOfFrames, pSequence) {
-        
+
 }
 
 DirectClickReaction::~DirectClickReaction() {

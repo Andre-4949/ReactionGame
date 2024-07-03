@@ -5,13 +5,15 @@
 #include "../../../include/Scene/HelperClasses/GTBoundingBox.h"
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc.hpp>
-
+#include "../../../include/PreGameControlling/Game.h"
 bool GTBoundingBox::getClicked(int x, int y) {
     return this->contains(cv::Point(x, y));
 }
 
-void GTBoundingBox::render(cv::InputOutputArray &img) {
+void GTBoundingBox::render() {
     if (!visible)return;
+
+    auto img = Game::session.getScene()->getFrames().front().getImg();
     cv::line(img, topLeft, bottomLeft, color);
     cv::line(img, bottomLeft, bottomRight, color);
     cv::line(img, bottomRight, topRight, color);

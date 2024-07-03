@@ -17,7 +17,7 @@ int Menu::getIntInput(inputType t) {
     int output;
     switch (t) {
         case tNumberOfFrames:
-            std::cout << "Wieviele Bilder moechtest du durchgehen?" << std::endl;
+            std::cout << "Wie viele Bilder moechtest du durchgehen?" << std::endl;
             break;
 
         case tSequence:
