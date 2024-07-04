@@ -14,7 +14,7 @@ public:
     KittiObject();
     explicit KittiObject(Label label);
 
-    void render(cv::InputOutputArray &img);
+    void render();
 
     void setColor(const cv::Scalar &color);
 
@@ -22,7 +22,7 @@ public:
 
     bool processClicks(int x, int y);
 
-    Label getLabel() const;
+    Label &getLabel();
 
     bool operator==(KittiObject &other);
 };

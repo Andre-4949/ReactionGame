@@ -7,7 +7,7 @@
 
 void Frame::render() {
     for (KittiObject &item: this->objects) {
-        item.render(this->img);
+        item.render();
     }
 }
 
@@ -24,25 +24,27 @@ const std::vector<KittiObject> &Frame::getObjects() const {
     return objects;
 }
 
-const KittiObject &Frame::getRandomlySelectedObject() const {
-    return randomlySelectedObject;
+const int Frame::getRandomlySelectedObject() const {
+    return indexOfRandomObject;
 }
 
 void Frame::chooseRandomObject() {
     std::random_device device;
     std::mt19937 rng(device());
-    std::uniform_int_distribution<std::mt19937::result_type> dist(0, this->objects.size());
-    this->randomlySelectedObject = objects[dist(rng)];
+    std::uniform_int_distribution<std::mt19937::result_type> dist(0, this->objects.size()-1);
+    indexOfRandomObject = dist(rng);
+    objects[indexOfRandomObject].getLabel().getBoundingBox().setVisible(true);
+    objects[indexOfRandomObject].getLabel().getBoundingBox().setVisible(true);
 }
 
 
-void Frame::setAllKittiObjectVisible() {
+void Frame::setAllKittiObjectInvisible() {
     for (KittiObject &item: this->objects) {
         item.getLabel().getBoundingBox().setVisible(false);
     }
 }
 
-void Frame::setAllKittiObjectInvisible() {
+void Frame::setAllKittiObjectVisible() {
     for (KittiObject &item: this->objects) {
         item.getLabel().getBoundingBox().setVisible(true);
     }
@@ -58,7 +60,7 @@ void Frame::setObjects(const std::vector<KittiObject> &objects) {
 
 Frame::Frame(std::vector<Label> labels, cv::Mat img, int frameNumber) {
     for (Label &item: labels){
-        if(item.getMFrame() == frameNumber){
+        if(item.getMFrame() == frameNumber && item.getMType() == "Car"){
             this->objects.emplace_back(item);
         }
     }

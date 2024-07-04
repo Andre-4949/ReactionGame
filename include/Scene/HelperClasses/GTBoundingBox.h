@@ -12,12 +12,12 @@
 
 class GTBoundingBox : cv::Rect {
 private:
-    bool visible = false;
+    bool isVisible = false;
     helper::Point topLeft = helper::Point(0, 0);
     helper::Point topRight = helper::Point(0, 0);
     helper::Point bottomLeft = helper::Point(0, 0);
     helper::Point bottomRight = helper::Point(0, 0);
-    cv::Scalar color = cv::Scalar(255, 0, 0);
+    cv::Scalar color = cv::Scalar(0, 0, 255);
 public:
 
     GTBoundingBox(cv::Rect rect);
@@ -32,9 +32,9 @@ public:
 
     void setColor(const cv::Scalar &color);
 
-    bool isVisible() const;
+    bool getIsVisible() const;
 
-    void setVisible(bool visible);
+    void setVisible(bool newVisible);
 
     helper::Point getTopLeft();
     helper::Point getBottomRight();

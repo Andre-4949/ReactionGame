@@ -12,6 +12,6 @@ void ColorChangeReaction::processClicks(int x, int y) {
 
 }
 
-void ColorChangeReaction::update(int &frameCounter)
+void ColorChangeReaction::update()
 {
 }

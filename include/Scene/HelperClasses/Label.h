@@ -30,7 +30,7 @@ public:
 
     int getMFrame() const;
 
-    GTBoundingBox getBoundingBox();
+    GTBoundingBox &getBoundingBox();
 };
 
 #endif //REACTIONGAME_LABEL_H

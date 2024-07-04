@@ -23,7 +23,8 @@ std::vector<KittiObject> Scenery::getClickedObjects(int x, int y) {
 }
 
 void Scenery::render() {
-    this->frames.front().render();
+    if (!frames.empty())
+        this->frames.front().render();
 }
 
 const ResultsHandler &Scenery::getResultsHandler() const {
@@ -44,51 +45,49 @@ addStringUntilWidthIsReached(std::string originalStr, std::string stringToAppend
 
 void Scenery::loadFrame(int frameNum, int sequence) {
     std::string folderPath = std::getenv("KITTI_PATH");
-    std::string imgPath = folderPath + R"(\data_tracking_image_2\training\image_02)";
+    std::string imgPath = folderPath + R"(\data_tracking_image_2\training\image_02\)";
     std::string imgFileName = std::to_string(frameNum);
-    std::string labelsPath = folderPath + R"(\data_tracking_label_2\training\label_02)";
-    std::string labelsFileName = std::to_string(sequence);
-
-    labelsFileName = addStringUntilWidthIsReached(labelsFileName, "0", 4, true) + ".txt";
-    labelsPath += labelsFileName;
+    std::string sequenceStr = std::to_string(sequence);
+    sequenceStr = addStringUntilWidthIsReached(sequenceStr, "0", 4, true);
 
     imgFileName = addStringUntilWidthIsReached(imgFileName, "0", 6, true) + ".png";
-    imgPath += imgFileName;
-    if (!(std::filesystem::exists(imgPath) && std::filesystem::exists(labelsPath)))return;
-    frameNames.push_back(imgPath);
+    imgPath += sequenceStr + "\\" + imgFileName;
+    if (!std::filesystem::exists(imgPath))return;
+    frameNames.push(imgPath);
     cv::Mat img = cv::imread(imgPath);
-    std::vector<Label> currentLabels = Label::loadLabelsFromFile(labelsPath);
+    cv::waitKey(2);
     Frame currentFrame(currentLabels, img, currentFrameNumber);
     frames.push(currentFrame);
 }
 
 
 void Scenery::loadFrames() {
-    // nev-var "KITTI_PATH" ist der Path bis zum Ordner "\KITTI"
-//    std::string folderPath = std::getenv("KITTI_PATH");
-//    std::string imgPath = folderPath + R"(\data_tracking_image_2\training\image_02)";
-//    std::string labelsPath = folderPath + R"(\data_tracking_label_2\training\label_02)";
-//    imgPath = addStringUntilWidthIsReached(imgPath, "0", 4, false);
-//    labelsPath = addStringUntilWidthIsReached(imgPath, "0", 4, false);
-//    if (sequence > 9) {
-//        imgPath += "00";
-//        labelsPath += "00";
-//    } else {
-//        labelsPath += "000";
-//        imgPath += "000";
+    loadFrame(currentFrameNumber, sequence);
+    currentFrameNumber++;
+//    for (int i = 0; i < 3; ++i) {
 //    }
-
-//    std::string sequenceStr = std::to_string(sequence);
-//    imgPath += sequenceStr + "\\";
-//    labelsPath += sequenceStr + ".txt";
-
-    for (int i = 0; i < 3; ++i) {
-        loadFrame(currentFrameNumber, sequence);
-        currentFrameNumber++;
-    }
 }
 
 
 const std::queue<Frame> &Scenery::getFrames() const {
     return frames;
+}
+
+const std::queue<std::string> &Scenery::getFrameNames() const {
+    return frameNames;
+}
+
+void Scenery::loadLabels(int sequence) {
+    std::string folderPath = std::getenv("KITTI_PATH");
+    std::string labelsPath = folderPath + R"(\data_tracking_label_2\training\label_02\)";
+    std::string sequenceStr = std::to_string(sequence);
+    std::string labelsFileName = sequenceStr;
+    labelsFileName = addStringUntilWidthIsReached(labelsFileName, "0", 4, true) + ".txt";
+    labelsPath += labelsFileName;
+    if(!std::filesystem::exists(labelsPath))return;
+    currentLabels = Label::loadLabelsFromFile(labelsPath);
+}
+
+int Scenery::getSequence() const {
+    return sequence;
 }

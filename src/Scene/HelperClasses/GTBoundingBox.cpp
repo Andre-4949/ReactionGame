@@ -6,18 +6,15 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 #include "../../../include/PreGameControlling/Game.h"
+
 bool GTBoundingBox::getClicked(int x, int y) {
     return this->contains(cv::Point(x, y));
 }
 
 void GTBoundingBox::render() {
-    if (!visible)return;
-
-    auto img = Game::session.getScene()->getFrames().front().getImg();
-    cv::line(img, topLeft, bottomLeft, color);
-    cv::line(img, bottomLeft, bottomRight, color);
-    cv::line(img, bottomRight, topRight, color);
-    cv::line(img, topRight, topLeft, color);
+    if (!this->isVisible)return;
+    cv::Mat img = Game::session.getScene()->getFrames().front().getImg();
+    cv::rectangle(img, topLeft, bottomRight, color, 3);
 }
 
 GTBoundingBox::GTBoundingBox(cv::Rect rect) : Rect_(rect) {
@@ -42,20 +39,18 @@ void GTBoundingBox::setColor(const cv::Scalar &color) {
     this->color = color;
 }
 
-bool GTBoundingBox::isVisible() const {
-    return visible;
+bool GTBoundingBox::getIsVisible() const {
+    return isVisible;
 }
 
-void GTBoundingBox::setVisible(bool visible) {
-    this->visible = visible;
+void GTBoundingBox::setVisible(bool newVisible) {
+    this->isVisible = newVisible;
 }
 
-helper::Point GTBoundingBox::getTopLeft()
-{
-  return topLeft;
+helper::Point GTBoundingBox::getTopLeft() {
+    return topLeft;
 }
 
-helper::Point GTBoundingBox::getBottomRight()
-{
-  return bottomRight;
+helper::Point GTBoundingBox::getBottomRight() {
+    return bottomRight;
 }

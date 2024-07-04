@@ -12,7 +12,7 @@
 class Frame {
 private:
     std::vector<KittiObject> objects;
-    KittiObject randomlySelectedObject = KittiObject();
+    int indexOfRandomObject;
     cv::Mat img;
 public:
     Frame();
@@ -32,7 +32,7 @@ public:
 
     const std::vector<KittiObject> &getObjects() const;
 
-    const KittiObject &getRandomlySelectedObject() const;
+    const int getRandomlySelectedObject() const;
 
     void setImg(const cv::Mat &img);
 

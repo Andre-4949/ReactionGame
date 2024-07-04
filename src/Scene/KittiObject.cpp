@@ -5,9 +5,10 @@
 #include <utility>
 
 #include "../../include/Scene/KittiObject.h"
+#include "../../include/PreGameControlling/Game.h"
 
-void KittiObject::render(cv::InputOutputArray &img) {
-    this->label.getBoundingBox().render(img);
+void KittiObject::render() {
+    this->label.getBoundingBox().render();
 }
 
 void KittiObject::setColor(const cv::Scalar &color) {
@@ -22,7 +23,7 @@ bool KittiObject::processClicks(int x, int y) {
     return this->label.getBoundingBox().getClicked(x, y);
 }
 
-Label KittiObject::getLabel() const {
+Label &KittiObject::getLabel() {
     return label;
 }
 
@@ -31,7 +32,7 @@ KittiObject::KittiObject(Label label) : label(std::move(label)) {}
 KittiObject::KittiObject() = default;
 
 bool KittiObject::operator==(KittiObject &other){
-    return (label.getBoundingBox().getTopLeft().getX() == other.label.getBoundingBox().getTopLeft().getX()) 
+    return (label.getBoundingBox().getTopLeft().getX() == other.label.getBoundingBox().getTopLeft().getX())
             && (label.getBoundingBox().getTopLeft().getY() == other.label.getBoundingBox().getTopLeft().getY())
             && (label.getBoundingBox().getBottomRight().getX() == other.label.getBoundingBox().getBottomRight().getX())
             && (label.getBoundingBox().getBottomRight().getY() == other.label.getBoundingBox().getBottomRight().getY()) ;

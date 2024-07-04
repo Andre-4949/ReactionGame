@@ -16,8 +16,9 @@ class Scenery {
 protected:
     int numberOfFrames;
     int sequence;
-    std::vector<std::string> frameNames;
+    std::queue<std::string> frameNames;
     std::queue<Frame> frames;
+    std::vector<Label> currentLabels;
     ResultsHandler resultsHandler;
     static inline int currentFrameNumber = 1;
     std::chrono::_V2::system_clock::time_point showingObjTimePoint;
@@ -27,7 +28,7 @@ public:
 
     virtual void processClicks(int x, int y) = 0;
 
-    virtual void update(int& frameCounter) = 0;
+    virtual void update() = 0;
 
     void render();
 
@@ -45,6 +46,12 @@ public:
     const std::queue<Frame> &getFrames() const;
 
     void loadFrame(int frameNum, int sequence);
+
+    const std::queue<std::string> &getFrameNames() const;
+
+    void loadLabels(int sequence);
+
+    int getSequence() const;
 };
 
 

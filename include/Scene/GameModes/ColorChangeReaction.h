@@ -10,7 +10,7 @@ public:
 
     void processClicks(int x, int y) override;
 
-    void update(int& frameCounter) override;
+    void update() override;
 
     ~ColorChangeReaction();
 };

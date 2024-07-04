@@ -40,7 +40,7 @@ const std::string &Label::getMType() const {
     return m_type;
 }
 
-GTBoundingBox Label::getBoundingBox() {
+GTBoundingBox &Label::getBoundingBox() {
     return boundingBox;
 }
 

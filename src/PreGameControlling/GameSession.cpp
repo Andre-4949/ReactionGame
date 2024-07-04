@@ -28,39 +28,32 @@ void GameSession::loop() {
                           cv::WindowPropertyFlags::WND_PROP_FULLSCREEN);
     cv::setMouseCallback(this->windowName, mouseCallbackAdapter, nullptr);
 //
-    while (this->gameSessionRunning) {
-//        time_in_nanoseconds = (int) std::chrono::duration_cast<std::chrono::nanoseconds>(
-//                std::chrono::high_resolution_clock::now() - lastUpdate).count();
-//        millisecondCounter += static_cast<int>(time_in_nanoseconds) * 0.000001;
+//    this->scene->loadFrames();
+    scene->loadLabels(scene->getSequence());
 
-//        if (millisecondCounter > millisecondsPerUpdateFrame) {
-//            update(frameCounter);
-//            lastUpdate = std::chrono::high_resolution_clock::now();
-//            millisecondCounter %= 1000;
-//            frameCounter++;
-//        }
+    while (this->gameSessionRunning) {
+        update();
         render();
         if (cv::pollKey() == 27)this->gameSessionRunning = false;
     }
 }
 
 void GameSession::render() {
-    if(this->currentImage.empty())
-        scene->render();
-    cv::imshow(this->windowName,this->scene->getFrames().front().getImg());
+    scene->render();
+    if (this->scene->getFrames().size() > 0) {
+        cv::imshow(this->windowName, this->scene->getFrames().front().getImg());
+    }
 }
 
 void GameSession::update() {
     scene->loadFrames();
-    scene->update(frameCounter);
+    scene->update();
 }
 
-void *GameSession::mouseEvents(int event, int x, int y, int flags, void *userdata) {
+void GameSession::mouseEvents(int event, int x, int y, int flags, void *userdata) {
     if (event == cv::EVENT_LBUTTONDOWN) {
-        std::cout << "x: " << x << " | y: " << y << std::endl;
         scene->processClicks(x, y);
     }
-    return nullptr;
 }
 
 void GameSession::keyEvents() {
@@ -80,10 +73,6 @@ void GameSession::setWindowName(const std::string &windowName) {
     GameSession::windowName = windowName;
 }
 
-const cv::Mat &GameSession::getCurrentImage() const {
-    return currentImage;
-}
-
-void GameSession::setCurrentImage(const cv::Mat &currentImage) {
-    GameSession::currentImage = currentImage;
+void GameSession::setGameSessionRunning(bool gameSessionRunning) {
+    GameSession::gameSessionRunning = gameSessionRunning;
 }
