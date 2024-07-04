@@ -13,6 +13,8 @@ public:
     void update() override;
 
     ~ColorChangeReaction();
+
+    void render() override;
 };
 
 

@@ -33,7 +33,6 @@ void GameSession::loop() {
 
     while (this->gameSessionRunning) {
         update();
-        render();
         if (cv::pollKey() == 27)this->gameSessionRunning = false;
     }
 }

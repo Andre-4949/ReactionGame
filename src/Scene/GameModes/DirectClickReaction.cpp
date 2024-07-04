@@ -10,6 +10,7 @@ DirectClickReaction::~DirectClickReaction() {
 
 }
 
+
 void DirectClickReaction::processClicks(int x, int y) {
     if (frames.empty())return;
     Frame currentFrame = frames.front();
@@ -27,16 +28,27 @@ void DirectClickReaction::processClicks(int x, int y) {
     }
 }
 
-void DirectClickReaction::update() {
-    if (!this->frames.empty()) {
-//        this->frames.front().setAllKittiObjectInvisible();
-//        this->frames.front().chooseRandomObject();
-        this->frames.front().render();
-        if (this->getFrames().size() > 0) {
-            cv::imshow(Game::session.getWindowName(), this->getFrames().front().getImg());
-        }
-        cv::waitKey(1);
+void DirectClickReaction::render() {
+    if (this->frames.empty())return;
+    this->frames.front().render();
+    if (this->getFrames().size() > 0) {
+        cv::imshow(Game::session.getWindowName(), this->getFrames().front().getImg());
     }
+    cv::waitKey(1);
+}
+
+void DirectClickReaction::update() {
+    render();
+    this->frames.front().chooseRandomObject();
+    auto showFrameStart = std::chrono::high_resolution_clock::now();
+    while (1) {
+        double timeSinceImgShown = (int) std::chrono::duration_cast<std::chrono::seconds>(
+                std::chrono::high_resolution_clock::now() - showFrameStart).count();
+
+        if (timeSinceImgShown >= 3)break;
+        if (cv::pollKey() == 27)Game::session.setGameSessionRunning(false);
+    }
+    render();
     showingObjTimePoint = std::chrono::high_resolution_clock::now();
     waitingOnClick = true;
 
@@ -44,8 +56,8 @@ void DirectClickReaction::update() {
         double timeSinceImgShown = (int) std::chrono::duration_cast<std::chrono::seconds>(
                 std::chrono::high_resolution_clock::now() - showingObjTimePoint).count();
 
-        if (timeSinceImgShown >= 3)break;
         if (cv::pollKey() == 27)Game::session.setGameSessionRunning(false);
+        if (timeSinceImgShown >= 3)break;
         if (!this->waitingOnClick)break;
     }
 

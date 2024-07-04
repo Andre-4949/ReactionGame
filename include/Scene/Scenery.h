@@ -30,7 +30,7 @@ public:
 
     virtual void update() = 0;
 
-    void render();
+    virtual void render() = 0;
 
     std::vector<KittiObject> getClickedObjects(int x, int y);
 

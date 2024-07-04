@@ -14,6 +14,8 @@ public:
     void update() override;
 
     ~DirectClickReaction();
+
+    void render() override;
 };
 
 
