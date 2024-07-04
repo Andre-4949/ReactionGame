@@ -19,15 +19,11 @@ void GTBoundingBox::render() {
 
 GTBoundingBox::GTBoundingBox(cv::Rect rect) : Rect_(rect) {
     this->topLeft = helper::Point(rect.x, rect.y);
-    this->topRight = helper::Point(rect.x + rect.width, rect.y);
-    this->bottomLeft = helper::Point(rect.x, rect.y + rect.height);
     this->bottomRight = helper::Point(rect.x + rect.width, rect.y + rect.height);
 }
 
 GTBoundingBox::GTBoundingBox(int x, int y, int width, int height) : Rect_(x, y, width, height) {
     this->topLeft = helper::Point(x, y);
-    this->topRight = helper::Point(x + width, y);
-    this->bottomLeft = helper::Point(x, y + height);
     this->bottomRight = helper::Point(x + width, y + height);
 }
 
@@ -53,4 +49,8 @@ helper::Point GTBoundingBox::getTopLeft() {
 
 helper::Point GTBoundingBox::getBottomRight() {
     return bottomRight;
+}
+
+bool GTBoundingBox::equals(GTBoundingBox b) {
+    return this->topLeft.equals(b.topLeft) && this->bottomRight.equals(b.bottomRight);
 }

@@ -12,12 +12,8 @@ namespace helper {
         int x, y;
     public:
         Point(int x, int y);
-
-        bool greaterXY(int x, int y) const;
-
-        bool smallerXY(int x, int y);
-        int getX();
-        int getY();
+        void move(int x, int y);
+        bool equals(helper::Point p);
     };
 }
 #endif //REACTIONGAME_POINT_H

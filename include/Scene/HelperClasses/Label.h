@@ -24,7 +24,7 @@ public:
     Label(int frame, std::string type, GTBoundingBox bbox) : m_frame(frame), m_type(std::move(type)),
                                                              boundingBox(std::move(bbox)) {}
 
-    static std::vector<Label> loadLabelsFromFile(std::string filename);
+    static std::vector<Label> loadLabelsFromFile(const std::string &filename);
 
     const std::string &getMType() const;
 

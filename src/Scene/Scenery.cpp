@@ -32,13 +32,9 @@ const ResultsHandler &Scenery::getResultsHandler() const {
 }
 
 std::string
-addStringUntilWidthIsReached(std::string originalStr, std::string stringToAppendOrInsert, int maxWidth, bool front) {
+addStringUntilWidthIsReached(std::string originalStr, std::string stringToAppendOrInsert, int maxWidth) {
     while (originalStr.length() < maxWidth) {
-        if (front) {
-            originalStr.insert(0, stringToAppendOrInsert);
-        } else {
-            originalStr.append(stringToAppendOrInsert);
-        }
+        originalStr.insert(0, stringToAppendOrInsert);
     }
     return originalStr;
 }
@@ -48,9 +44,9 @@ void Scenery::loadFrame(int frameNum, int sequence) {
     std::string imgPath = folderPath + R"(\data_tracking_image_2\training\image_02\)";
     std::string imgFileName = std::to_string(frameNum);
     std::string sequenceStr = std::to_string(sequence);
-    sequenceStr = addStringUntilWidthIsReached(sequenceStr, "0", 4, true);
+    sequenceStr = addStringUntilWidthIsReached(sequenceStr, "0", 4);
 
-    imgFileName = addStringUntilWidthIsReached(imgFileName, "0", 6, true) + ".png";
+    imgFileName = addStringUntilWidthIsReached(imgFileName, "0", 6) + ".png";
     imgPath += sequenceStr + "\\" + imgFileName;
     if (!std::filesystem::exists(imgPath))return;
     frameNames.push(imgPath);
@@ -82,9 +78,9 @@ void Scenery::loadLabels(int sequence) {
     std::string labelsPath = folderPath + R"(\data_tracking_label_2\training\label_02\)";
     std::string sequenceStr = std::to_string(sequence);
     std::string labelsFileName = sequenceStr;
-    labelsFileName = addStringUntilWidthIsReached(labelsFileName, "0", 4, true) + ".txt";
+    labelsFileName = addStringUntilWidthIsReached(labelsFileName, "0", 4) + ".txt";
     labelsPath += labelsFileName;
-    if(!std::filesystem::exists(labelsPath))return;
+    if (!std::filesystem::exists(labelsPath))return;
     currentLabels = Label::loadLabelsFromFile(labelsPath);
 }
 

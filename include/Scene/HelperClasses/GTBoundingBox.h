@@ -14,8 +14,8 @@ class GTBoundingBox : cv::Rect {
 private:
     bool isVisible = false;
     helper::Point topLeft = helper::Point(0, 0);
-    helper::Point topRight = helper::Point(0, 0);
-    helper::Point bottomLeft = helper::Point(0, 0);
+//    helper::Point topRight = helper::Point(0, 0);
+//    helper::Point bottomLeft = helper::Point(0, 0);
     helper::Point bottomRight = helper::Point(0, 0);
     cv::Scalar color = cv::Scalar(0, 0, 255);
 public:
@@ -38,6 +38,8 @@ public:
 
     helper::Point getTopLeft();
     helper::Point getBottomRight();
+
+    bool equals(GTBoundingBox b);
 };
 
 

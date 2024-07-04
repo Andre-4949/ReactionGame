@@ -31,7 +31,7 @@ const int Frame::getRandomlySelectedObject() const {
 void Frame::chooseRandomObject() {
     std::random_device device;
     std::mt19937 rng(device());
-    std::uniform_int_distribution<std::mt19937::result_type> dist(0, this->objects.size()-1);
+    std::uniform_int_distribution<std::mt19937::result_type> dist(0, this->objects.size() - 1);
     indexOfRandomObject = dist(rng);
     objects[indexOfRandomObject].getLabel().getBoundingBox().setVisible(true);
     objects[indexOfRandomObject].getLabel().getBoundingBox().setVisible(true);
@@ -59,8 +59,8 @@ void Frame::setObjects(const std::vector<KittiObject> &objects) {
 }
 
 Frame::Frame(std::vector<Label> labels, cv::Mat img, int frameNumber) {
-    for (Label &item: labels){
-        if(item.getMFrame() == frameNumber && item.getMType() == "Car"){
+    for (Label &item: labels) {
+        if (item.getMFrame() == frameNumber && item.getMType() == "Car") {
             this->objects.emplace_back(item);
         }
     }
@@ -74,4 +74,14 @@ void Frame::setImg(const cv::Mat &img) {
 
 const cv::Mat &Frame::getImg() const {
     return img;
+}
+
+void Frame::setColorOfAllObjects(cv::Scalar color) {
+    for (KittiObject &item: this->objects) {
+        item.setColor(color);
+    }
+}
+
+GTBoundingBox &Frame::getBoundingBoxOfRandomObject() {
+    return this->objects[this->indexOfRandomObject].getLabel().getBoundingBox();
 }

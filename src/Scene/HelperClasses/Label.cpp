@@ -5,7 +5,7 @@
 #include "../../../include/Scene/HelperClasses/Label.h"
 
 
-std::vector<Label> Label::loadLabelsFromFile(std::string filename) {
+std::vector<Label> Label::loadLabelsFromFile(const std::string &filename) {
     std::vector<Label> labels;
     std::ifstream file(filename);
     if (!file.is_open()) {

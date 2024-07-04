@@ -11,11 +11,13 @@
 
 class Frame {
 private:
+    std::string labelFilter = "Car";
     std::vector<KittiObject> objects;
     int indexOfRandomObject;
     cv::Mat img;
 public:
     Frame();
+
     Frame(std::vector<Label> labels, cv::Mat img, int imageNumber);
 
     void setObjects(const std::vector<KittiObject> &objects);
@@ -33,6 +35,10 @@ public:
     const std::vector<KittiObject> &getObjects() const;
 
     const int getRandomlySelectedObject() const;
+
+    GTBoundingBox &getBoundingBoxOfRandomObject();
+
+    void setColorOfAllObjects(cv::Scalar color);
 
     void setImg(const cv::Mat &img);
 

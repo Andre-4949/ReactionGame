@@ -12,8 +12,7 @@ void ColorChangeReaction::processClicks(int x, int y) {
 
 }
 
-void ColorChangeReaction::update()
-{
+void ColorChangeReaction::update() {
 }
 
 

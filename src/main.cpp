@@ -10,7 +10,10 @@
 #include "../include/Scene/HelperClasses/Label.h"
 #include "../include/PreGameControlling/Game.h"
 
+#define peace return
+#define out 0
+
 int main() {
     Game().start();
-    return 0;
+    peace out;
 }
