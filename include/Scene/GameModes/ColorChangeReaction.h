@@ -5,16 +5,22 @@
 
 
 class ColorChangeReaction : public Scenery {
+private:
+    std::vector<KittiObject> selectedObjs;
 public:
     explicit ColorChangeReaction(int pNumberOfFrames, int pSequence);
 
     void processClicks(int x, int y) override;
 
-    void update() override;
+    void processSpaceBarInput();
+
+
+
+    void makeRandomObjVisible() override;
+
+    void setupFrame() override;
 
     ~ColorChangeReaction();
-
-    void render() override;
 };
 
 

@@ -22,21 +22,26 @@ protected:
     ResultsHandler resultsHandler;
     static inline int currentFrameNumber = 1;
     std::chrono::_V2::system_clock::time_point showingObjTimePoint;
+    bool waitingOnClick = false;
 public:
 
     Scenery(int pNumberOfFrames, int pSequence);
 
     virtual void processClicks(int x, int y) = 0;
 
-    virtual void update() = 0;
+    virtual void update();
 
-    virtual void render() = 0;
+    void render();
 
     std::vector<KittiObject> getClickedObjects(int x, int y);
 
     void mouseEvents(int event, int x, int y, int flags, void *userdata);
 
     void keyEvents();
+
+    void saveTime();
+
+    void savePenaltyTime();
 
     const ResultsHandler &getResultsHandler() const;
 
@@ -52,6 +57,11 @@ public:
     void loadLabels(int sequence);
 
     int getSequence() const;
+
+    bool checkAllFramesShown();
+
+    virtual void makeRandomObjVisible() = 0;
+    virtual void setupFrame() = 0;
 };
 
 

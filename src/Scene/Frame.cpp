@@ -34,7 +34,6 @@ void Frame::chooseRandomObject() {
     std::uniform_int_distribution<std::mt19937::result_type> dist(0, this->objects.size() - 1);
     indexOfRandomObject = dist(rng);
     objects[indexOfRandomObject].getLabel().getBoundingBox().setVisible(true);
-    objects[indexOfRandomObject].getLabel().getBoundingBox().setVisible(true);
 }
 
 

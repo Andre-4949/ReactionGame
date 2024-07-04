@@ -3,12 +3,26 @@
 //
 
 #include "../../include/Scene/Scenery.h"
+#include "../../include/PreGameControlling/Game.h"
+#include <functional>
 #include <stdlib.h>
 #include <filesystem>
 
 Scenery::Scenery(int pNumberOfFrames, int pSequence) : numberOfFrames(pNumberOfFrames), sequence(pSequence) {
 
 }
+
+void Scenery::saveTime(){
+    double time_in_milliseconds = (int) std::chrono::duration_cast<std::chrono::milliseconds>(
+    std::chrono::high_resolution_clock::now() - showingObjTimePoint).count();
+    double time_in_seconds = time_in_milliseconds * 0.001;
+    resultsHandler.addTime(time_in_seconds);
+}
+
+void Scenery::savePenaltyTime(){
+    resultsHandler.addTime(5.0);
+}
+
 
 void Scenery::mouseEvents(int event, int x, int y, int flags, void *userdata) {
 
@@ -23,8 +37,12 @@ std::vector<KittiObject> Scenery::getClickedObjects(int x, int y) {
 }
 
 void Scenery::render() {
-    if (!frames.empty())
-        this->frames.front().render();
+    if (this->frames.empty())return;
+    this->frames.front().render();
+    if (this->getFrames().size() > 0) {
+        cv::imshow(Game::session.getWindowName(), this->getFrames().front().getImg());
+    }
+    cv::waitKey(1);
 }
 
 const ResultsHandler &Scenery::getResultsHandler() const {
@@ -86,4 +104,55 @@ void Scenery::loadLabels(int sequence) {
 
 int Scenery::getSequence() const {
     return sequence;
+}
+
+bool Scenery::checkAllFramesShown(){
+    if(currentFrameNumber >= numberOfFrames+2){ 
+        Game::session.setGameSessionRunning(false);
+        return true;
+        }
+        return false;
+}
+
+void waitSeconds(int seconds, std::function<bool(void)> breakCondition=[](){return false;}){
+    auto showFrameStart = std::chrono::high_resolution_clock::now();
+        while (1) {
+            double timeSinceImgShown = (int) std::chrono::duration_cast<std::chrono::seconds>(
+                    std::chrono::high_resolution_clock::now() - showFrameStart).count();
+
+            if (timeSinceImgShown >= seconds)break;
+            if(breakCondition()) break;
+            if (cv::pollKey() == 27){
+                Game::session.setGameSessionRunning(false);
+                break;
+                };
+        }
+}
+
+
+
+void Scenery::update(){
+    if (checkAllFramesShown()) return;
+    setupFrame();
+    render();
+    this->frames.front().chooseRandomObject();
+
+    waitSeconds(2);
+
+
+    makeRandomObjVisible();
+    render();
+    showingObjTimePoint = std::chrono::high_resolution_clock::now();
+    waitingOnClick = true;
+
+    waitSeconds(3, [this](){return !this->waitingOnClick;});
+
+    if (waitingOnClick) {
+        savePenaltyTime();
+    }
+    
+    if (frames.size() > 0)
+        this->frames.pop();
+    if (frameNames.size() > 0)
+        this->frameNames.pop();
 }
