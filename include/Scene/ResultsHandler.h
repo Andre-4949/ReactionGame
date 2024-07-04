@@ -21,7 +21,7 @@ public:
 
     void printResults();
 
-    void addTime(double time_in_ms);
+    void addTime(double time_in_seconds);
 
 };
 

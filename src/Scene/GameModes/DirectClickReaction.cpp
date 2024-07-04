@@ -21,10 +21,10 @@ void DirectClickReaction::processClicks(int x, int y) {
     if (clickedObj == randomObj) {
         waitingOnClick = false;
         clickedObj.getLabel().getBoundingBox().setVisible(false);
-        double time_in_nanoseconds = (int) std::chrono::duration_cast<std::chrono::nanoseconds>(
+        double time_in_milliseconds = (int) std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::high_resolution_clock::now() - showingObjTimePoint).count();
-        double time_in_milliseconds = time_in_nanoseconds * 0.001;
-        resultsHandler.addTime(time_in_milliseconds);
+        double time_in_seconds = time_in_milliseconds * 0.001;
+        resultsHandler.addTime(time_in_seconds);
     }
 }
 
@@ -62,7 +62,7 @@ void DirectClickReaction::update() {
     }
 
     if (waitingOnClick) {
-        // strafzeit
+        resultsHandler.addTime(5.0);
     }
     if (frames.size() > 0)
         this->frames.pop();
