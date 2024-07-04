@@ -12,6 +12,8 @@
 #include "ResultsHandler.h"
 #include "queue"
 
+#include <chrono>
+
 class Scenery {
 protected:
     int numberOfFrames;
@@ -61,7 +63,10 @@ public:
     bool checkAllFramesShown();
 
     virtual void makeRandomObjVisible() = 0;
+
     virtual void setupFrame() = 0;
+
+    void waitMilliSeconds(int time, std::function<bool(void)> breakCondition=[](){return false;});
 };
 
 
