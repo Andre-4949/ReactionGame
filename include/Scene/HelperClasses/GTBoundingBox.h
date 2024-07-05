@@ -1,7 +1,3 @@
-//
-// Created by andre on 15.06.2024.
-//
-
 #ifndef REACTIONGAME_GTBOUNDINGBOX_H
 #define REACTIONGAME_GTBOUNDINGBOX_H
 
@@ -37,6 +33,7 @@ public:
     void setVisible(bool newVisible);
 
     helper::Point getTopLeft();
+
     helper::Point getBottomRight();
 
     bool equals(GTBoundingBox b);

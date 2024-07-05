@@ -1,7 +1,3 @@
-//
-// Created by andre on 15.06.2024.
-//
-
 #ifndef REACTIONGAME_FRAME_H
 #define REACTIONGAME_FRAME_H
 
@@ -10,6 +6,7 @@
 #include "KittiObject.h"
 #include "./HelperClasses/Labeltypes.h"
 #include <unordered_set>
+
 class Frame {
 private:
     std::vector<KittiObject> objects;
@@ -17,6 +14,7 @@ private:
     cv::Mat img;
 public:
     static inline std::unordered_set<std::string> labelFilter = {Labeltypes::CAR};
+
     Frame();
 
     Frame(std::vector<Label> labels, cv::Mat img, int imageNumber);
@@ -25,7 +23,7 @@ public:
 
     void render();
 
-    std::vector<KittiObject> processClicks(int x, int y);
+    std::vector<KittiObject> &processClicks(int x, int y);
 
     void chooseRandomObject();
 
@@ -33,7 +31,7 @@ public:
 
     void setAllKittiObjectInvisible();
 
-    const std::vector<KittiObject> &getObjects() const;
+    std::vector<KittiObject> &getObjects();
 
     const int getRandomlySelectedObject() const;
 
@@ -48,6 +46,8 @@ public:
     const std::unordered_set<std::string> &getLabelFilter() const;
 
     void setLabelFilter(const std::unordered_set<std::string> &labelFilter);
+
+    void colorObjectsOfType(std::string type, cv::Scalar color);
 };
 
 

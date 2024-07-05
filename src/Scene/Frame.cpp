@@ -1,7 +1,3 @@
-//
-// Created by andre on 15.06.2024.
-//
-
 #include <random>
 #include "../../include/Scene/Frame.h"
 
@@ -11,16 +7,16 @@ void Frame::render() {
     }
 }
 
-std::vector<KittiObject> Frame::processClicks(int x, int y) {
-    std::vector<KittiObject> clickedObjects;
+std::vector<KittiObject> &Frame::processClicks(int x, int y) {
+    std::vector<KittiObject> *clickedObjects = new std::vector<KittiObject>();
     for (KittiObject &item: this->objects) {
         if (item.processClicks(x, y))
-            clickedObjects.push_back(item);
+            clickedObjects->push_back(item);
     }
-    return clickedObjects;
+    return *clickedObjects;
 }
 
-const std::vector<KittiObject> &Frame::getObjects() const {
+std::vector<KittiObject> &Frame::getObjects() {
     return objects;
 }
 
@@ -58,7 +54,7 @@ void Frame::setObjects(const std::vector<KittiObject> &objects) {
 
 Frame::Frame(std::vector<Label> labels, cv::Mat img, int frameNumber) {
     for (Label &item: labels) {
-        if (item.getMFrame() == frameNumber && Frame::labelFilter.find(item.getMType())!=Frame::labelFilter.end()) {
+        if (item.getMFrame() == frameNumber && Frame::labelFilter.find(item.getMType()) != Frame::labelFilter.end()) {
             this->objects.emplace_back(item);
         }
     }
@@ -90,4 +86,12 @@ const std::unordered_set<std::string> &Frame::getLabelFilter() const {
 
 void Frame::setLabelFilter(const std::unordered_set<std::string> &labelFilter) {
     Frame::labelFilter = labelFilter;
+}
+
+void Frame::colorObjectsOfType(std::string type, cv::Scalar color) {
+    for (int i = 0; i < this->objects.size(); ++i) {
+        if (objects[i].getLabel().getMType() == type) {
+            objects[i].setColor(color);
+        }
+    }
 }

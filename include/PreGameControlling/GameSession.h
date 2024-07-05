@@ -12,21 +12,22 @@
 class GameSession {
 private:
     bool gameSessionRunning = true;
-    Gamemode mode;
     Scenery *scene;
     std::string name;
     std::string windowName = "ReactionGame";
 public:
     GameSession() {};
 
-    GameSession(Gamemode pMode, Scenery *pScene, std::string pName);
+    GameSession(Scenery *pScene, std::string pName);
 
     void loop();
 
     void render();
 
     void update();
-    void mouseEvents(int event, int x, int y, int flags, void* userdata);
+
+    void mouseEvents(int event, int x, int y, int flags, void *userdata);
+
     void keyEvents();
 
     Scenery *getScene();

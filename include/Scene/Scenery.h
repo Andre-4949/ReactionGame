@@ -1,7 +1,3 @@
-//
-// Created by andre on 15.06.2024.
-//
-
 #ifndef REACTIONGAME_SCENERY_H
 #define REACTIONGAME_SCENERY_H
 
@@ -11,16 +7,19 @@
 #include "KittiObject.h"
 #include "ResultsHandler.h"
 #include "queue"
+#include "HelperClasses/Constants.h"
 
 #include <chrono>
+#include <unordered_map>
 
 class Scenery {
 protected:
     int numberOfFrames;
+    int defaultTimeToWaitForOneFrame = Constants::SECONDSTOMILLISECONDS * 3;
     int sequence;
     std::queue<std::string> frameNames;
     std::queue<Frame> frames;
-    std::vector<Label> currentLabels;
+    std::unordered_map<int, std::vector<Label>> currentLabels;
     ResultsHandler resultsHandler;
     static inline int currentFrameNumber = 1;
     std::chrono::_V2::system_clock::time_point showingObjTimePoint;
@@ -35,7 +34,7 @@ public:
 
     void render();
 
-    std::vector<KittiObject> getClickedObjects(int x, int y);
+    std::vector<KittiObject> &getClickedObjects(int x, int y);
 
     void mouseEvents(int event, int x, int y, int flags, void *userdata);
 
@@ -56,7 +55,7 @@ public:
 
     const std::queue<std::string> &getFrameNames() const;
 
-    void loadLabels(int sequence);
+    virtual void loadLabels(int sequence);
 
     int getSequence() const;
 
@@ -66,7 +65,7 @@ public:
 
     virtual void setupFrame() = 0;
 
-    void waitMilliSeconds(int time, std::function<bool(void)> breakCondition=[](){return false;});
+    void waitMilliSeconds(int time, std::function<bool(void)> breakCondition = []() { return false; });
 };
 
 

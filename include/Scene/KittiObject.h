@@ -1,7 +1,3 @@
-//
-// Created by andre on 15.06.2024.
-//
-
 #ifndef REACTIONGAME_KITTIOBJECT_H
 #define REACTIONGAME_KITTIOBJECT_H
 
@@ -12,6 +8,7 @@ class KittiObject {
     Label label;
 public:
     KittiObject();
+
     explicit KittiObject(Label label);
 
     void render();

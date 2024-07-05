@@ -1,7 +1,3 @@
-//
-// Created by andre on 15.06.2024.
-//
-
 #include "../../../include/Scene/HelperClasses/GTBoundingBox.h"
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc.hpp>

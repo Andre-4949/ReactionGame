@@ -1,7 +1,3 @@
-//
-// Created by andre on 04.07.2024.
-//
-
 #ifndef REACTIONGAME_LABELTYPES_H
 #define REACTIONGAME_LABELTYPES_H
 

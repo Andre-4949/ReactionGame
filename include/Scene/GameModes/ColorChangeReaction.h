@@ -15,7 +15,6 @@ public:
     void processSpaceBarInput();
 
 
-
     void makeRandomObjVisible() override;
 
     void setupFrame() override;

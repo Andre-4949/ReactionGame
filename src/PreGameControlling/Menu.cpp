@@ -1,10 +1,8 @@
-//
-// Created by andre on 15.06.2024.
-//
 #include "../../include/PreGameControlling/Menu.h"
 #include "../../include/Scene/GameModes/DirectClickReaction.h"
 #include "../../include/Scene/GameModes/ColorChangeReaction.h"
 #include "../../include/Scene/GameModes/EveryObjectReaction.h"
+#include "../../include/Scene/GameModes/SelectCarsReaction.h"
 
 std::string Menu::getStringInput() {
     std::string output;
@@ -24,7 +22,9 @@ int Menu::getIntInput(inputType t) {
             std::cout << "Welche Bildsequenz moechtest du durchgehen?" << std::endl;
             break;
         case tGameMode:
-            std::cout << "Welchen Spielmodus moechtest du spielen? \n\t1: DirectClickReaction\n\t2: ColorChangeReaction\n\t3: ClickEverythingReaction" << std::endl;
+            std::cout
+                    << "Welchen Spielmodus moechtest du spielen? \n\t1: DirectClickReaction\n\t2: ColorChangeReaction\n\t3: ClickEverythingReaction\n\t4: SelectCarsReaction"
+                    << std::endl;
             break;
         default:
             break;
@@ -49,10 +49,13 @@ GameSession Menu::getOptions() {
             break;
         case 3:
             scene = new EveryObjectReaction(numberOfFrames, sequence);
+            break;
+        case 4:
+            scene = new SelectCarsReaction(numberOfFrames, sequence);
         default:
             break;
     }
-    GameSession session((Gamemode) gameMode, scene, playerName);
+    GameSession session(scene, playerName);
     return session;
 }
 

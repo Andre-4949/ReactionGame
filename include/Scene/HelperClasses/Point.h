@@ -1,7 +1,3 @@
-//
-// Created by andre on 15.06.2024.
-//
-
 #ifndef REACTIONGAME_POINT_H
 #define REACTIONGAME_POINT_H
 
@@ -12,7 +8,9 @@ namespace helper {
         int x, y;
     public:
         Point(int x, int y);
+
         void move(int x, int y);
+
         bool equals(helper::Point p);
     };
 }

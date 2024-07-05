@@ -1,7 +1,3 @@
-//
-// Created by andre on 15.06.2024.
-//
-
 #include <ctime>
 #include <chrono>
 #include <opencv2/highgui/highgui.hpp>
@@ -10,7 +6,7 @@
 #include "../../include/PreGameControlling/GameSession.h"
 #include "../../include/PreGameControlling/Game.h"
 
-GameSession::GameSession(Gamemode pMode, Scenery *pScene, std::string pName) : mode(pMode), scene(pScene), name(pName) {
+GameSession::GameSession(Scenery *pScene, std::string pName) : scene(pScene), name(pName) {
     cv::namedWindow(this->windowName, 1);
 }
 

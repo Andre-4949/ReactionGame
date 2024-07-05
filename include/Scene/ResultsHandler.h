@@ -1,6 +1,3 @@
-//
-// Created by andre on 15.06.2024.
-//
 #include <vector>
 #include <string>
 

@@ -11,6 +11,8 @@
 class Game {
 public:
     static inline GameSession session = GameSession();
+
     void start();
 };
+
 #endif //REACTIONGAME_GAME_H

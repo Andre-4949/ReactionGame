@@ -1,7 +1,3 @@
-//
-// Created by andre on 15.06.2024.
-//
-
 #include "../../include/Scene/Scenery.h"
 #include "../../include/PreGameControlling/Game.h"
 #include <functional>
@@ -32,7 +28,7 @@ void Scenery::keyEvents() {
 
 }
 
-std::vector<KittiObject> Scenery::getClickedObjects(int x, int y) {
+std::vector<KittiObject> &Scenery::getClickedObjects(int x, int y) {
     return this->frames.front().processClicks(x, y);
 }
 
@@ -70,12 +66,14 @@ void Scenery::loadFrame(int frameNum, int sequence) {
     frameNames.push(imgPath);
     cv::Mat img = cv::imread(imgPath);
     cv::waitKey(2);
-    Frame currentFrame(currentLabels, img, currentFrameNumber);
+    Frame currentFrame(currentLabels[sequence], img, currentFrameNumber);
     frames.push(currentFrame);
 }
 
 
 void Scenery::loadFrames() {
+    if (this->currentLabels.find(this->sequence) == this->currentLabels.end())
+        loadLabels(sequence);
     loadFrame(currentFrameNumber++, sequence);
 }
 
@@ -96,7 +94,7 @@ void Scenery::loadLabels(int sequence) {
     labelsFileName = addStringUntilWidthIsReached(labelsFileName, "0", 4) + ".txt";
     labelsPath += labelsFileName;
     if (!std::filesystem::exists(labelsPath))return;
-    currentLabels = Label::loadLabelsFromFile(labelsPath);
+    currentLabels[sequence] = Label::loadLabelsFromFile(labelsPath);
 }
 
 int Scenery::getSequence() const {
@@ -111,19 +109,19 @@ bool Scenery::checkAllFramesShown() {
     return false;
 }
 
-void Scenery::waitMilliSeconds(int time, std::function<bool(void)> breakCondition){
+void Scenery::waitMilliSeconds(int time, std::function<bool(void)> breakCondition) {
     auto showFrameStart = std::chrono::high_resolution_clock::now();
-        while (1) {
-            double timeSinceImgShown = (int) std::chrono::duration_cast<std::chrono::milliseconds>(
-                    std::chrono::high_resolution_clock::now() - showFrameStart).count();
+    while (1) {
+        double timeSinceImgShown = (int) std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::high_resolution_clock::now() - showFrameStart).count();
 
-            if (timeSinceImgShown >= time)break;
-            if(breakCondition()) break;
-            if (cv::pollKey() == 27){
-                Game::session.setGameSessionRunning(false);
-                break;
-                };
-        }
+        if (timeSinceImgShown >= time)break;
+        if (breakCondition()) break;
+        if (cv::pollKey() == 27) {
+            Game::session.setGameSessionRunning(false);
+            break;
+        };
+    }
 }
 
 
@@ -139,8 +137,9 @@ void Scenery::update() {
     showingObjTimePoint = std::chrono::high_resolution_clock::now();
     waitingOnClick = true;
 
-    waitMilliSeconds(3000, [this](){return !this->waitingOnClick;});
-
+    if (defaultTimeToWaitForOneFrame > 0) {
+        waitMilliSeconds(defaultTimeToWaitForOneFrame, [this]() { return !this->waitingOnClick; });
+    }
     if (waitingOnClick) {
         savePenaltyTime();
     }

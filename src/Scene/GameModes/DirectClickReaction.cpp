@@ -19,23 +19,23 @@ void DirectClickReaction::processClicks(int x, int y) {
 
     randomObj.getLabel().getBoundingBox().setVisible(false);
     waitingOnClick = false;
-    
+
     std::vector<KittiObject> clickedObjs = this->getClickedObjects(x, y);
-    if (clickedObjs.empty()){
-            savePenaltyTime();
-            return;
-        }
+    if (clickedObjs.empty()) {
+        savePenaltyTime();
+        return;
+    }
     KittiObject clickedObj = clickedObjs.back();
     if (clickedObj == randomObj) {
         saveTime();
     }
 }
 
-void DirectClickReaction::makeRandomObjVisible(){
-    Scenery::waitMilliSeconds(2000);
+void DirectClickReaction::makeRandomObjVisible() {
+    Scenery::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 2);
     frames.front().getBoundingBoxOfRandomObject().setVisible(true);
 }
 
-void DirectClickReaction::setupFrame(){
-    
+void DirectClickReaction::setupFrame() {
+
 }

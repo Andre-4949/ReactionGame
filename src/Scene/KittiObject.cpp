@@ -1,7 +1,3 @@
-//
-// Created by andre on 15.06.2024.
-//
-
 #include <utility>
 
 #include "../../include/Scene/KittiObject.h"
@@ -16,7 +12,7 @@ void KittiObject::setColor(const cv::Scalar &color) {
 }
 
 void KittiObject::setColor(int r, int g, int b) {
-    this->setColor(cv::Scalar(b,g,r));
+    this->setColor(cv::Scalar(b, g, r));
 }
 
 bool KittiObject::processClicks(int x, int y) {

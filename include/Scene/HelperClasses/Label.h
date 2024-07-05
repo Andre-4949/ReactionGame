@@ -1,7 +1,3 @@
-//
-// Created by andre on 14.06.2024.
-//
-
 #ifndef REACTIONGAME_LABEL_H
 #define REACTIONGAME_LABEL_H
 
