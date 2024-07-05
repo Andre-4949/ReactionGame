@@ -111,19 +111,19 @@ bool Scenery::checkAllFramesShown() {
     return false;
 }
 
-void waitSeconds(int seconds, std::function<bool(void)> breakCondition = []() { return false; }) {
+void Scenery::waitMilliSeconds(int time, std::function<bool(void)> breakCondition){
     auto showFrameStart = std::chrono::high_resolution_clock::now();
-    while (1) {
-        double timeSinceImgShown = (int) std::chrono::duration_cast<std::chrono::seconds>(
-                std::chrono::high_resolution_clock::now() - showFrameStart).count();
+        while (1) {
+            double timeSinceImgShown = (int) std::chrono::duration_cast<std::chrono::milliseconds>(
+                    std::chrono::high_resolution_clock::now() - showFrameStart).count();
 
-        if (timeSinceImgShown >= seconds)break;
-        if (breakCondition()) break;
-        if (cv::pollKey() == 27) {
-            Game::session.setGameSessionRunning(false);
-            break;
-        };
-    }
+            if (timeSinceImgShown >= time)break;
+            if(breakCondition()) break;
+            if (cv::pollKey() == 27){
+                Game::session.setGameSessionRunning(false);
+                break;
+                };
+        }
 }
 
 
@@ -133,15 +133,13 @@ void Scenery::update() {
     render();
     this->frames.front().chooseRandomObject();
 
-    waitSeconds(2);
-
 
     makeRandomObjVisible();
     render();
     showingObjTimePoint = std::chrono::high_resolution_clock::now();
     waitingOnClick = true;
 
-    waitSeconds(3, [this]() { return !this->waitingOnClick; });
+    waitMilliSeconds(3000, [this](){return !this->waitingOnClick;});
 
     if (waitingOnClick) {
         savePenaltyTime();

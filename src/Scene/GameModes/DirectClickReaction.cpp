@@ -32,6 +32,7 @@ void DirectClickReaction::processClicks(int x, int y) {
 }
 
 void DirectClickReaction::makeRandomObjVisible(){
+    Scenery::waitMilliSeconds(2000);
     frames.front().getBoundingBoxOfRandomObject().setVisible(true);
 }
 
