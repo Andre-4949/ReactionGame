@@ -16,7 +16,7 @@ void KittiObject::setColor(const cv::Scalar &color) {
 }
 
 void KittiObject::setColor(int r, int g, int b) {
-    this->setColor(cv::Scalar(r, g, b));
+    this->setColor(cv::Scalar(b,g,r));
 }
 
 bool KittiObject::processClicks(int x, int y) {

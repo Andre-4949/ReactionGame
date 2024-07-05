@@ -1,6 +1,7 @@
 #include "../../../include/Scene/GameModes/ColorChangeReaction.h"
 ColorChangeReaction::ColorChangeReaction(int pNumberOfFrames, int pSequence) : Scenery(pNumberOfFrames, pSequence)
 {
+    Frame::labelFilter = {Labeltypes::CAR};
 }
 
 ColorChangeReaction::~ColorChangeReaction()

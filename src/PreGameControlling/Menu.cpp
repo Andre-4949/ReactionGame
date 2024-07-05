@@ -4,6 +4,7 @@
 #include "../../include/PreGameControlling/Menu.h"
 #include "../../include/Scene/GameModes/DirectClickReaction.h"
 #include "../../include/Scene/GameModes/ColorChangeReaction.h"
+#include "../../include/Scene/GameModes/EveryObjectReaction.h"
 
 std::string Menu::getStringInput() {
     std::string output;
@@ -19,12 +20,11 @@ int Menu::getIntInput(inputType t) {
         case tNumberOfFrames:
             std::cout << "Wie viele Bilder moechtest du durchgehen?" << std::endl;
             break;
-
         case tSequence:
             std::cout << "Welche Bildsequenz moechtest du durchgehen?" << std::endl;
             break;
         case tGameMode:
-            std::cout << "Welchen Spielmodus moechtest du spielen? (1 oder 2)" << std::endl;
+            std::cout << "Welchen Spielmodus moechtest du spielen? \n\t1: DirectClickReaction\n\t2: ColorChangeReaction\n\t3: ClickEverythingReaction" << std::endl;
             break;
         default:
             break;
@@ -46,6 +46,9 @@ GameSession Menu::getOptions() {
             break;
         case 2:
             scene = new ColorChangeReaction(numberOfFrames, sequence);
+            break;
+        case 3:
+            scene = new EveryObjectReaction(numberOfFrames, sequence);
         default:
             break;
     }

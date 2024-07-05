@@ -8,14 +8,15 @@
 
 #include <vector>
 #include "KittiObject.h"
-
+#include "./HelperClasses/Labeltypes.h"
+#include <unordered_set>
 class Frame {
 private:
-    std::string labelFilter = "Car";
     std::vector<KittiObject> objects;
     int indexOfRandomObject;
     cv::Mat img;
 public:
+    static inline std::unordered_set<std::string> labelFilter = {Labeltypes::CAR};
     Frame();
 
     Frame(std::vector<Label> labels, cv::Mat img, int imageNumber);
@@ -43,6 +44,10 @@ public:
     void setImg(const cv::Mat &img);
 
     const cv::Mat &getImg() const;
+
+    const std::unordered_set<std::string> &getLabelFilter() const;
+
+    void setLabelFilter(const std::unordered_set<std::string> &labelFilter);
 };
 
 

@@ -30,7 +30,7 @@ void GameSession::loop() {
 //
 //    this->scene->loadFrames();
     scene->loadLabels(scene->getSequence());
-
+    scene->loadFrames();
     while (this->gameSessionRunning) {
         update();
         if (cv::pollKey() == 27)this->gameSessionRunning = false;

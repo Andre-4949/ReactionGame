@@ -12,14 +12,14 @@ Scenery::Scenery(int pNumberOfFrames, int pSequence) : numberOfFrames(pNumberOfF
 
 }
 
-void Scenery::saveTime(){
+void Scenery::saveTime() {
     double time_in_milliseconds = (int) std::chrono::duration_cast<std::chrono::milliseconds>(
-    std::chrono::high_resolution_clock::now() - showingObjTimePoint).count();
+            std::chrono::high_resolution_clock::now() - showingObjTimePoint).count();
     double time_in_seconds = time_in_milliseconds * 0.001;
     resultsHandler.addTime(time_in_seconds);
 }
 
-void Scenery::savePenaltyTime(){
+void Scenery::savePenaltyTime() {
     resultsHandler.addTime(5.0);
 }
 
@@ -76,10 +76,7 @@ void Scenery::loadFrame(int frameNum, int sequence) {
 
 
 void Scenery::loadFrames() {
-    loadFrame(currentFrameNumber, sequence);
-    currentFrameNumber++;
-//    for (int i = 0; i < 3; ++i) {
-//    }
+    loadFrame(currentFrameNumber++, sequence);
 }
 
 
@@ -106,32 +103,31 @@ int Scenery::getSequence() const {
     return sequence;
 }
 
-bool Scenery::checkAllFramesShown(){
-    if(currentFrameNumber >= numberOfFrames+2){ 
+bool Scenery::checkAllFramesShown() {
+    if (currentFrameNumber >= numberOfFrames + 3) {//+3 due to preloaded frames
         Game::session.setGameSessionRunning(false);
         return true;
-        }
-        return false;
+    }
+    return false;
 }
 
-void waitSeconds(int seconds, std::function<bool(void)> breakCondition=[](){return false;}){
+void waitSeconds(int seconds, std::function<bool(void)> breakCondition = []() { return false; }) {
     auto showFrameStart = std::chrono::high_resolution_clock::now();
-        while (1) {
-            double timeSinceImgShown = (int) std::chrono::duration_cast<std::chrono::seconds>(
-                    std::chrono::high_resolution_clock::now() - showFrameStart).count();
+    while (1) {
+        double timeSinceImgShown = (int) std::chrono::duration_cast<std::chrono::seconds>(
+                std::chrono::high_resolution_clock::now() - showFrameStart).count();
 
-            if (timeSinceImgShown >= seconds)break;
-            if(breakCondition()) break;
-            if (cv::pollKey() == 27){
-                Game::session.setGameSessionRunning(false);
-                break;
-                };
-        }
+        if (timeSinceImgShown >= seconds)break;
+        if (breakCondition()) break;
+        if (cv::pollKey() == 27) {
+            Game::session.setGameSessionRunning(false);
+            break;
+        };
+    }
 }
 
 
-
-void Scenery::update(){
+void Scenery::update() {
     if (checkAllFramesShown()) return;
     setupFrame();
     render();
@@ -145,12 +141,12 @@ void Scenery::update(){
     showingObjTimePoint = std::chrono::high_resolution_clock::now();
     waitingOnClick = true;
 
-    waitSeconds(3, [this](){return !this->waitingOnClick;});
+    waitSeconds(3, [this]() { return !this->waitingOnClick; });
 
     if (waitingOnClick) {
         savePenaltyTime();
     }
-    
+
     if (frames.size() > 0)
         this->frames.pop();
     if (frameNames.size() > 0)

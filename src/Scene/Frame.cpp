@@ -36,7 +36,6 @@ void Frame::chooseRandomObject() {
     objects[indexOfRandomObject].getLabel().getBoundingBox().setVisible(true);
 }
 
-
 void Frame::setAllKittiObjectInvisible() {
     for (KittiObject &item: this->objects) {
         item.getLabel().getBoundingBox().setVisible(false);
@@ -59,7 +58,7 @@ void Frame::setObjects(const std::vector<KittiObject> &objects) {
 
 Frame::Frame(std::vector<Label> labels, cv::Mat img, int frameNumber) {
     for (Label &item: labels) {
-        if (item.getMFrame() == frameNumber && item.getMType() == "Car") {
+        if (item.getMFrame() == frameNumber && Frame::labelFilter.find(item.getMType())!=Frame::labelFilter.end()) {
             this->objects.emplace_back(item);
         }
     }
@@ -83,4 +82,12 @@ void Frame::setColorOfAllObjects(cv::Scalar color) {
 
 GTBoundingBox &Frame::getBoundingBoxOfRandomObject() {
     return this->objects[this->indexOfRandomObject].getLabel().getBoundingBox();
+}
+
+const std::unordered_set<std::string> &Frame::getLabelFilter() const {
+    return labelFilter;
+}
+
+void Frame::setLabelFilter(const std::unordered_set<std::string> &labelFilter) {
+    Frame::labelFilter = labelFilter;
 }
