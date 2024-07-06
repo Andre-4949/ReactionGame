@@ -10,8 +10,7 @@ ColorChangeReaction::~ColorChangeReaction() {
 }
 
 void ColorChangeReaction::processSpaceBarInput() {
-    if (frames.empty())
-        return;
+    if (frames.empty() || !waitingOnClick)return;
 
     waitingOnClick = false;
 
@@ -22,11 +21,24 @@ void ColorChangeReaction::processSpaceBarInput() {
 
     if (selectedObjs.empty()) {
         savePenaltyTime();
+        showClickedPoint(clickedPoint.getX(), clickedPoint.getY(), cv::Scalar(0, 0, 255));
+        drawDistToCorrectBox(clickedPoint.getX(), clickedPoint.getY(), randomObj);
+        render();
+        Scenery::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
         return;
     }
     KittiObject clickedObj = selectedObjs.back();
     if (clickedObj == randomObj) {
         saveTime();
+        showClickedPoint(clickedPoint.getX(), clickedPoint.getY(), cv::Scalar(0, 255, 0));
+        render();
+        Scenery::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
+    }else{
+        savePenaltyTime();
+        showClickedPoint(clickedPoint.getX(), clickedPoint.getY(), cv::Scalar(0, 0, 255));
+        drawDistToCorrectBox(clickedPoint.getX(), clickedPoint.getY(), randomObj);
+        render();
+        Scenery::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
     }
     selectedObjs.clear();
 }
@@ -35,6 +47,8 @@ void ColorChangeReaction::processClicks(int x, int y) {
     if (frames.empty())
         return;
     selectedObjs = this->getClickedObjects(x, y);
+    clickedPoint.setX(x);
+    clickedPoint.setY(y);
     if ((char) cv::waitKey(3 * Constants::SECONDSTOMILLISECONDS) == ' ') {
         processSpaceBarInput();
         waitingOnClick = false;

@@ -48,6 +48,8 @@ public:
     void setLabelFilter(const std::unordered_set<std::string> &labelFilter);
 
     void colorObjectsOfType(std::string type, cv::Scalar color);
+
+    std::vector<KittiObject> getObjectsOfType(std::string type);
 };
 
 

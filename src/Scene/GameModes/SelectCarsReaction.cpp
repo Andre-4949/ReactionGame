@@ -12,9 +12,9 @@ SelectCarsReaction::SelectCarsReaction(int pNumberOfFrames, int pSequence) : Col
 }
 
 void SelectCarsReaction::processClicks(int x, int y) {
-    if (frames.empty()) return;
+    if (frames.empty() || !waitingOnClick) return;
     std::vector<KittiObject> &selectedObjs = this->getClickedObjects(x, y);
-    paintSolution(selectedObjs);
+    paintSolution(selectedObjs, x, y);
     ++this->sequence %= 20;
     showSolution();
 }
@@ -33,25 +33,29 @@ void SelectCarsReaction::showSolution() {
     waitingOnClick = false;
 }
 
-void SelectCarsReaction::paintSolution(std::vector<KittiObject> selectedObjs) {
+void SelectCarsReaction::paintSolution(std::vector<KittiObject> selectedObjs, int clickedX, int clickedY) {
     if (selectedObjs.empty() || selectedObjs.back().getLabel().getMType() != Labeltypes::CAR) {
-        paintPlayerMissedClick();
+        showClickedPoint(clickedX, clickedY, cv::Scalar(0, 0, 255));
+        paintPlayerMissedClick(clickedX, clickedY);
     } else {
+        showClickedPoint(clickedX, clickedY, cv::Scalar(0, 255, 0));
         paintPlayerClickedCar(selectedObjs);
     }
 
 }
 
-void SelectCarsReaction::paintPlayerMissedClick() {
+void SelectCarsReaction::paintPlayerMissedClick(int x, int y) {
     savePenaltyTime();
-    this->frames.front().colorObjectsOfType(Labeltypes::CAR, cv::Scalar(0, 255, 255));
+    for(KittiObject obj: this->frames.front().getObjectsOfType(Labeltypes::CAR)){
+        drawDistToCorrectBox(x, y, obj);
+    }
+    this->frames.front().colorObjectsOfType(Labeltypes::CAR, cv::Scalar(0, 0, 255));
 }
 
 void SelectCarsReaction::paintPlayerClickedCar(std::vector<KittiObject> selectedObjs) {
     saveTime();
-
     //paint all cars red
-    this->frames.front().colorObjectsOfType(Labeltypes::CAR, cv::Scalar(0, 0, 255));
+    this->frames.front().colorObjectsOfType(Labeltypes::CAR, cv::Scalar(0, 255, 255));
 
     //paint clicked one green
     KittiObject carToPaint = selectedObjs.back();

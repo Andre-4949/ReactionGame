@@ -16,11 +16,14 @@ void GTBoundingBox::render() {
 GTBoundingBox::GTBoundingBox(cv::Rect rect) : Rect_(rect) {
     this->topLeft = helper::Point(rect.x, rect.y);
     this->bottomRight = helper::Point(rect.x + rect.width, rect.y + rect.height);
+    this->center = helper::Point(rect.x + (rect.width/2), rect.y + (rect.height/2));
 }
 
 GTBoundingBox::GTBoundingBox(int x, int y, int width, int height) : Rect_(x, y, width, height) {
     this->topLeft = helper::Point(x, y);
     this->bottomRight = helper::Point(x + width, y + height);
+    this->center = helper::Point(x + (width/2), y + (height/2));
+
 }
 
 const cv::Scalar &GTBoundingBox::getColor() const {
@@ -45,6 +48,10 @@ helper::Point GTBoundingBox::getTopLeft() {
 
 helper::Point GTBoundingBox::getBottomRight() {
     return bottomRight;
+}
+
+helper::Point GTBoundingBox::getCenter() {
+    return center;
 }
 
 bool GTBoundingBox::equals(GTBoundingBox b) {

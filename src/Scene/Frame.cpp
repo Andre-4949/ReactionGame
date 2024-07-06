@@ -95,3 +95,16 @@ void Frame::colorObjectsOfType(std::string type, cv::Scalar color) {
         }
     }
 }
+
+std::vector<KittiObject> Frame::getObjectsOfType(std::string type) {
+    std::vector<KittiObject> objsOfType;
+
+    for (int i = 0; i < this->objects.size(); ++i) {
+        if (objects[i].getLabel().getMType() == type) {
+            objsOfType.push_back(objects[i]);
+        }
+    }
+
+    return objsOfType;
+}
+

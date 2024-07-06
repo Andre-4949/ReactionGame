@@ -6,7 +6,6 @@
 #define REACTIONGAME_GAMESESSION_H
 
 #include <string>
-#include "../sharedHelperClasses/Gamemode.h"
 #include "../Scene/Scenery.h"
 
 class GameSession {

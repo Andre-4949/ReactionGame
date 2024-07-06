@@ -13,6 +13,7 @@ private:
 //    helper::Point topRight = helper::Point(0, 0);
 //    helper::Point bottomLeft = helper::Point(0, 0);
     helper::Point bottomRight = helper::Point(0, 0);
+    helper::Point center = helper::Point(0, 0);
     cv::Scalar color = cv::Scalar(0, 0, 255);
 public:
 
@@ -35,6 +36,8 @@ public:
     helper::Point getTopLeft();
 
     helper::Point getBottomRight();
+
+    helper::Point getCenter();
 
     bool equals(GTBoundingBox b);
 };

@@ -124,6 +124,53 @@ void Scenery::waitMilliSeconds(int time, std::function<bool(void)> breakConditio
     }
 }
 
+void Scenery::showClickedPoint(int x, int y, cv::Scalar color)
+{
+    cv::Mat img = getFrames().front().getImg();
+    helper::Point clickedPoint = helper::Point(x, y);
+    cv::circle(img, clickedPoint, 3, color, -1);
+}
+
+helper::Point getVerticalIntersectionPoint(double slope, double yIntercept, int boxX){
+    int intersectionX = boxX;
+    int intersectionY = -(slope * boxX + yIntercept);
+    return helper::Point(intersectionX, intersectionY);
+}
+
+helper::Point getHorizontalIntersectionPoint(double slope, double yIntercept, int boxY){
+    int intersectionY = -boxY;
+    int intersectionX = (1/slope) * (boxY - yIntercept);
+    return helper::Point(intersectionX, intersectionY);
+}
+
+
+void Scenery::drawDistToCorrectBox(int x, int y, KittiObject correctObj){
+    y *= -1;
+    cv::Mat img = getFrames().front().getImg();
+    helper::Point interSectionPoint;
+    GTBoundingBox correctBox = correctObj.getLabel().getBoundingBox();
+    int boxCenterX = correctBox.getCenter().getX();
+    int boxCenterY = -(correctBox.getCenter().getY());
+    int distX = boxCenterX - x;
+    int distY = boxCenterY - y;
+    double slope = ((distY)/(double)distX);
+    double yIntercept = y - (slope * x);
+
+    if(abs(distX) > abs(distY)){
+        if(distX > 0){
+            interSectionPoint = getVerticalIntersectionPoint(slope, yIntercept, correctBox.getTopLeft().getX());
+        }else{
+            interSectionPoint = getVerticalIntersectionPoint(slope, yIntercept, correctBox.getBottomRight().getX());
+        }
+    }else{
+        if(distY < 0){
+            interSectionPoint = getHorizontalIntersectionPoint(slope, yIntercept, -correctBox.getTopLeft().getY());
+        }else{
+            interSectionPoint = getHorizontalIntersectionPoint(slope, yIntercept, -correctBox.getBottomRight().getY());
+        }
+    }
+    cv::line(img, helper::Point(x, -y), interSectionPoint, cv::Scalar(0, 0, 255), 2);
+}
 
 void Scenery::update() {
     if (checkAllFramesShown()) return;

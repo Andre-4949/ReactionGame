@@ -16,9 +16,9 @@ public:
 
     void showSolution();
 
-    void paintSolution(std::vector<KittiObject> selectedObjs);
+    void paintSolution(std::vector<KittiObject> selectedObjs, int clickedX, int clickedY);
 
-    void paintPlayerMissedClick();
+    void paintPlayerMissedClick(int x, int y);
 
     void paintPlayerClickedCar(std::vector<KittiObject> selectedObjs);
 };

@@ -7,6 +7,7 @@
 class ColorChangeReaction : public Scenery {
 private:
     std::vector<KittiObject> selectedObjs;
+    helper::Point clickedPoint;
 public:
     explicit ColorChangeReaction(int pNumberOfFrames, int pSequence);
 
