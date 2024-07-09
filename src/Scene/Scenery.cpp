@@ -8,7 +8,7 @@
 void kittiPathNotSet();
 
 Scenery::Scenery(int pNumberOfFrames, int pSequence) : numberOfFrames(pNumberOfFrames), sequence(pSequence) {
-    if (std::getenv("KITTI_PATH_"))return;
+    if (std::getenv("KITTI_PATH"))return;
     kittiPathNotSet();
 }
 
