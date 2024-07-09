@@ -2,10 +2,14 @@
 #include "../../include/PreGameControlling/Game.h"
 #include <functional>
 #include <stdlib.h>
+#include "cstdlib"
 #include <filesystem>
 
-Scenery::Scenery(int pNumberOfFrames, int pSequence) : numberOfFrames(pNumberOfFrames), sequence(pSequence) {
+void kittiPathNotSet();
 
+Scenery::Scenery(int pNumberOfFrames, int pSequence) : numberOfFrames(pNumberOfFrames), sequence(pSequence) {
+    if (std::getenv("KITTI_PATH_"))return;
+    kittiPathNotSet();
 }
 
 void Scenery::saveTime() {
@@ -62,7 +66,10 @@ void Scenery::loadFrame(int frameNum, int sequence) {
 
     imgFileName = addStringUntilWidthIsReached(imgFileName, "0", 6) + ".png";
     imgPath += sequenceStr + "\\" + imgFileName;
-    if (!std::filesystem::exists(imgPath))return;
+    if (!std::filesystem::exists(imgPath)) {
+        std::cout << "Could not find image at: " << imgPath << std::endl;
+        return;
+    }
     frameNames.push(imgPath);
     cv::Mat img = cv::imread(imgPath);
     cv::waitKey(2);
@@ -75,6 +82,9 @@ void Scenery::loadFrames() {
     if (this->currentLabels.find(this->sequence) == this->currentLabels.end())
         loadLabels(sequence);
     loadFrame(currentFrameNumber++, sequence);
+    if (this->frames.empty()) {
+        std::cout << "No frames could have been loaded." << std::endl;
+    }
 }
 
 
@@ -95,6 +105,10 @@ void Scenery::loadLabels(int sequence) {
     labelsPath += labelsFileName;
     if (!std::filesystem::exists(labelsPath))return;
     currentLabels[sequence] = Label::loadLabelsFromFile(labelsPath);
+    if (currentLabels.empty()) {
+        std::cout << "Program stops as there are no labels to be found. This could cause the programm to end." << std::endl;
+        exit(404);
+    }
 }
 
 int Scenery::getSequence() const {
@@ -124,27 +138,26 @@ void Scenery::waitMilliSeconds(int time, std::function<bool(void)> breakConditio
     }
 }
 
-void Scenery::showClickedPoint(int x, int y, cv::Scalar color)
-{
+void Scenery::showClickedPoint(int x, int y, cv::Scalar color) {
     cv::Mat img = getFrames().front().getImg();
     helper::Point clickedPoint = helper::Point(x, y);
     cv::circle(img, clickedPoint, 3, color, -1);
 }
 
-helper::Point getVerticalIntersectionPoint(double slope, double yIntercept, int boxX){
+helper::Point getVerticalIntersectionPoint(double slope, double yIntercept, int boxX) {
     int intersectionX = boxX;
     int intersectionY = -(slope * boxX + yIntercept);
     return helper::Point(intersectionX, intersectionY);
 }
 
-helper::Point getHorizontalIntersectionPoint(double slope, double yIntercept, int boxY){
+helper::Point getHorizontalIntersectionPoint(double slope, double yIntercept, int boxY) {
     int intersectionY = -boxY;
-    int intersectionX = (1/slope) * (boxY - yIntercept);
+    int intersectionX = (1 / slope) * (boxY - yIntercept);
     return helper::Point(intersectionX, intersectionY);
 }
 
 
-void Scenery::drawDistToCorrectBox(int x, int y, KittiObject correctObj){
+void Scenery::drawDistToCorrectBox(int x, int y, KittiObject correctObj) {
     y *= -1;
     cv::Mat img = getFrames().front().getImg();
     helper::Point interSectionPoint;
@@ -153,19 +166,19 @@ void Scenery::drawDistToCorrectBox(int x, int y, KittiObject correctObj){
     int boxCenterY = -(correctBox.getCenter().getY());
     int distX = boxCenterX - x;
     int distY = boxCenterY - y;
-    double slope = ((distY)/(double)distX);
+    double slope = ((distY) / (double) distX);
     double yIntercept = y - (slope * x);
 
-    if(abs(distX) > abs(distY)){
-        if(distX > 0){
+    if (abs(distX) > abs(distY)) {
+        if (distX > 0) {
             interSectionPoint = getVerticalIntersectionPoint(slope, yIntercept, correctBox.getTopLeft().getX());
-        }else{
+        } else {
             interSectionPoint = getVerticalIntersectionPoint(slope, yIntercept, correctBox.getBottomRight().getX());
         }
-    }else{
-        if(distY < 0){
+    } else {
+        if (distY < 0) {
             interSectionPoint = getHorizontalIntersectionPoint(slope, yIntercept, -correctBox.getTopLeft().getY());
-        }else{
+        } else {
             interSectionPoint = getHorizontalIntersectionPoint(slope, yIntercept, -correctBox.getBottomRight().getY());
         }
     }
@@ -176,6 +189,7 @@ void Scenery::update() {
     if (checkAllFramesShown()) return;
     setupFrame();
     render();
+    if (frames.empty())return;
     this->frames.front().chooseRandomObject();
 
 
@@ -195,4 +209,22 @@ void Scenery::update() {
         this->frames.pop();
     if (frameNames.size() > 0)
         this->frameNames.pop();
+}
+
+void kittiPathNotSet() {
+    std::cout << "This programm needs the KITTI images to operate as intended. "
+                 "Please download the KITTI image collection and add an environmental variable named "
+                 "KITTI_PATH to the folder containing \\data_tracking_image_2 as well as"
+                 " \\data_tracking_label_2." << std::endl;
+#ifdef _WIN32
+    std::cout << "Windows detected" << std::endl;
+    std::cout << "Do you want to open the menu to edit environmental variables? [y|n]" << std::endl;
+    char answer;
+    std::cin >> answer;
+    if (answer != 'y')return;
+    system("\"C:\\Windows\\system32\\rundll32.exe\" sysdm.cpl,EditEnvironmentVariables");
+    std::cout << "Restart your computer once the environmental variables have been set." << std::endl;
+    system("pause");
+#endif
+    exit(0);
 }

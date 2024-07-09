@@ -15,16 +15,10 @@ void mouseCallbackAdapter(int event, int x, int y, int flags, void *userdata) {
 }
 
 void GameSession::loop() {
-    int millisecondsPerUpdateFrame = (int) (1000.0 / 300.0);
-    auto lastUpdate = std::chrono::high_resolution_clock::now();
-    int millisecondCounter = 0, frameCounter;
-    double time_in_nanoseconds;
-
     cv::setWindowProperty(this->windowName, cv::WindowPropertyFlags::WND_PROP_FULLSCREEN,
                           cv::WindowPropertyFlags::WND_PROP_FULLSCREEN);
     cv::setMouseCallback(this->windowName, mouseCallbackAdapter, nullptr);
-//
-//    this->scene->loadFrames();
+
     scene->loadLabels(scene->getSequence());
     scene->loadFrames();
     while (this->gameSessionRunning) {
@@ -51,21 +45,12 @@ void GameSession::mouseEvents(int event, int x, int y, int flags, void *userdata
     }
 }
 
-void GameSession::keyEvents() {
-//    cv::pollKey();
-//    cv::waitKey(10);
-}
-
 Scenery *GameSession::getScene() {
     return scene;
 }
 
 const std::string &GameSession::getWindowName() const {
     return windowName;
-}
-
-void GameSession::setWindowName(const std::string &windowName) {
-    GameSession::windowName = windowName;
 }
 
 void GameSession::setGameSessionRunning(bool gameSessionRunning) {

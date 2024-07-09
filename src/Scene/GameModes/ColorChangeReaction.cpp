@@ -15,9 +15,8 @@ void ColorChangeReaction::processSpaceBarInput() {
     waitingOnClick = false;
 
     Frame currentFrame = frames.front();
-    KittiObject randomObj = currentFrame.getObjects()[currentFrame.getRandomlySelectedObject()];
-
-    randomObj.setColor(cv::Scalar(255, 0, 0));
+    KittiObject randomObj = currentFrame.getRandomlySelectedObject();
+    randomObj.setColor(cv::Scalar(255,0,0));
 
     if (selectedObjs.empty()) {
         savePenaltyTime();

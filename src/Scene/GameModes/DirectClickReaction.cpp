@@ -16,7 +16,7 @@ void DirectClickReaction::processClicks(int x, int y) {
 
 
     Frame currentFrame = frames.front();
-    KittiObject randomObj = currentFrame.getObjects()[currentFrame.getRandomlySelectedObject()];
+    KittiObject randomObj = currentFrame.getRandomlySelectedObject();
 
     waitingOnClick = false;
 

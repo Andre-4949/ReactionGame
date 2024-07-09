@@ -20,8 +20,8 @@ std::vector<KittiObject> &Frame::getObjects() {
     return objects;
 }
 
-const int Frame::getRandomlySelectedObject() const {
-    return indexOfRandomObject;
+KittiObject& Frame::getRandomlySelectedObject() {
+    return this->objects[indexOfRandomObject];
 }
 
 void Frame::chooseRandomObject() {

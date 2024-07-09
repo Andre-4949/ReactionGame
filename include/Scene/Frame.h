@@ -33,7 +33,7 @@ public:
 
     std::vector<KittiObject> &getObjects();
 
-    const int getRandomlySelectedObject() const;
+    KittiObject& getRandomlySelectedObject() ;
 
     GTBoundingBox &getBoundingBoxOfRandomObject();
 
