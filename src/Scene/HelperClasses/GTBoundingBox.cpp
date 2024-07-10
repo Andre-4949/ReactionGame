@@ -10,7 +10,7 @@ bool GTBoundingBox::getClicked(int x, int y) {
 void GTBoundingBox::render() {
     if (!this->isVisible)return;
     cv::Mat img = Game::session.getScene()->getFrames().front().getImg();
-    cv::rectangle(img, topLeft, bottomRight, color, 3);
+    cv::rectangle(img, topLeft, bottomRight, color, 2);
 }
 
 GTBoundingBox::GTBoundingBox(cv::Rect rect) : Rect_(rect) {
@@ -43,11 +43,11 @@ void GTBoundingBox::setVisible(bool newVisible) {
 }
 
 helper::Point GTBoundingBox::getTopLeft() {
-    return topLeft;
+    return this->topLeft;
 }
 
 helper::Point GTBoundingBox::getBottomRight() {
-    return bottomRight;
+    return this->bottomRight;
 }
 
 helper::Point GTBoundingBox::getCenter() {
@@ -56,4 +56,14 @@ helper::Point GTBoundingBox::getCenter() {
 
 bool GTBoundingBox::equals(GTBoundingBox b) {
     return this->topLeft.equals(b.topLeft) && this->bottomRight.equals(b.bottomRight);
+}
+
+void GTBoundingBox::setTopLeft(int x, int y){
+    this->x = x;
+    this->y = y;
+    this->topLeft = helper::Point(x, y);
+}
+
+void GTBoundingBox::setBottomRight(int x, int y){
+    this->bottomRight = helper::Point(x, y);
 }

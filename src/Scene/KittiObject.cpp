@@ -20,7 +20,7 @@ bool KittiObject::processClicks(int x, int y) {
 }
 
 Label &KittiObject::getLabel() {
-    return label;
+    return this->label;
 }
 
 KittiObject::KittiObject(Label label) : label(std::move(label)) {}

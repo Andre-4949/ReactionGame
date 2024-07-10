@@ -32,13 +32,13 @@ void Frame::chooseRandomObject() {
     objects[indexOfRandomObject].getLabel().getBoundingBox().setVisible(true);
 }
 
-void Frame::setAllKittiObjectInvisible() {
+void Frame::setAllKittiObjectsInvisible() {
     for (KittiObject &item: this->objects) {
         item.getLabel().getBoundingBox().setVisible(false);
     }
 }
 
-void Frame::setAllKittiObjectVisible() {
+void Frame::setAllKittiObjectsVisible() {
     for (KittiObject &item: this->objects) {
         item.getLabel().getBoundingBox().setVisible(true);
     }
@@ -53,6 +53,7 @@ void Frame::setObjects(const std::vector<KittiObject> &objects) {
 }
 
 Frame::Frame(std::vector<Label> labels, cv::Mat img, int frameNumber) {
+    img.copyTo(origImg);
     for (Label &item: labels) {
         if (item.getMFrame() == frameNumber && Frame::labelFilter.find(item.getMType()) != Frame::labelFilter.end()) {
             this->objects.emplace_back(item);
@@ -68,6 +69,10 @@ void Frame::setImg(const cv::Mat &img) {
 
 const cv::Mat &Frame::getImg() const {
     return img;
+}
+
+const cv::Mat &Frame::getOrigImg() const {
+    return origImg;
 }
 
 void Frame::setColorOfAllObjects(cv::Scalar color) {

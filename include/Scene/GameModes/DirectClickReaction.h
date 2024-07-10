@@ -12,7 +12,7 @@ public:
 
     // void update() override;
 
-    void makeRandomObjVisible() override;
+    virtual void makeRandomObjVisible() override;
 
     void setupFrame() override;
 

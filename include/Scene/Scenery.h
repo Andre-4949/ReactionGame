@@ -65,11 +65,13 @@ public:
 
     virtual void setupFrame() = 0;
 
-    void waitMilliSeconds(int time, std::function<bool(void)> breakCondition = []() { return false; });
+    void waitMilliSeconds(int time, std::function<bool(void)> breakCondition = []() { return false; }, std::function<void(void)> doWhileWaiting = [](){});
 
     void showClickedPoint(int x, int y, cv::Scalar color);
 
     void drawDistToCorrectBox(int x, int y, KittiObject correctObj);
+
+    virtual void doWhileWaitingOnClick();
 };
 
 

@@ -37,6 +37,10 @@ public:
 
     helper::Point getBottomRight();
 
+    void setTopLeft(int x, int y);
+
+    void setBottomRight(int x, int y);
+
     helper::Point getCenter();
 
     bool equals(GTBoundingBox b);

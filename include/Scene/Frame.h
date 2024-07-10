@@ -12,6 +12,7 @@ private:
     std::vector<KittiObject> objects;
     int indexOfRandomObject;
     cv::Mat img;
+    cv::Mat origImg;
 public:
     static inline std::unordered_set<std::string> labelFilter = {Labeltypes::CAR};
 
@@ -27,9 +28,9 @@ public:
 
     void chooseRandomObject();
 
-    void setAllKittiObjectVisible();
+    void setAllKittiObjectsVisible();
 
-    void setAllKittiObjectInvisible();
+    void setAllKittiObjectsInvisible();
 
     std::vector<KittiObject> &getObjects();
 
@@ -42,6 +43,8 @@ public:
     void setImg(const cv::Mat &img);
 
     const cv::Mat &getImg() const;
+
+    const cv::Mat &getOrigImg() const;
 
     const std::unordered_set<std::string> &getLabelFilter() const;
 

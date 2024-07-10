@@ -123,9 +123,10 @@ bool Scenery::checkAllFramesShown() {
     return false;
 }
 
-void Scenery::waitMilliSeconds(int time, std::function<bool(void)> breakCondition) {
+void Scenery::waitMilliSeconds(int time, std::function<bool(void)> breakCondition, std::function<void()> doWhileWaiting) {
     auto showFrameStart = std::chrono::high_resolution_clock::now();
     while (1) {
+        doWhileWaiting();
         double timeSinceImgShown = (int) std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::high_resolution_clock::now() - showFrameStart).count();
 
@@ -168,8 +169,12 @@ void Scenery::drawDistToCorrectBox(int x, int y, KittiObject correctObj) {
     int distY = boxCenterY - y;
     double slope = ((distY) / (double) distX);
     double yIntercept = y - (slope * x);
+    int distBorderX = std::min(abs(x - correctBox.getTopLeft().getX()), abs(x - correctBox.getBottomRight().getX()));
+    int distBorderY = std::min(abs(y+correctBox.getTopLeft().getY()), abs(y+correctBox.getBottomRight().getY()));
+    if(x <= correctBox.getBottomRight().getX() && x >= correctBox.getTopLeft().getX()) distBorderX = 0;
+    if(y >= -correctBox.getBottomRight().getY() && y <= -correctBox.getTopLeft().getY()) distBorderY = 0;
 
-    if (abs(distX) > abs(distY)) {
+    if (distBorderX > distBorderY) {
         if (distX > 0) {
             interSectionPoint = getVerticalIntersectionPoint(slope, yIntercept, correctBox.getTopLeft().getX());
         } else {
@@ -199,7 +204,7 @@ void Scenery::update() {
     waitingOnClick = true;
 
     if (defaultTimeToWaitForOneFrame > 0) {
-        waitMilliSeconds(defaultTimeToWaitForOneFrame, [this]() { return !this->waitingOnClick; });
+        waitMilliSeconds(defaultTimeToWaitForOneFrame, [this]() { return !this->waitingOnClick; }, [this](){this->doWhileWaitingOnClick();});
     }
     if (waitingOnClick) {
         savePenaltyTime();
@@ -227,4 +232,9 @@ void kittiPathNotSet() {
     system("pause");
 #endif
     exit(0);
+}
+
+
+void Scenery::doWhileWaitingOnClick(){
+    //keep empty, as mehtod is not overidden in every child class
 }
