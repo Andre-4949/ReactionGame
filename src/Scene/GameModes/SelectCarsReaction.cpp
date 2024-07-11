@@ -1,6 +1,3 @@
-//
-// Created by andre on 05.07.2024.
-//
 
 #include "../../../include/Scene/GameModes/SelectCarsReaction.h"
 
@@ -54,10 +51,9 @@ void SelectCarsReaction::paintPlayerMissedClick(int x, int y) {
 
 void SelectCarsReaction::paintPlayerClickedCar(std::vector<KittiObject> selectedObjs) {
     saveTime();
-    //paint all cars red
     this->frames.front().colorObjectsOfType(Labeltypes::CAR, cv::Scalar(0, 255, 255));
 
-    //paint clicked one green
+    
     KittiObject carToPaint = selectedObjs.back();
     for (KittiObject &item: this->frames.front().getObjects()) {
         if (item == carToPaint) {

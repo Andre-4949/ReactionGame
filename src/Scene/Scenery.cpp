@@ -29,10 +29,6 @@ void Scenery::mouseEvents(int event, int x, int y, int flags, void *userdata) {
 
 }
 
-void Scenery::keyEvents() {
-
-}
-
 std::vector<KittiObject> &Scenery::getClickedObjects(int x, int y) {
     return this->frames.front().processClicks(x, y);
 }
@@ -124,7 +120,8 @@ int Scenery::getSequence() const {
 }
 
 bool Scenery::checkAllFramesShown() {
-    if (currentFrameNumber >= numberOfFrames + 3) {//+3 due to preloaded frames
+    //+3 due to preloaded frames
+    if (currentFrameNumber >= numberOfFrames + 3) {
         Game::session.setGameSessionRunning(false);
         return true;
     }
@@ -244,5 +241,5 @@ void kittiPathNotSet() {
 
 
 void Scenery::doWhileWaitingOnClick(){
-    //keep empty, as mehtod is not overidden in every child class
+    //keep empty, as method is not overidden in every child class
 }

@@ -20,24 +20,20 @@ bool isIntInputValid(int input, int max){
     return true;
 }
 
+void printOptionsOutput(inputType t, int maxValue){
+std::vector<std::string> outputByInputType = 
+    {
+        "Welche Bildsequenz moechtest du durchgehen? (1-" + std::to_string(maxValue) + ")",
+        "Wie viele Bilder moechtest du durchgehen? (maximal " + std::to_string(maxValue) + ")",
+        "Welchen Spielmodus moechtest du spielen? (1-" + std::to_string(maxValue) + ") \n\t1: DirectClickReaction\n\t2: ColorChangeReaction\n\t3: ClickEverythingReaction\n\t4: SelectCarsReaction\n\t5: ShrinkingBoxesReaction"
+    };
+    std::cout << outputByInputType[t] << std::endl;
+}
+
 int Menu::getIntInput(inputType t, int maxValue) {
     int input;
     bool regularInput;
-    switch (t) {
-        case tSequence:
-            std::cout << "Welche Bildsequenz moechtest du durchgehen? (1-" << maxValue << ")" << std::endl;
-            break;
-        case tNumberOfFrames:
-            std::cout << "Wie viele Bilder moechtest du durchgehen? (maximal " << maxValue << ")" << std::endl;
-            break;
-        case tGameMode:
-            std::cout
-                    << "Welchen Spielmodus moechtest du spielen? (1-5) \n\t1: DirectClickReaction\n\t2: ColorChangeReaction\n\t3: ClickEverythingReaction\n\t4: SelectCarsReaction\n\t5: ShrinkingBoxesReaction"
-                    << std::endl;
-            break;
-        default:
-            break;
-    }
+    printOptionsOutput(t, maxValue);
     if(std::cin >> input){
         if (isIntInputValid(input, maxValue)){
             std::cout << std::endl;
@@ -50,21 +46,19 @@ int Menu::getIntInput(inputType t, int maxValue) {
     return getIntInput(t, maxValue);
 }
 
-GameSession Menu::getOptions() {
-    std::string playerName = getStringInput();
-    int sequence = getIntInput(tSequence, 21) - 1;
-
-    auto dirIter = std::filesystem::directory_iterator(Scenery::generateImgFolderPathString(sequence));
+int getAmountOfFilesInFolder(std::string folderPath){
+    auto dirIter = std::filesystem::directory_iterator(folderPath);
     int fileCount = std::count_if(
-    begin(dirIter),
-    end(dirIter),
+    dirIter,
+    {},
     [](auto& entry) { return entry.is_regular_file(); }
     );
-    
-    int numberOfFrames = getIntInput(tNumberOfFrames, fileCount);
-    int gameMode = getIntInput(tGameMode, 5);
-    Scenery *scene;
-    switch (gameMode) {
+    return fileCount;
+}
+
+Scenery* getGameModeByUserInput(int input, int numberOfFrames, int sequence){
+    Scenery* scene;
+    switch (input) {
         case 1:
             scene = new DirectClickReaction(numberOfFrames, sequence);
             break;
@@ -82,6 +76,19 @@ GameSession Menu::getOptions() {
         default:
             break;
     }
+    return scene;
+}
+
+GameSession Menu::getOptions() {
+    std::string playerName = getStringInput();
+    int sequence = getIntInput(tSequence, 21) - 1;
+
+    int fileCount = getAmountOfFilesInFolder(Scenery::generateImgFolderPathString(sequence));
+
+    int numberOfFrames = getIntInput(tNumberOfFrames, fileCount);
+    int gameMode = getIntInput(tGameMode, 5);
+    Scenery *scene;
+    scene = getGameModeByUserInput(gameMode, numberOfFrames, sequence);
     GameSession session(scene, playerName);
     return session;
 }

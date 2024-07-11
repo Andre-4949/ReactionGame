@@ -19,7 +19,6 @@ void ShrinkingBoxesReaction::doWhileWaitingOnClick() {
         currentFrame.getOrigImg().copyTo(imgCopy);
         currentFrame.setImg(imgCopy);
         frames.front().getBoundingBoxOfRandomObject().setVisible(true);
-        //    randomObjBox.setVisible(true);
 
         render();
     }

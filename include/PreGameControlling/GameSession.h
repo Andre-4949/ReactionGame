@@ -1,6 +1,3 @@
-//
-// Created by andre on 15.06.2024.
-//
 
 #ifndef REACTIONGAME_GAMESESSION_H
 #define REACTIONGAME_GAMESESSION_H
@@ -26,8 +23,6 @@ public:
     void update();
 
     void mouseEvents(int event, int x, int y, int flags, void *userdata);
-
-    void keyEvents();
 
     Scenery *getScene();
 

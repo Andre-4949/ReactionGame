@@ -38,8 +38,6 @@ public:
 
     void mouseEvents(int event, int x, int y, int flags, void *userdata);
 
-    void keyEvents();
-
     void saveTime();
 
     void savePenaltyTime();
@@ -74,6 +72,10 @@ public:
     virtual void doWhileWaitingOnClick();
 
     static std::string generateImgFolderPathString(int sequenceNr);
+
+    virtual void onPlayerMissedClick(int x, int y) = 0;
+    
+    virtual void onPlayerClickedCorrect(int x, int y) = 0;
 };
 
 

@@ -9,35 +9,38 @@ ColorChangeReaction::ColorChangeReaction(int pNumberOfFrames, int pSequence) : S
 ColorChangeReaction::~ColorChangeReaction() {
 }
 
+void ColorChangeReaction::onPlayerMissedClick(int x, int y){
+    Frame currentFrame = frames.front();
+    KittiObject randomObj = currentFrame.getRandomlySelectedObject();
+    savePenaltyTime();
+    showClickedPoint(x, y, cv::Scalar(0, 0, 255));
+    drawDistToCorrectBox(x, clickedPoint.getY(), randomObj);
+    render();
+    Scenery::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
+}
+
+void ColorChangeReaction::onPlayerClickedCorrect(int x, int y){
+    saveTime();
+    showClickedPoint(x, y, cv::Scalar(0, 255, 0));
+    render();
+    Scenery::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
+}
+
 void ColorChangeReaction::processSpaceBarInput() {
     if (frames.empty() || !waitingOnClick)return;
-
     waitingOnClick = false;
-
     Frame currentFrame = frames.front();
     KittiObject randomObj = currentFrame.getRandomlySelectedObject();
     randomObj.setColor(cv::Scalar(255,0,0));
-
     if (selectedObjs.empty()) {
-        savePenaltyTime();
-        showClickedPoint(clickedPoint.getX(), clickedPoint.getY(), cv::Scalar(0, 0, 255));
-        drawDistToCorrectBox(clickedPoint.getX(), clickedPoint.getY(), randomObj);
-        render();
-        Scenery::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
+        onPlayerMissedClick(clickedPoint.getX(), clickedPoint.getY());
         return;
     }
     KittiObject clickedObj = selectedObjs.back();
     if (clickedObj == randomObj) {
-        saveTime();
-        showClickedPoint(clickedPoint.getX(), clickedPoint.getY(), cv::Scalar(0, 255, 0));
-        render();
-        Scenery::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
+        onPlayerClickedCorrect(clickedPoint.getX(), clickedPoint.getY());
     }else{
-        savePenaltyTime();
-        showClickedPoint(clickedPoint.getX(), clickedPoint.getY(), cv::Scalar(0, 0, 255));
-        drawDistToCorrectBox(clickedPoint.getX(), clickedPoint.getY(), randomObj);
-        render();
-        Scenery::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
+        onPlayerMissedClick(clickedPoint.getX(), clickedPoint.getY());
     }
     selectedObjs.clear();
 }

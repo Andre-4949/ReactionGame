@@ -60,7 +60,6 @@ Frame::Frame(std::vector<Label> labels, cv::Mat img, int frameNumber) {
         }
     }
     this->img = img;
-//    chooseRandomObject();
 }
 
 void Frame::setImg(const cv::Mat &img) {

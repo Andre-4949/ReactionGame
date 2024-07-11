@@ -10,40 +10,39 @@ DirectClickReaction::~DirectClickReaction() {
 
 }
 
+void DirectClickReaction::onPlayerClickedCorrect(int x, int y){
+    saveTime();
+    Scenery::showClickedPoint(x, y, cv::Scalar(0, 255, 0));
+    render();
+    Scenery::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
+}
+
+void DirectClickReaction::onPlayerMissedClick(int x, int y){
+    Frame currentFrame = frames.front();
+    KittiObject randomObj = currentFrame.getRandomlySelectedObject();
+    savePenaltyTime();
+    Scenery::showClickedPoint(x, y, cv::Scalar(0, 0, 255));
+    Scenery::drawDistToCorrectBox(x, y, randomObj);
+    render();
+    Scenery::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
+}
+
 
 void DirectClickReaction::processClicks(int x, int y) {
     if (frames.empty() || !waitingOnClick)return;
-
-
     Frame currentFrame = frames.front();
     KittiObject randomObj = currentFrame.getRandomlySelectedObject();
-
     waitingOnClick = false;
-
     std::vector<KittiObject> clickedObjs = this->getClickedObjects(x, y);
     if (clickedObjs.empty()) {
-        savePenaltyTime();
-        Scenery::showClickedPoint(x, y, cv::Scalar(0, 0, 255));
-        Scenery::drawDistToCorrectBox(x, y, randomObj);
-        render();
-        Scenery::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
-        
+        onPlayerMissedClick(x, y);
         return;
     }
     KittiObject clickedObj = clickedObjs.back();
     if (clickedObj == randomObj) {
-        saveTime();
-        Scenery::showClickedPoint(x, y, cv::Scalar(0, 255, 0));
-        render();
-        Scenery::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
-        
+        onPlayerClickedCorrect(x, y);
     }else{
-        savePenaltyTime();
-        Scenery::showClickedPoint(x, y, cv::Scalar(0, 0, 255));
-        Scenery::drawDistToCorrectBox(x, y, randomObj);
-        render();
-        Scenery::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
-        
+        onPlayerMissedClick(x, y);
     }
 }
 
@@ -52,6 +51,6 @@ void DirectClickReaction::makeRandomObjVisible() {
     frames.front().getBoundingBoxOfRandomObject().setVisible(true);
 }
 
-void DirectClickReaction::setupFrame() {
-
+void DirectClickReaction::setupFrame(){
+    
 }

@@ -20,6 +20,10 @@ public:
 
     void setupFrame() override;
 
+    void onPlayerClickedCorrect(int x, int y) override;
+
+    void onPlayerMissedClick(int x, int y) override;
+
     ~ColorChangeReaction();
 };
 

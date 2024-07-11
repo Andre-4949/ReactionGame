@@ -1,7 +1,3 @@
-//
-// Created by andre on 15.06.2024.
-//
-
 #include "GameSession.h"
 
 #ifndef REACTIONGAME_GAME_H
