@@ -1,3 +1,4 @@
+
 //
 // Created by andre on 15.06.2024.
 //
@@ -9,12 +10,12 @@
 #define REACTIONGAME_MENU_H
 
 enum inputType {
-    tNumberOfFrames, tSequence, tGameMode
+    tSequence, tNumberOfFrames, tGameMode
 };
 
 class Menu {
 private:
-    int getIntInput(inputType t);
+    int getIntInput(inputType t, int maxValue);
 
     std::string getStringInput();
 

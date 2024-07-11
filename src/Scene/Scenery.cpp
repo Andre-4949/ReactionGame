@@ -1,3 +1,4 @@
+
 #include "../../include/Scene/Scenery.h"
 #include "../../include/PreGameControlling/Game.h"
 #include <functional>
@@ -57,15 +58,21 @@ addStringUntilWidthIsReached(std::string originalStr, std::string stringToAppend
     return originalStr;
 }
 
-void Scenery::loadFrame(int frameNum, int sequence) {
+std::string Scenery::generateImgFolderPathString(int sequenceNr){
     std::string folderPath = std::getenv("KITTI_PATH");
     std::string imgPath = folderPath + R"(\data_tracking_image_2\training\image_02\)";
-    std::string imgFileName = std::to_string(frameNum);
-    std::string sequenceStr = std::to_string(sequence);
+    std::string sequenceStr = std::to_string(sequenceNr);
     sequenceStr = addStringUntilWidthIsReached(sequenceStr, "0", 4);
+    imgPath += sequenceStr;
+    return imgPath;
+}
 
+void Scenery::loadFrame(int frameNum, int sequenceNr) {
+    std::string imgPath;
+    std::string imgFileName = std::to_string(frameNum);
     imgFileName = addStringUntilWidthIsReached(imgFileName, "0", 6) + ".png";
-    imgPath += sequenceStr + "\\" + imgFileName;
+    std::string imgFolderPath = generateImgFolderPathString(sequenceNr);
+    imgPath = imgFolderPath + "\\" + imgFileName;
     if (!std::filesystem::exists(imgPath)) {
         std::cout << "Could not find image at: " << imgPath << std::endl;
         return;
@@ -73,7 +80,7 @@ void Scenery::loadFrame(int frameNum, int sequence) {
     frameNames.push(imgPath);
     cv::Mat img = cv::imread(imgPath);
     cv::waitKey(2);
-    Frame currentFrame(currentLabels[sequence], img, currentFrameNumber);
+    Frame currentFrame(currentLabels[sequenceNr], img, currentFrameNumber);
     frames.push(currentFrame);
 }
 
@@ -81,7 +88,7 @@ void Scenery::loadFrame(int frameNum, int sequence) {
 void Scenery::loadFrames() {
     if (this->currentLabels.find(this->sequence) == this->currentLabels.end())
         loadLabels(sequence);
-    loadFrame(currentFrameNumber++, sequence);
+    loadFrame(currentFrameNumber, sequence);
     currentFrameNumber++;
     if (this->frames.empty()) {
         std::cout << "No frames could have been loaded." << std::endl;
@@ -107,8 +114,7 @@ void Scenery::loadLabels(int sequence) {
     if (!std::filesystem::exists(labelsPath))return;
     currentLabels[sequence] = Label::loadLabelsFromFile(labelsPath);
     if (currentLabels.empty()) {
-        std::cout << "Program stops as there are no labels to be found. This could cause the programm to end."
-                  << std::endl;
+        std::cout << "Program stops as there are no labels to be found. This could cause the programm to end." << std::endl;
         exit(404);
     }
 }
@@ -125,8 +131,7 @@ bool Scenery::checkAllFramesShown() {
     return false;
 }
 
-void
-Scenery::waitMilliSeconds(int time, std::function<bool(void)> breakCondition, std::function<void()> doWhileWaiting) {
+void Scenery::waitMilliSeconds(int time, std::function<bool(void)> breakCondition, std::function<void()> doWhileWaiting) {
     auto showFrameStart = std::chrono::high_resolution_clock::now();
     while (1) {
         doWhileWaiting();
@@ -173,9 +178,9 @@ void Scenery::drawDistToCorrectBox(int x, int y, KittiObject correctObj) {
     double slope = ((distY) / (double) distX);
     double yIntercept = y - (slope * x);
     int distBorderX = std::min(abs(x - correctBox.getTopLeft().getX()), abs(x - correctBox.getBottomRight().getX()));
-    int distBorderY = std::min(abs(y + correctBox.getTopLeft().getY()), abs(y + correctBox.getBottomRight().getY()));
-    if (x <= correctBox.getBottomRight().getX() && x >= correctBox.getTopLeft().getX()) distBorderX = 0;
-    if (y >= -correctBox.getBottomRight().getY() && y <= -correctBox.getTopLeft().getY()) distBorderY = 0;
+    int distBorderY = std::min(abs(y+correctBox.getTopLeft().getY()), abs(y+correctBox.getBottomRight().getY()));
+    if(x <= correctBox.getBottomRight().getX() && x >= correctBox.getTopLeft().getX()) distBorderX = 0;
+    if(y >= -correctBox.getBottomRight().getY() && y <= -correctBox.getTopLeft().getY()) distBorderY = 0;
 
     if (distBorderX > distBorderY) {
         if (distX > 0) {
@@ -207,8 +212,7 @@ void Scenery::update() {
     waitingOnClick = true;
 
     if (defaultTimeToWaitForOneFrame > 0) {
-        waitMilliSeconds(defaultTimeToWaitForOneFrame, [this]() { return !this->waitingOnClick; },
-                         [this]() { this->doWhileWaitingOnClick(); });
+        waitMilliSeconds(defaultTimeToWaitForOneFrame, [this]() { return !this->waitingOnClick; }, [this](){this->doWhileWaitingOnClick();});
     }
     if (waitingOnClick) {
         savePenaltyTime();
@@ -239,6 +243,6 @@ void kittiPathNotSet() {
 }
 
 
-void Scenery::doWhileWaitingOnClick() {
+void Scenery::doWhileWaitingOnClick(){
     //keep empty, as mehtod is not overidden in every child class
 }

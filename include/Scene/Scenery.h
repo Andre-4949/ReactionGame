@@ -72,6 +72,8 @@ public:
     void drawDistToCorrectBox(int x, int y, KittiObject correctObj);
 
     virtual void doWhileWaitingOnClick();
+
+    static std::string generateImgFolderPathString(int sequenceNr);
 };
 
 

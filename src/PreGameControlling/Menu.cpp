@@ -1,9 +1,11 @@
+#include <filesystem>
 #include "../../include/PreGameControlling/Menu.h"
 #include "../../include/Scene/GameModes/DirectClickReaction.h"
 #include "../../include/Scene/GameModes/ColorChangeReaction.h"
 #include "../../include/Scene/GameModes/EveryObjectReaction.h"
 #include "../../include/Scene/GameModes/SelectCarsReaction.h"
 #include "../../include/Scene/GameModes/ShrinkingBoxesReaction.h"
+
 
 std::string Menu::getStringInput() {
     std::string output;
@@ -13,33 +15,54 @@ std::string Menu::getStringInput() {
     return output;
 }
 
-int Menu::getIntInput(inputType t) {
-    int output;
+bool isIntInputValid(int input, int max){
+    if (input < 1 || input > max) return false;
+    return true;
+}
+
+int Menu::getIntInput(inputType t, int maxValue) {
+    int input;
+    bool regularInput;
     switch (t) {
-        case tNumberOfFrames:
-            std::cout << "Wie viele Bilder moechtest du durchgehen?" << std::endl;
-            break;
         case tSequence:
-            std::cout << "Welche Bildsequenz moechtest du durchgehen?" << std::endl;
+            std::cout << "Welche Bildsequenz moechtest du durchgehen? (1-" << maxValue << ")" << std::endl;
+            break;
+        case tNumberOfFrames:
+            std::cout << "Wie viele Bilder moechtest du durchgehen? (maximal " << maxValue << ")" << std::endl;
             break;
         case tGameMode:
             std::cout
-                    << "Welchen Spielmodus moechtest du spielen? \n\t1: DirectClickReaction\n\t2: ColorChangeReaction\n\t3: ClickEverythingReaction\n\t4: SelectCarsReaction\n\t5: ShrinkingBoxesReaction"
+                    << "Welchen Spielmodus moechtest du spielen? (1-5) \n\t1: DirectClickReaction\n\t2: ColorChangeReaction\n\t3: ClickEverythingReaction\n\t4: SelectCarsReaction\n\t5: ShrinkingBoxesReaction"
                     << std::endl;
             break;
         default:
             break;
     }
-    std::cin >> output;
-    std::cout << std::endl;
-    return output;
+    if(std::cin >> input){
+        if (isIntInputValid(input, maxValue)){
+            std::cout << std::endl;
+            return input;
+        }    
+    }
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cout << std::endl << "Unpassende Eingabe! Bitte noch einmal:" << std::endl;
+    return getIntInput(t, maxValue);
 }
 
 GameSession Menu::getOptions() {
     std::string playerName = getStringInput();
-    int numberOfFrames = getIntInput(tNumberOfFrames);
-    int sequence = getIntInput(tSequence);
-    int gameMode = getIntInput(tGameMode);
+    int sequence = getIntInput(tSequence, 21) - 1;
+
+    auto dirIter = std::filesystem::directory_iterator(Scenery::generateImgFolderPathString(sequence));
+    int fileCount = std::count_if(
+    begin(dirIter),
+    end(dirIter),
+    [](auto& entry) { return entry.is_regular_file(); }
+    );
+    
+    int numberOfFrames = getIntInput(tNumberOfFrames, fileCount);
+    int gameMode = getIntInput(tGameMode, 5);
     Scenery *scene;
     switch (gameMode) {
         case 1:
