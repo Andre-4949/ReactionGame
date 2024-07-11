@@ -5,21 +5,31 @@ ShrinkingBoxesReaction::ShrinkingBoxesReaction(int pNumberOfFrames, int pSequenc
     lastShrinkedTimePoint = std::chrono::high_resolution_clock::now();
 }
 
+void setCopyAsNewImg(Frame& frame){
+    cv::Mat imgCopy;
+    frame.getOrigImg().copyTo(imgCopy);
+    frame.setImg(imgCopy);
+}
+
+double getTimeDifference(std::chrono::_V2::system_clock::time_point later, std::chrono::_V2::system_clock::time_point earlier){
+    using namespace std::chrono;
+    double timeDifference = duration_cast<milliseconds>(later - earlier).count();
+    return timeDifference;
+}
+
+
 void ShrinkingBoxesReaction::doWhileWaitingOnClick() {
-    double currentTimeDiff = (int) std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::high_resolution_clock::now() - lastShrinkedTimePoint).count();
+    auto now = std::chrono::high_resolution_clock::now();
+    double currentTimeDiff = getTimeDifference(now, lastShrinkedTimePoint);
     if (currentTimeDiff > (double) (Constants::SECONDSTOMILLISECONDS * shrinkingTimeDiff)) {
-        Frame &currentFrame = frames.front();
-        frames.front().getBoundingBoxOfRandomObject().moveTopLeft(this->deltaX, this->deltaY);
-        frames.front().getBoundingBoxOfRandomObject().moveBottomRight(-this->deltaX, -this->deltaY);
         lastShrinkedTimePoint = std::chrono::high_resolution_clock::now();
+        Frame &currentFrame = frames.front();
+        GTBoundingBox &boundingBoxOfRandomObj = currentFrame.getBoundingBoxOfRandomObject();
+        currentFrame.getBoundingBoxOfRandomObject().moveTopLeft(this->deltaX, this->deltaY);
+        currentFrame.getBoundingBoxOfRandomObject().moveBottomRight(-this->deltaX, -this->deltaY);
         currentFrame.setAllKittiObjectsInvisible();
-
-        cv::Mat imgCopy;
-        currentFrame.getOrigImg().copyTo(imgCopy);
-        currentFrame.setImg(imgCopy);
-        frames.front().getBoundingBoxOfRandomObject().setVisible(true);
-
+        setCopyAsNewImg(currentFrame);
+        currentFrame.getBoundingBoxOfRandomObject().setVisible(true);
         render();
     }
 }

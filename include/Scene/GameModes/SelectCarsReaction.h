@@ -18,7 +18,9 @@ public:
 
     void paintSolution(std::vector<KittiObject> selectedObjs, int clickedX, int clickedY);
 
-    void paintPlayerMissedClick(int x, int y);
+    void onPlayerMissedClick(int x, int y) override;
+
+    void onPlayerClickedCorrect(int x, int y) override;
 
     void paintPlayerClickedCar(std::vector<KittiObject> selectedObjs);
 };

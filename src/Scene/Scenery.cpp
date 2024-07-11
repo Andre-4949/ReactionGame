@@ -243,3 +243,7 @@ void kittiPathNotSet() {
 void Scenery::doWhileWaitingOnClick(){
     //keep empty, as method is not overidden in every child class
 }
+
+void Scenery::setupFrame(){
+    //keep empty, as method is not overidden in every child class
+}

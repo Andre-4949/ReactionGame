@@ -14,8 +14,6 @@ public:
 
     virtual void makeRandomObjVisible() override;
 
-    void setupFrame() override;
-
     ~DirectClickReaction();
 
     virtual void onPlayerClickedCorrect(int x, int y) override;

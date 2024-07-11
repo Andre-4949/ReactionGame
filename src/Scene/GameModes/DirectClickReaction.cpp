@@ -50,7 +50,3 @@ void DirectClickReaction::makeRandomObjVisible() {
     Scenery::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 2);
     frames.front().getBoundingBoxOfRandomObject().setVisible(true);
 }
-
-void DirectClickReaction::setupFrame(){
-    
-}

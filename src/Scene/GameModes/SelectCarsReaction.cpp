@@ -32,28 +32,29 @@ void SelectCarsReaction::showSolution() {
 
 void SelectCarsReaction::paintSolution(std::vector<KittiObject> selectedObjs, int clickedX, int clickedY) {
     if (selectedObjs.empty() || selectedObjs.back().getLabel().getMType() != Labeltypes::CAR) {
-        showClickedPoint(clickedX, clickedY, cv::Scalar(0, 0, 255));
-        paintPlayerMissedClick(clickedX, clickedY);
+        SelectCarsReaction::onPlayerMissedClick(clickedX, clickedY);
     } else {
-        showClickedPoint(clickedX, clickedY, cv::Scalar(0, 255, 0));
-        paintPlayerClickedCar(selectedObjs);
+        SelectCarsReaction::onPlayerClickedCorrect(clickedX, clickedY);
     }
 
 }
 
-void SelectCarsReaction::paintPlayerMissedClick(int x, int y) {
+void SelectCarsReaction::onPlayerMissedClick(int x, int y) {
     savePenaltyTime();
+    showClickedPoint(x, y, cv::Scalar(0, 0, 255));
     for(KittiObject obj: this->frames.front().getObjectsOfType(Labeltypes::CAR)){
         drawDistToCorrectBox(x, y, obj);
     }
     this->frames.front().colorObjectsOfType(Labeltypes::CAR, cv::Scalar(0, 0, 255));
 }
 
-void SelectCarsReaction::paintPlayerClickedCar(std::vector<KittiObject> selectedObjs) {
+void SelectCarsReaction::onPlayerClickedCorrect(int x, int y) {
     saveTime();
-    this->frames.front().colorObjectsOfType(Labeltypes::CAR, cv::Scalar(0, 255, 255));
 
-    
+    showClickedPoint(x, y, cv::Scalar(0, 255, 0));
+    if(frames.empty()) return;
+    this->frames.front().colorObjectsOfType(Labeltypes::CAR, cv::Scalar(0, 255, 255));
+    std::vector<KittiObject> &selectedObjs = this->getClickedObjects(x, y);
     KittiObject carToPaint = selectedObjs.back();
     for (KittiObject &item: this->frames.front().getObjects()) {
         if (item == carToPaint) {

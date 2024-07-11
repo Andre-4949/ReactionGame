@@ -61,7 +61,7 @@ public:
 
     virtual void makeRandomObjVisible() = 0;
 
-    virtual void setupFrame() = 0;
+    virtual void setupFrame();
 
     void waitMilliSeconds(int time, std::function<bool(void)> breakCondition = []() { return false; }, std::function<void(void)> doWhileWaiting = [](){});
 
