@@ -11,11 +11,7 @@ void setCopyAsNewImg(Frame& frame){
     frame.setImg(imgCopy);
 }
 
-double getTimeDifference(std::chrono::_V2::system_clock::time_point later, std::chrono::_V2::system_clock::time_point earlier){
-    using namespace std::chrono;
-    double timeDifference = duration_cast<milliseconds>(later - earlier).count();
-    return timeDifference;
-}
+
 
 
 void ShrinkingBoxesReaction::doWhileWaitingOnClick() {
@@ -34,19 +30,28 @@ void ShrinkingBoxesReaction::doWhileWaitingOnClick() {
     }
 }
 
-void ShrinkingBoxesReaction::makeRandomObjVisible() {
-    DirectClickReaction::makeRandomObjVisible();
-    initialRandomObjTopLeft = frames.front().getBoundingBoxOfRandomObject().getTopLeft();
-    initialRandomObjBottomRight = frames.front().getBoundingBoxOfRandomObject().getBottomRight();
-
-    double tempDeltaX, tempDeltaY;
+void ShrinkingBoxesReaction::calcDeltaX(){
+    double tempDeltaX;
     tempDeltaX = initialRandomObjBottomRight.getX() - initialRandomObjTopLeft.getX();
     tempDeltaX *= shrinkingTimeDiff;
     tempDeltaX /= 2 * ((double)defaultTimeToWaitForOneFrame / Constants::SECONDSTOMILLISECONDS);
     this->deltaX = (int) tempDeltaX;
+}
 
+void ShrinkingBoxesReaction::calcDeltaY(){
+    double tempDeltaY;
     tempDeltaY = initialRandomObjBottomRight.getY() - initialRandomObjTopLeft.getY();
     tempDeltaY *= shrinkingTimeDiff;
     tempDeltaY /= 2 * ((double)defaultTimeToWaitForOneFrame / Constants::SECONDSTOMILLISECONDS);
     this->deltaY = (int)tempDeltaY;
+}
+
+void ShrinkingBoxesReaction::makeRandomObjVisible() {
+    DirectClickReaction::makeRandomObjVisible();
+
+    initialRandomObjTopLeft = frames.front().getBoundingBoxOfRandomObject().getTopLeft();
+    initialRandomObjBottomRight = frames.front().getBoundingBoxOfRandomObject().getBottomRight();
+
+    calcDeltaX();
+    calcDeltaY();
 }

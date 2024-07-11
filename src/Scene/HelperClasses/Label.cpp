@@ -1,5 +1,27 @@
 #include "../../../include/Scene/HelperClasses/Label.h"
 
+Label makeLabelFromLine(std::string line){
+    std::istringstream ss(line);
+
+    int frame, trackId, truncated, occluded;
+    float alpha, bboxLeft, bboxTop, bboxRight, bboxBottom;
+    float height, width, length;
+    float locationX, locationY, locationZ, rotationY;
+    std::string type;
+
+    ss >> frame >> trackId >> type >> truncated >> occluded >> alpha >> bboxLeft >> bboxTop >> bboxRight
+     >> bboxBottom >> height >> width >> length >> locationX >> locationY >> locationZ >> rotationY;
+    
+    if (ss.fail()) {
+        std::cerr << "Error reading line: " << line << std::endl;
+        return Label();
+    }
+    
+    GTBoundingBox bbox(static_cast<int>(bboxLeft), static_cast<int>(bboxTop),
+   static_cast<int>(bboxRight - bboxLeft), static_cast<int>(bboxBottom - bboxTop));
+
+    return Label(frame, type, bbox);
+}
 
 std::vector<Label> Label::loadLabelsFromFile(const std::string &filename) {
     std::vector<Label> labels;
@@ -8,26 +30,11 @@ std::vector<Label> Label::loadLabelsFromFile(const std::string &filename) {
         std::cerr << "Could not open label file: " << filename << std::endl;
         return labels;
     }
-
     std::string line;
+    Label currLabel;
     while (std::getline(file, line)) {
-        std::istringstream ss(line);
-        int frame, track_id, truncated, occluded;
-        float alpha, bbox_left, bbox_top, bbox_right, bbox_bottom;
-        float height, width, length;
-        float loc_x, loc_y, loc_z, rot_y;
-        std::string type;
-
-        ss >> frame >> track_id >> type >> truncated >> occluded >> alpha >> bbox_left >> bbox_top >> bbox_right
-           >> bbox_bottom >> height >> width >> length >> loc_x >> loc_y >> loc_z >> rot_y;
-
-        if (!ss.fail()) {
-            GTBoundingBox bbox(static_cast<int>(bbox_left), static_cast<int>(bbox_top),
-                               static_cast<int>(bbox_right - bbox_left), static_cast<int>(bbox_bottom - bbox_top));
-            labels.emplace_back(frame, type, bbox);
-        } else {
-            std::cerr << "Error reading line: " << line << std::endl;
-        }
+        currLabel = makeLabelFromLine(line);
+        labels.push_back(currLabel);
     }
     return labels;
 }

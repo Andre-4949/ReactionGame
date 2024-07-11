@@ -1,7 +1,7 @@
 #include "../../../include/Scene/HelperClasses/Point.h"
 
 
-bool helper::Point::equals(helper::Point p) {
+bool helper::Point::operator==(helper::Point p) {
     return this->x == p.x && this->y == p.y;
 }
 

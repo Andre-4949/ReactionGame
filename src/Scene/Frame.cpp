@@ -25,9 +25,10 @@ KittiObject& Frame::getRandomlySelectedObject() {
 }
 
 void Frame::chooseRandomObject() {
-    std::random_device device;
-    std::mt19937 rng(device());
-    std::uniform_int_distribution<std::mt19937::result_type> dist(0, this->objects.size() - 1);
+    using namespace std;
+    random_device device;
+    mt19937 rng(device());
+    uniform_int_distribution<mt19937::result_type> dist(0, this->objects.size() - 1);
     indexOfRandomObject = dist(rng);
     objects[indexOfRandomObject].getLabel().getBoundingBox().setVisible(true);
 }
@@ -56,7 +57,8 @@ Frame::Frame(std::vector<Label> labels, cv::Mat img, int frameNumber) {
     img.copyTo(origImg);
     for (Label &item: labels) {
         if (item.getMFrame() == frameNumber && Frame::labelFilter.find(item.getMType()) != Frame::labelFilter.end()) {
-            this->objects.emplace_back(item);
+            KittiObject obj(item);
+            this->objects.push_back(obj);
         }
     }
     this->img = img;
@@ -108,7 +110,6 @@ std::vector<KittiObject> Frame::getObjectsOfType(std::string type) {
             objsOfType.push_back(objects[i]);
         }
     }
-
     return objsOfType;
 }
 

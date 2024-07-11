@@ -24,7 +24,7 @@ void printOptionsOutput(inputType t, int maxValue){
 std::vector<std::string> outputByInputType = 
     {
         "Welche Bildsequenz moechtest du durchgehen? (1-" + std::to_string(maxValue) + ")",
-        "Wie viele Bilder moechtest du durchgehen? (maximal " + std::to_string(maxValue) + ")",
+        "Wie viele Bilder moechtest du durchgehen? (bis zu " + std::to_string(maxValue) + ")",
         "Welchen Spielmodus moechtest du spielen? (1-" + std::to_string(maxValue) + ") \n\t1: DirectClickReaction\n\t2: ColorChangeReaction\n\t3: ClickEverythingReaction\n\t4: SelectCarsReaction\n\t5: ShrinkingBoxesReaction"
     };
     std::cout << outputByInputType[t] << std::endl;

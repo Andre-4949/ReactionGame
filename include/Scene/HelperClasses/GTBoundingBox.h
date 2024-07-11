@@ -43,7 +43,7 @@ public:
 
     helper::Point getCenter();
 
-    bool equals(GTBoundingBox b);
+    bool operator==(GTBoundingBox b);
 };
 
 

@@ -28,5 +28,5 @@ KittiObject::KittiObject(Label label) : label(std::move(label)) {}
 KittiObject::KittiObject() = default;
 
 bool KittiObject::operator==(KittiObject &other) {
-    return label.getBoundingBox().equals(other.getLabel().getBoundingBox());
+    return label.getBoundingBox() == other.getLabel().getBoundingBox();
 }

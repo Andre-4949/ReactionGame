@@ -20,6 +20,11 @@ public:
     virtual void doWhileWaitingOnClick() override;
 
     void makeRandomObjVisible() override;
+
+    void calcDeltaX();
+    
+    void calcDeltaY();
+
 };
 
 #endif //REACTIONGAME_SHRINKINGBOXESREACTION_H

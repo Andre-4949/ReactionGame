@@ -54,8 +54,8 @@ helper::Point GTBoundingBox::getCenter() {
     return center;
 }
 
-bool GTBoundingBox::equals(GTBoundingBox b) {
-    return this->topLeft.equals(b.topLeft) && this->bottomRight.equals(b.bottomRight);
+bool GTBoundingBox::operator==(GTBoundingBox b) {
+    return this->topLeft == b.topLeft && this->bottomRight == b.bottomRight;
 }
 
 void GTBoundingBox::moveTopLeft(int x, int y){

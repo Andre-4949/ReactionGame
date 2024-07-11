@@ -13,7 +13,7 @@ namespace helper {
 
         void move(int x, int y);
 
-        bool equals(helper::Point p);
+        bool operator==(helper::Point p);
 
         int getX();
 
