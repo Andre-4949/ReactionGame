@@ -4,7 +4,7 @@
 #include "opencv2/opencv.hpp"
 
 namespace helper {
-    class Point : public cv::Point2i {
+    class Point{
         int x, y;
     public:
         Point(int x, int y);
@@ -22,6 +22,8 @@ namespace helper {
         void setX(int x);
 
         void setY(int y);
+
+        cv::Point2i toCvPoint();
     };
 }
 #endif //REACTIONGAME_POINT_H

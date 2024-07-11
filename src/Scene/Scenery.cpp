@@ -142,7 +142,7 @@ void Scenery::waitMilliSeconds(int time, std::function<bool(void)> breakConditio
 void Scenery::showClickedPoint(int x, int y, cv::Scalar color) {
     cv::Mat img = getFrames().front().getImg();
     helper::Point clickedPoint = helper::Point(x, y);
-    cv::circle(img, clickedPoint, 3, color, -1);
+    cv::circle(img, clickedPoint.toCvPoint(), 3, color, -1);
 }
 
 helper::Point getVerticalIntersectionPoint(double slope, double yIntercept, int boxX) {
@@ -187,7 +187,7 @@ void Scenery::drawDistToCorrectBox(int x, int y, KittiObject correctObj) {
             interSectionPoint = getHorizontalIntersectionPoint(slope, yIntercept, -correctBox.getBottomRight().getY());
         }
     }
-    cv::line(img, helper::Point(x, -y), interSectionPoint, cv::Scalar(0, 0, 255), 2);
+    cv::line(img, helper::Point(x, -y).toCvPoint(), interSectionPoint.toCvPoint(), cv::Scalar(0, 0, 255), 2);
 }
 
 void Scenery::update() {

@@ -53,6 +53,7 @@ GameSession Menu::getOptions() {
             break;
         case 4:
             scene = new SelectCarsReaction(numberOfFrames, sequence);
+            break;
         case 5:
             scene = new ShrinkingBoxesReaction(numberOfFrames, sequence);
         default:

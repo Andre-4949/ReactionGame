@@ -5,7 +5,6 @@ project(ReactionGame)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_DEFAULT 23)
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 file(GLOB_RECURSE SRC "include/*.h" "include/*.hpp" "src/*.cpp")
 # get value from environmental variables

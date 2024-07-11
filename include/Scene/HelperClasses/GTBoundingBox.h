@@ -6,7 +6,7 @@
 #include "Point.h"
 
 
-class GTBoundingBox : cv::Rect {
+class GTBoundingBox {
 private:
     bool isVisible = false;
     helper::Point topLeft = helper::Point(0, 0);
@@ -33,13 +33,13 @@ public:
 
     void setVisible(bool newVisible);
 
-    helper::Point getTopLeft();
+    helper::Point &getTopLeft();
 
     helper::Point getBottomRight();
 
-    void setTopLeft(int x, int y);
+    void moveTopLeft(int x, int y);
 
-    void setBottomRight(int x, int y);
+    void moveBottomRight(int x, int y);
 
     helper::Point getCenter();
 

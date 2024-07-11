@@ -6,10 +6,10 @@ bool helper::Point::equals(helper::Point p) {
 }
 
 
-helper::Point::Point(int x, int y) : Point_(x, y), x(x), y(y) {
+helper::Point::Point(int x, int y) : x(x), y(y) {
 }
 
-helper::Point::Point() : Point_(0,0), x(0), y(0) {
+helper::Point::Point() : x(0), y(0) {
 }
 
 void helper::Point::move(int x, int y) {
@@ -31,4 +31,8 @@ void helper::Point::setX(int x){
 
 void helper::Point::setY(int y){
     this->y = y;
+}
+
+cv::Point2i helper::Point::toCvPoint() {
+    return cv::Point2i(this->x, this->y);
 }

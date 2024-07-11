@@ -4,22 +4,22 @@
 #include "../../../include/PreGameControlling/Game.h"
 
 bool GTBoundingBox::getClicked(int x, int y) {
-    return this->contains(cv::Point(x, y));
+    return this->topLeft.getX() < x && this->topLeft.getY() < y && this->bottomRight.getX() > x && this->bottomRight.getY() > y;
 }
 
 void GTBoundingBox::render() {
     if (!this->isVisible)return;
     cv::Mat img = Game::session.getScene()->getFrames().front().getImg();
-    cv::rectangle(img, topLeft, bottomRight, color, 2);
+    cv::rectangle(img, topLeft.toCvPoint(), bottomRight.toCvPoint(), color, 2);
 }
 
-GTBoundingBox::GTBoundingBox(cv::Rect rect) : Rect_(rect) {
+GTBoundingBox::GTBoundingBox(cv::Rect rect) {
     this->topLeft = helper::Point(rect.x, rect.y);
     this->bottomRight = helper::Point(rect.x + rect.width, rect.y + rect.height);
     this->center = helper::Point(rect.x + (rect.width/2), rect.y + (rect.height/2));
 }
 
-GTBoundingBox::GTBoundingBox(int x, int y, int width, int height) : Rect_(x, y, width, height) {
+GTBoundingBox::GTBoundingBox(int x, int y, int width, int height) {
     this->topLeft = helper::Point(x, y);
     this->bottomRight = helper::Point(x + width, y + height);
     this->center = helper::Point(x + (width/2), y + (height/2));
@@ -42,7 +42,7 @@ void GTBoundingBox::setVisible(bool newVisible) {
     this->isVisible = newVisible;
 }
 
-helper::Point GTBoundingBox::getTopLeft() {
+helper::Point &GTBoundingBox::getTopLeft() {
     return this->topLeft;
 }
 
@@ -58,12 +58,10 @@ bool GTBoundingBox::equals(GTBoundingBox b) {
     return this->topLeft.equals(b.topLeft) && this->bottomRight.equals(b.bottomRight);
 }
 
-void GTBoundingBox::setTopLeft(int x, int y){
-    this->x = x;
-    this->y = y;
-    this->topLeft = helper::Point(x, y);
+void GTBoundingBox::moveTopLeft(int x, int y){
+    this->topLeft = helper::Point(this->topLeft.getX()+x, this->topLeft.getY()+y);
 }
 
-void GTBoundingBox::setBottomRight(int x, int y){
-    this->bottomRight = helper::Point(x, y);
+void GTBoundingBox::moveBottomRight(int x, int y){
+    this->bottomRight = helper::Point(this->bottomRight.getX()+x, this->bottomRight.getY()+y);;
 }
