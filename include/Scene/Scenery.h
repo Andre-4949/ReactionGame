@@ -21,7 +21,7 @@ protected:
     std::queue<Frame> frames;
     std::unordered_map<int, std::vector<Label>> currentLabels;
     ResultsHandler resultsHandler;
-    static inline int currentFrameNumber = 1;
+    static inline int currentFrameNumber = 0;
     std::chrono::_V2::system_clock::time_point showingObjTimePoint;
     bool waitingOnClick = false;
 public:
