@@ -6,11 +6,8 @@
 #include "cstdlib"
 #include <filesystem>
 
-void kittiPathNotSet();
-
 Scenery::Scenery(int pNumberOfFrames, int pSequence) : numberOfFrames(pNumberOfFrames), sequence(pSequence) {
-    if (std::getenv("KITTI_PATH"))return;
-    kittiPathNotSet();
+    checkIfKittiPathIsSet();
 }
 
 void Scenery::saveTime() {
@@ -64,18 +61,13 @@ std::string Scenery::generateImgFolderPathString(int sequenceNr){
 }
 
 void Scenery::loadFrame(int frameNum, int sequenceNr) {
-    std::string imgPath;
-    std::string imgFileName = std::to_string(frameNum);
-    imgFileName = addStringUntilWidthIsReached(imgFileName, "0", 6) + ".png";
-    std::string imgFolderPath = generateImgFolderPathString(sequenceNr);
-    imgPath = imgFolderPath + "\\" + imgFileName;
+    std::string imgPath = generateImagePath(frameNum, sequenceNr);
     if (!std::filesystem::exists(imgPath)) {
         std::cout << "Could not find image at: " << imgPath << std::endl;
         return;
     }
     frameNames.push(imgPath);
     cv::Mat img = cv::imread(imgPath);
-    cv::waitKey(2);
     Frame currentFrame(currentLabels[sequenceNr], img, currentFrameNumber);
     frames.push(currentFrame);
 }
@@ -101,12 +93,7 @@ const std::queue<std::string> &Scenery::getFrameNames() const {
 }
 
 void Scenery::loadLabels(int sequence) {
-    std::string folderPath = std::getenv("KITTI_PATH");
-    std::string labelsPath = folderPath + R"(\data_tracking_label_2\training\label_02\)";
-    std::string sequenceStr = std::to_string(sequence);
-    std::string labelsFileName = sequenceStr;
-    labelsFileName = addStringUntilWidthIsReached(labelsFileName, "0", 4) + ".txt";
-    labelsPath += labelsFileName;
+    std::string labelsPath = generateLabelFolderPath(sequence);
     if (!std::filesystem::exists(labelsPath))return;
     currentLabels[sequence] = Label::loadLabelsFromFile(labelsPath);
     if (currentLabels.empty()) {
@@ -221,7 +208,8 @@ void Scenery::update() {
         this->frameNames.pop();
 }
 
-void kittiPathNotSet() {
+void Scenery::checkIfKittiPathIsSet() {
+    if (std::getenv("KITTI_PATH"))return;
     std::cout << "This programm needs the KITTI images to operate as intended. "
                  "Please download the KITTI image collection and add an environmental variable named "
                  "KITTI_PATH to the folder containing \\data_tracking_image_2 as well as"
@@ -241,9 +229,27 @@ void kittiPathNotSet() {
 
 
 void Scenery::doWhileWaitingOnClick(){
-    //keep empty, as method is not overidden in every child class
+    //keep empty, as method is not overridden in every child class
+}
+
+std::string Scenery::generateLabelFolderPath(int sequence) {
+    checkIfKittiPathIsSet();
+    std::string folderPath = std::getenv("KITTI_PATH");
+    std::string labelsPath = folderPath + R"(\data_tracking_label_2\training\label_02\)";
+    std::string sequenceStr = std::to_string(sequence);
+    std::string labelsFileName = sequenceStr;
+    labelsFileName = addStringUntilWidthIsReached(labelsFileName, "0", 4) + ".txt";
+    labelsPath += labelsFileName;
+    return labelsPath;
 }
 
 void Scenery::setupFrame(){
     //keep empty, as method is not overidden in every child class
+}
+
+std::string Scenery::generateImagePath(int frameNum, int sequenceNum) {
+    std::string imgFileName = std::to_string(frameNum);
+    imgFileName = addStringUntilWidthIsReached(imgFileName, "0", 6) + ".png";
+    std::string imgFolderPath = generateImgFolderPathString(sequenceNum);
+    return imgFolderPath + "\\" + imgFileName;
 }

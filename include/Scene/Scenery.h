@@ -74,8 +74,14 @@ public:
     static std::string generateImgFolderPathString(int sequenceNr);
 
     virtual void onPlayerMissedClick(int x, int y) = 0;
-    
+
     virtual void onPlayerClickedCorrect(int x, int y) = 0;
+
+    static std::string generateLabelFolderPath(int sequence);
+
+    static void checkIfKittiPathIsSet();
+
+    static std::string generateImagePath(int frameNum, int sequenceNum);
 };
 
 

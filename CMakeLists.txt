@@ -27,7 +27,6 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-
 # search package
 find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
@@ -37,7 +36,6 @@ message(STATUS "    config: ${OpenCV_DIR}")
 message(STATUS "    version: ${OpenCV_VERSION}")
 message(STATUS "    libraries: ${OpenCV_LIBS}")
 message(STATUS "    include path: ${OpenCV_INCLUDE_DIRS}")
-
 
 add_subdirectory(test)
 add_library(${this} STATIC ${SRC})

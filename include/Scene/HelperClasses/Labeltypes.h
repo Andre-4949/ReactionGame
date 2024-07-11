@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <string>
 #include <array>
-
+#include <unordered_set>
 class Labeltypes {
 public:
     //alphabetically sorted
@@ -13,6 +13,9 @@ public:
     const static inline std::string DONTCARE = "DontCare";
     const static inline std::string PEDESTRIAN = "Pedestrian";
     const static inline std::string VAN = "Van";
+
+
+    const static inline std::unordered_set<std::string> ALL_LABELS = {CAR, CYCLIST, DONTCARE, PEDESTRIAN, VAN};
 };
 
 
