@@ -38,12 +38,13 @@ void SelectCarsReaction::evaluateInput(std::vector<KittiObject> &objects, int x,
 }
 
 void SelectCarsReaction::onPlayerMissedClick(int x, int y) {
+    Frame &currentFrame = this->frames.front();
     savePenaltyTime();
     showClickedPoint(x, y, Constants::RED);
-    for(KittiObject obj: this->frames.front().getObjectsOfType(Labeltypes::CAR)){
+    for(KittiObject obj: currentFrame.getObjectsOfType(Labeltypes::CAR)){
         drawDistToCorrectBox(x, y, obj);
     }
-    this->frames.front().colorObjectsOfType(Labeltypes::CAR, Constants::RED);
+    currentFrame.colorObjectsOfType(Labeltypes::CAR, Constants::RED);
 }
 
 void SelectCarsReaction::onPlayerClickedCorrect(int x, int y) {

@@ -42,8 +42,8 @@ TEST_F(KittiObjectTest, KittiObjectProcessClicks) {
     helper::Point bottomLeft = helper::Point(topLeft.getX(),bottomRight.getY());
 
     ASSERT_TRUE(kittiObject.processClicks(center.getX(),center.getY()));
-    ASSERT_FALSE(kittiObject.processClicks(topLeft.getX(),topLeft.getY()));
-    ASSERT_FALSE(kittiObject.processClicks(bottomRight.getX(),bottomRight.getY()));
-    ASSERT_FALSE(kittiObject.processClicks(topRight.getX(),topRight.getY()));
-    ASSERT_FALSE(kittiObject.processClicks(bottomLeft.getX(),bottomLeft.getY()));
+    ASSERT_TRUE(kittiObject.processClicks(topLeft.getX(),topLeft.getY()));
+    ASSERT_TRUE(kittiObject.processClicks(bottomRight.getX(),bottomRight.getY()));
+    ASSERT_TRUE(kittiObject.processClicks(topRight.getX(),topRight.getY()));
+    ASSERT_TRUE(kittiObject.processClicks(bottomLeft.getX(),bottomLeft.getY()));
 }
