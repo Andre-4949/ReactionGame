@@ -20,9 +20,7 @@ void SelectCarsReaction::makeRandomObjVisible() {
     // keep empty to not call inherited
 }
 
-void SelectCarsReaction::loadLabels(int sequence) {
-    Scenery::loadLabels(sequence);
-}
+
 
 void SelectCarsReaction::showSolution() {
     render();

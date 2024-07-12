@@ -24,6 +24,7 @@ protected:
     static inline int currentFrameNumber = 0;
     std::chrono::_V2::system_clock::time_point showingObjTimePoint;
     bool waitingOnClick = false;
+    double penaltyTime = 5.0;
 public:
 
     Scenery(int pNumberOfFrames, int pSequence);
@@ -49,11 +50,11 @@ public:
 
     const std::queue<Frame> &getFrames() const;
 
-    void loadFrame(int frameNum, int sequence);
+    void loadFrame(int frameNum);
 
     const std::queue<std::string> &getFrameNames() const;
 
-    virtual void loadLabels(int sequence);
+    virtual void loadLabels();
 
     int getSequence() const;
 
@@ -82,6 +83,8 @@ public:
     static void checkIfKittiPathIsSet();
 
     static std::string generateImagePath(int frameNum, int sequenceNum);
+
+    double getTimeDifference(std::chrono::_V2::system_clock::time_point later, std::chrono::_V2::system_clock::time_point earlier);
 };
 
 

@@ -12,8 +12,6 @@ public:
 
     void makeRandomObjVisible() override;
 
-    void loadLabels(int sequence) override;
-
     void showSolution();
 
     void paintSolution(std::vector<KittiObject> selectedObjs, int clickedX, int clickedY);

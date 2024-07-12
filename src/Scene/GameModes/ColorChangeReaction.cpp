@@ -72,4 +72,5 @@ void ColorChangeReaction::makeRandomObjVisible() {
 void ColorChangeReaction::setupFrame() {
     this->frames.front().setAllKittiObjectsVisible();
     this->frames.front().setColorOfAllObjects(cv::Scalar(255, 0, 0));
+    Scenery::setupFrame();
 }

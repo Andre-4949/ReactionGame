@@ -10,21 +10,26 @@ Scenery::Scenery(int pNumberOfFrames, int pSequence) : numberOfFrames(pNumberOfF
     checkIfKittiPathIsSet();
 }
 
+double Scenery::getTimeDifference(std::chrono::_V2::system_clock::time_point later, std::chrono::_V2::system_clock::time_point earlier){
+    using namespace std::chrono;
+    double timeDifference = duration_cast<milliseconds>(later - earlier).count();
+    return timeDifference;
+}
+
 void Scenery::saveTime() {
-    double time_in_milliseconds = (int) std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::high_resolution_clock::now() - showingObjTimePoint).count();
-    double time_in_seconds = time_in_milliseconds * 0.001;
-    resultsHandler.addTime(time_in_seconds);
+    auto now = std::chrono::high_resolution_clock::now(); 
+    double clickTime = getTimeDifference(now, showingObjTimePoint) / Constants::SECONDSTOMILLISECONDS;
+    resultsHandler.addTime(clickTime);
 }
 
 void Scenery::savePenaltyTime() {
-    resultsHandler.addTime(5.0);
+    resultsHandler.addTime(penaltyTime);
 }
 
 
-void Scenery::mouseEvents(int event, int x, int y, int flags, void *userdata) {
+// void Scenery::mouseEvents(int event, int x, int y, int flags, void *userdata) {
 
-}
+// }
 
 std::vector<KittiObject> &Scenery::getClickedObjects(int x, int y) {
     return this->frames.front().processClicks(x, y);
@@ -60,23 +65,23 @@ std::string Scenery::generateImgFolderPathString(int sequenceNr){
     return imgPath;
 }
 
-void Scenery::loadFrame(int frameNum, int sequenceNr) {
-    std::string imgPath = generateImagePath(frameNum, sequenceNr);
+void Scenery::loadFrame(int frameNum) {
+    std::string imgPath = generateImagePath(frameNum, sequence);
     if (!std::filesystem::exists(imgPath)) {
         std::cout << "Could not find image at: " << imgPath << std::endl;
         return;
     }
     frameNames.push(imgPath);
     cv::Mat img = cv::imread(imgPath);
-    Frame currentFrame(currentLabels[sequenceNr], img, currentFrameNumber);
+    Frame currentFrame(currentLabels[sequence], img, currentFrameNumber);
     frames.push(currentFrame);
 }
 
 
 void Scenery::loadFrames() {
     if (this->currentLabels.find(this->sequence) == this->currentLabels.end())
-        loadLabels(sequence);
-    loadFrame(currentFrameNumber, sequence);
+        loadLabels();
+    loadFrame(currentFrameNumber);
     currentFrameNumber++;
     if (this->frames.empty()) {
         std::cout << "No frames could have been loaded." << std::endl;
@@ -92,7 +97,7 @@ const std::queue<std::string> &Scenery::getFrameNames() const {
     return frameNames;
 }
 
-void Scenery::loadLabels(int sequence) {
+void Scenery::loadLabels() {
     std::string labelsPath = generateLabelFolderPath(sequence);
     if (!std::filesystem::exists(labelsPath))return;
     currentLabels[sequence] = Label::loadLabelsFromFile(labelsPath);
@@ -119,9 +124,8 @@ void Scenery::waitMilliSeconds(int time, std::function<bool(void)> breakConditio
     auto showFrameStart = std::chrono::high_resolution_clock::now();
     while (1) {
         doWhileWaiting();
-        double timeSinceImgShown = (int) std::chrono::duration_cast<std::chrono::milliseconds>(
-                std::chrono::high_resolution_clock::now() - showFrameStart).count();
-
+        auto now = std::chrono::high_resolution_clock::now();
+        double timeSinceImgShown = getTimeDifference(now, showFrameStart);
         if (timeSinceImgShown >= time)break;
         if (breakCondition()) break;
         if (cv::pollKey() == 27) {
@@ -183,29 +187,17 @@ void Scenery::drawDistToCorrectBox(int x, int y, KittiObject correctObj) {
 }
 
 void Scenery::update() {
-    if (checkAllFramesShown()) return;
+    if (checkAllFramesShown() || frames.empty()) return;
     setupFrame();
-    render();
-    if (frames.empty())return;
-    this->frames.front().chooseRandomObject();
-
-
-    makeRandomObjVisible();
-    render();
-    showingObjTimePoint = std::chrono::high_resolution_clock::now();
-    waitingOnClick = true;
-
-    if (defaultTimeToWaitForOneFrame > 0) {
-        waitMilliSeconds(defaultTimeToWaitForOneFrame, [this]() { return !this->waitingOnClick; }, [this](){this->doWhileWaitingOnClick();});
-    }
+    waitMilliSeconds(defaultTimeToWaitForOneFrame, 
+        [this]() { return !this->waitingOnClick; }, 
+        [this]() {this->doWhileWaitingOnClick();}
+    );
     if (waitingOnClick) {
         savePenaltyTime();
     }
-
-    if (frames.size() > 0)
-        this->frames.pop();
-    if (frameNames.size() > 0)
-        this->frameNames.pop();
+    this->frames.pop();
+    this->frameNames.pop();
 }
 
 void Scenery::checkIfKittiPathIsSet() {
@@ -244,7 +236,12 @@ std::string Scenery::generateLabelFolderPath(int sequence) {
 }
 
 void Scenery::setupFrame(){
-    //keep empty, as method is not overidden in every child class
+    render();
+    this->frames.front().chooseRandomObject();
+    makeRandomObjVisible();
+    render();
+    showingObjTimePoint = std::chrono::high_resolution_clock::now();
+    waitingOnClick = true;
 }
 
 std::string Scenery::generateImagePath(int frameNum, int sequenceNum) {

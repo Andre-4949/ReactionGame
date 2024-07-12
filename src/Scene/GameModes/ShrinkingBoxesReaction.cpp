@@ -16,7 +16,7 @@ void setCopyAsNewImg(Frame& frame){
 
 void ShrinkingBoxesReaction::doWhileWaitingOnClick() {
     auto now = std::chrono::high_resolution_clock::now();
-    double currentTimeDiff = getTimeDifference(now, lastShrinkedTimePoint);
+    double currentTimeDiff = Scenery::getTimeDifference(now, lastShrinkedTimePoint);
     if (currentTimeDiff > (double) (Constants::SECONDSTOMILLISECONDS * shrinkingTimeDiff)) {
         lastShrinkedTimePoint = std::chrono::high_resolution_clock::now();
         Frame &currentFrame = frames.front();
