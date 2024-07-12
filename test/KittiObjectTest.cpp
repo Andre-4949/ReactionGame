@@ -15,7 +15,7 @@ protected:
 };
 
 TEST_F(KittiObjectTest, KittiObjectConstructor) {
-    ASSERT_TRUE(kittiObject.getLabel().getBoundingBox().equals(label.getBoundingBox()));
+    ASSERT_TRUE(kittiObject.getLabel().getBoundingBox() == label.getBoundingBox());
     ASSERT_TRUE(kittiObject.getLabel().getMFrame() == label.getMFrame());
     ASSERT_TRUE(kittiObject.getLabel().getMType() == label.getMType());
 }

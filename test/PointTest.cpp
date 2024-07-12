@@ -22,11 +22,11 @@ TEST_F(PointTest, PointGetterSetterTest) {
 }
 
 TEST_F(PointTest, PointEqualsTest) {
-    EXPECT_EQ(point.equals(point), true);
+    ASSERT_TRUE(point == point);
 }
 TEST_F(PointTest, PointMoveTest) {
     point.move(10,10);
-    EXPECT_EQ(point.equals(point1),true);
+    ASSERT_TRUE(point == point1);
 }
 
 TEST_F(PointTest, PointCVPointConversion) {

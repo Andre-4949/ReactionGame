@@ -19,17 +19,17 @@ protected:
 
 
 TEST_F(GTBoundingBoxTest, GTBoundingBoxConstructor) {
-    ASSERT_TRUE(box.getTopLeft().equals(helper::Point(0,0)));
-    ASSERT_TRUE(box.getBottomRight().equals(helper::Point(10,10)));
-    ASSERT_TRUE(box.equals(box1));
-    ASSERT_TRUE(box.equals(GTBoundingBox(rect)));
+    ASSERT_TRUE(box.getTopLeft() == helper::Point(0,0));
+    ASSERT_TRUE(box.getBottomRight() == helper::Point(10,10));
+    ASSERT_TRUE(box == box1);
+    ASSERT_TRUE(box == GTBoundingBox(rect));
 }
 
 TEST_F(GTBoundingBoxTest, GTBoundingBoxMoveTest){
     box.moveTopLeft(10,10);
-    ASSERT_TRUE(box.getTopLeft().equals(helper::Point(10,10)));
+    ASSERT_TRUE(box.getTopLeft() == helper::Point(10,10));
     box.moveBottomRight(-10,-10);
-    ASSERT_TRUE(box.getBottomRight().equals(helper::Point(0,0)));
+    ASSERT_TRUE(box.getBottomRight() == helper::Point(0,0));
 }
 
 TEST_F(GTBoundingBoxTest, GTBoundingBoxVisibleTest){
@@ -46,7 +46,7 @@ TEST_F(GTBoundingBoxTest, GTBoundingBoxColorTest){
 }
 
 TEST_F(GTBoundingBoxTest, GTBoundingBoxCenterTest){
-    ASSERT_TRUE(calculateCenter().equals(box.getCenter()));
+    ASSERT_TRUE(calculateCenter() == box.getCenter());
 }
 
 TEST_F(GTBoundingBoxTest, GTBoundingBoxGetClickedTest){
