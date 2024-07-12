@@ -13,7 +13,7 @@ void ColorChangeReaction::onPlayerMissedClick(int x, int y){
     Frame currentFrame = frames.front();
     KittiObject randomObj = currentFrame.getRandomlySelectedObject();
     savePenaltyTime();
-    showClickedPoint(x, y, cv::Scalar(0, 0, 255));
+    showClickedPoint(x, y, Constants::RED);
     drawDistToCorrectBox(x, clickedPoint.getY(), randomObj);
     render();
     Scenery::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
@@ -21,7 +21,7 @@ void ColorChangeReaction::onPlayerMissedClick(int x, int y){
 
 void ColorChangeReaction::onPlayerClickedCorrect(int x, int y){
     saveTime();
-    showClickedPoint(x, y, cv::Scalar(0, 255, 0));
+    showClickedPoint(x, y, Constants::GREEN);
     render();
     Scenery::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
 }
@@ -32,7 +32,7 @@ void ColorChangeReaction::processSpaceBarInput() {
     waitingOnInput = false;
     Frame currentFrame = frames.front();
     KittiObject randomObj = currentFrame.getRandomlySelectedObject();
-    randomObj.setColor(cv::Scalar(255,0,0));
+    randomObj.setColor(Constants::BLUE);
     evaluateInput(selectedObjs, clickedPoint.getX(), clickedPoint.getY());
 }
 
@@ -58,12 +58,12 @@ void ColorChangeReaction::makeRandomObjVisible() {
                                                                   2 * Constants::SECONDSTOMILLISECONDS);
     int random_milliseconds = dist(rng);
     Scenery::waitMilliSeconds(random_milliseconds);
-    frames.front().getBoundingBoxOfRandomObject().setColor(cv::Scalar(0, 0, 255));
+    frames.front().getBoundingBoxOfRandomObject().setColor(Constants::RED);
 }
 
 
 void ColorChangeReaction::setupFrame() {
     this->frames.front().setAllKittiObjectsVisible();
-    this->frames.front().setColorOfAllObjects(cv::Scalar(255, 0, 0));
+    this->frames.front().setColorOfAllObjects(Constants::BLUE);
     Scenery::setupFrame();
 }

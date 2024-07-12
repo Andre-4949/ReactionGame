@@ -12,7 +12,7 @@ DirectClickReaction::~DirectClickReaction() {
 
 void DirectClickReaction::onPlayerClickedCorrect(int x, int y){
     saveTime();
-    Scenery::showClickedPoint(x, y, cv::Scalar(0, 255, 0));
+    Scenery::showClickedPoint(x, y, Constants::GREEN);
     render();
     Scenery::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
 }
@@ -21,7 +21,7 @@ void DirectClickReaction::onPlayerMissedClick(int x, int y){
     Frame currentFrame = frames.front();
     KittiObject randomObj = currentFrame.getRandomlySelectedObject();
     savePenaltyTime();
-    Scenery::showClickedPoint(x, y, cv::Scalar(0, 0, 255));
+    Scenery::showClickedPoint(x, y, Constants::RED);
     Scenery::drawDistToCorrectBox(x, y, randomObj);
     render();
     Scenery::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
