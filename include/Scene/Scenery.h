@@ -23,7 +23,7 @@ protected:
     ResultsHandler resultsHandler;
     static inline int currentFrameNumber = 0;
     std::chrono::_V2::system_clock::time_point showingObjTimePoint;
-    bool waitingOnClick = false;
+    bool waitingOnInput = false;
     double penaltyTime = 5.0;
 public:
 
@@ -70,7 +70,7 @@ public:
 
     void drawDistToCorrectBox(int x, int y, KittiObject correctObj);
 
-    virtual void doWhileWaitingOnClick();
+    virtual void doWhileWaitingOnInput();
 
     static std::string generateImgFolderPathString(int sequenceNr);
 

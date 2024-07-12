@@ -27,8 +27,8 @@ void ColorChangeReaction::onPlayerClickedCorrect(int x, int y){
 }
 
 void ColorChangeReaction::processSpaceBarInput() {
-    if (frames.empty() || !waitingOnClick)return;
-    waitingOnClick = false;
+    if (frames.empty() || !waitingOnInput)return;
+    waitingOnInput = false;
     Frame currentFrame = frames.front();
     KittiObject randomObj = currentFrame.getRandomlySelectedObject();
     randomObj.setColor(cv::Scalar(255,0,0));
@@ -53,7 +53,7 @@ void ColorChangeReaction::processClicks(int x, int y) {
     clickedPoint.setY(y);
     if ((char) cv::waitKey(3 * Constants::SECONDSTOMILLISECONDS) == ' ') {
         processSpaceBarInput();
-        waitingOnClick = false;
+        waitingOnInput = false;
     }
 }
 

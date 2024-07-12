@@ -29,10 +29,10 @@ void DirectClickReaction::onPlayerMissedClick(int x, int y){
 
 
 void DirectClickReaction::processClicks(int x, int y) {
-    if (frames.empty() || !waitingOnClick)return;
+    if (frames.empty() || !waitingOnInput)return;
     Frame currentFrame = frames.front();
     KittiObject randomObj = currentFrame.getRandomlySelectedObject();
-    waitingOnClick = false;
+    waitingOnInput = false;
     std::vector<KittiObject> clickedObjs = this->getClickedObjects(x, y);
     if (clickedObjs.empty()) {
         onPlayerMissedClick(x, y);

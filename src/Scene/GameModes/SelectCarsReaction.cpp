@@ -9,7 +9,7 @@ SelectCarsReaction::SelectCarsReaction(int pNumberOfFrames, int pSequence) : Col
 }
 
 void SelectCarsReaction::processClicks(int x, int y) {
-    if (frames.empty() || !waitingOnClick) return;
+    if (frames.empty() || !waitingOnInput) return;
     std::vector<KittiObject> &selectedObjs = this->getClickedObjects(x, y);
     paintSolution(selectedObjs, x, y);
     ++this->sequence %= 20;
@@ -25,7 +25,7 @@ void SelectCarsReaction::makeRandomObjVisible() {
 void SelectCarsReaction::showSolution() {
     render();
     waitMilliSeconds(1.5 * Constants::SECONDSTOMILLISECONDS);
-    waitingOnClick = false;
+    waitingOnInput = false;
 }
 
 void SelectCarsReaction::paintSolution(std::vector<KittiObject> selectedObjs, int clickedX, int clickedY) {

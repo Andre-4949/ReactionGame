@@ -190,10 +190,10 @@ void Scenery::update() {
     if (checkAllFramesShown() || frames.empty()) return;
     setupFrame();
     waitMilliSeconds(defaultTimeToWaitForOneFrame, 
-        [this]() { return !this->waitingOnClick; }, 
-        [this]() {this->doWhileWaitingOnClick();}
+        [this]() { return !this->waitingOnInput; },
+        [this]() { this->doWhileWaitingOnInput();}
     );
-    if (waitingOnClick) {
+    if (waitingOnInput) {
         savePenaltyTime();
     }
     this->frames.pop();
@@ -220,7 +220,7 @@ void Scenery::checkIfKittiPathIsSet() {
 }
 
 
-void Scenery::doWhileWaitingOnClick(){
+void Scenery::doWhileWaitingOnInput(){
     //keep empty, as method is not overridden in every child class
 }
 
@@ -241,7 +241,7 @@ void Scenery::setupFrame(){
     makeRandomObjVisible();
     render();
     showingObjTimePoint = std::chrono::high_resolution_clock::now();
-    waitingOnClick = true;
+    waitingOnInput = true;
 }
 
 std::string Scenery::generateImagePath(int frameNum, int sequenceNum) {

@@ -17,7 +17,7 @@ private:
 public:
     ShrinkingBoxesReaction(int pNumberOfFrames, int pSequence);
 
-    virtual void doWhileWaitingOnClick() override;
+    virtual void doWhileWaitingOnInput() override;
 
     void makeRandomObjVisible() override;
 
