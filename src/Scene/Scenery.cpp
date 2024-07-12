@@ -4,21 +4,16 @@
 #include <functional>
 #include <stdlib.h>
 #include "cstdlib"
+#include "../../include/HelperClasses/Utils.h"
 #include <filesystem>
 
 Scenery::Scenery(int pNumberOfFrames, int pSequence) : numberOfFrames(pNumberOfFrames), sequence(pSequence) {
-    checkIfKittiPathIsSet();
-}
-
-double Scenery::getTimeDifference(std::chrono::_V2::system_clock::time_point later, std::chrono::_V2::system_clock::time_point earlier){
-    using namespace std::chrono;
-    double timeDifference = duration_cast<milliseconds>(later - earlier).count();
-    return timeDifference;
+    Util::environmentalVar::checkIfKittiPathIsSet();
 }
 
 void Scenery::saveTime() {
     auto now = std::chrono::high_resolution_clock::now(); 
-    double clickTime = getTimeDifference(now, showingObjTimePoint) / Constants::SECONDSTOMILLISECONDS;
+    double clickTime = Util::timing::getTimeDifference(now, showingObjTimePoint) / Constants::SECONDSTOMILLISECONDS;
     resultsHandler.addTime(clickTime);
 }
 
@@ -48,25 +43,8 @@ const ResultsHandler &Scenery::getResultsHandler() const {
     return resultsHandler;
 }
 
-std::string
-addStringUntilWidthIsReached(std::string originalStr, std::string stringToAppendOrInsert, int maxWidth) {
-    while (originalStr.length() < maxWidth) {
-        originalStr.insert(0, stringToAppendOrInsert);
-    }
-    return originalStr;
-}
-
-std::string Scenery::generateImgFolderPathString(int sequenceNr){
-    std::string folderPath = std::getenv("KITTI_PATH");
-    std::string imgPath = folderPath + R"(\data_tracking_image_2\training\image_02\)";
-    std::string sequenceStr = std::to_string(sequenceNr);
-    sequenceStr = addStringUntilWidthIsReached(sequenceStr, "0", 4);
-    imgPath += sequenceStr;
-    return imgPath;
-}
-
 void Scenery::loadFrame(int frameNum) {
-    std::string imgPath = generateImagePath(frameNum, sequence);
+    std::string imgPath = Util::fileUtil::generateImagePath(frameNum, sequence);
     if (!std::filesystem::exists(imgPath)) {
         std::cout << "Could not find image at: " << imgPath << std::endl;
         return;
@@ -98,7 +76,7 @@ const std::queue<std::string> &Scenery::getFrameNames() const {
 }
 
 void Scenery::loadLabels() {
-    std::string labelsPath = generateLabelFolderPath(sequence);
+    std::string labelsPath = Util::fileUtil::generateLabelFolderPath(sequence);
     if (!std::filesystem::exists(labelsPath))return;
     currentLabels[sequence] = Label::loadLabelsFromFile(labelsPath);
     if (currentLabels.empty()) {
@@ -118,21 +96,6 @@ bool Scenery::checkAllFramesShown() {
         return true;
     }
     return false;
-}
-
-void Scenery::waitMilliSeconds(int time, std::function<bool(void)> breakCondition, std::function<void()> doWhileWaiting) {
-    auto showFrameStart = std::chrono::high_resolution_clock::now();
-    while (1) {
-        doWhileWaiting();
-        auto now = std::chrono::high_resolution_clock::now();
-        double timeSinceImgShown = getTimeDifference(now, showFrameStart);
-        if (timeSinceImgShown >= time)break;
-        if (breakCondition()) break;
-        if (cv::pollKey() == 27) {
-            Game::session.setGameSessionRunning(false);
-            break;
-        };
-    }
 }
 
 void Scenery::showClickedPoint(int x, int y, cv::Scalar color) {
@@ -188,8 +151,14 @@ void Scenery::drawDistToCorrectBox(int x, int y, KittiObject correctObj) {
 
 void Scenery::update() {
     if (checkAllFramesShown() || frames.empty()) return;
+    if (this->frames.front().getObjects().empty()){
+        std::cout << "frame skipped, because no object was found that matches given labelfilter." << std::endl;
+        frames.pop();
+        frameNames.pop();
+        return;
+    }
     setupFrame();
-    waitMilliSeconds(defaultTimeToWaitForOneFrame, 
+    Util::timing::waitMilliSeconds(defaultTimeToWaitForOneFrame,
         [this]() { return !this->waitingOnInput; },
         [this]() { this->doWhileWaitingOnInput();}
     );
@@ -200,39 +169,8 @@ void Scenery::update() {
     this->frameNames.pop();
 }
 
-void Scenery::checkIfKittiPathIsSet() {
-    if (std::getenv("KITTI_PATH"))return;
-    std::cout << "This programm needs the KITTI images to operate as intended. "
-                 "Please download the KITTI image collection and add an environmental variable named "
-                 "KITTI_PATH to the folder containing \\data_tracking_image_2 as well as"
-                 " \\data_tracking_label_2." << std::endl;
-#ifdef _WIN32
-    std::cout << "Windows detected" << std::endl;
-    std::cout << "Do you want to open the menu to edit environmental variables? [y|n]" << std::endl;
-    char answer;
-    std::cin >> answer;
-    if (answer != 'y')return;
-    system("\"C:\\Windows\\system32\\rundll32.exe\" sysdm.cpl,EditEnvironmentVariables");
-    std::cout << "Restart your computer once the environmental variables have been set." << std::endl;
-    system("pause");
-#endif
-    exit(0);
-}
-
-
 void Scenery::doWhileWaitingOnInput(){
     //keep empty, as method is not overridden in every child class
-}
-
-std::string Scenery::generateLabelFolderPath(int sequence) {
-    checkIfKittiPathIsSet();
-    std::string folderPath = std::getenv("KITTI_PATH");
-    std::string labelsPath = folderPath + R"(\data_tracking_label_2\training\label_02\)";
-    std::string sequenceStr = std::to_string(sequence);
-    std::string labelsFileName = sequenceStr;
-    labelsFileName = addStringUntilWidthIsReached(labelsFileName, "0", 4) + ".txt";
-    labelsPath += labelsFileName;
-    return labelsPath;
 }
 
 void Scenery::setupFrame(){
@@ -242,13 +180,6 @@ void Scenery::setupFrame(){
     render();
     showingObjTimePoint = std::chrono::high_resolution_clock::now();
     waitingOnInput = true;
-}
-
-std::string Scenery::generateImagePath(int frameNum, int sequenceNum) {
-    std::string imgFileName = std::to_string(frameNum);
-    imgFileName = addStringUntilWidthIsReached(imgFileName, "0", 6) + ".png";
-    std::string imgFolderPath = generateImgFolderPathString(sequenceNum);
-    return imgFolderPath + "\\" + imgFileName;
 }
 
 void Scenery::evaluateInput(std::vector<KittiObject> &objects, int x, int y){

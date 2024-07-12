@@ -1,9 +1,46 @@
 #include "../../include/PreGameControlling/Game.h"
 #include "../../include/PreGameControlling/Menu.h"
 
+
 void Game::start() {
+    if(argc==5){
+        parseGameSession();
+    } else {
+        setupGameSession();
+    }
+    Game::session.loop();
+    Menu::printResults(Game::session.getScene()->getResultsHandler());
+}
+
+Game::Game(int argc, char* argv[]) {
+    this->argc = argc;
+    for (int i = 0; i < argc; ++i) {
+        this->argv.emplace_back(argv[i]);
+    }
+}
+
+void Game::setupGameSession() {
     Menu menu;
     Game::session = menu.getOptions();
-    Game::session.loop();
-    menu.printResults(Game::session.getScene()->getResultsHandler());
+}
+
+void Game::parseGameSession() {
+    std::string name = argv[1];
+    std::string gamemodeAsStr = argv[2];
+    std::string sequenceAsStr = argv[3];
+    std::string frameNumAsStr = argv[4];
+    int gamemode=0, sequence=0, frameNum=0;
+    try {
+        gamemode = std::stoi(gamemodeAsStr);
+        sequence = std::stoi(sequenceAsStr);
+        frameNum = std::stoi(frameNumAsStr);
+    }catch (std::invalid_argument::exception e){
+        std::cout << "\n\n\n" << std::endl;
+        std::cout << e.what() << std::endl;
+        std::cout << "Provided Arguments couldn't be parsed." << std::endl;
+        exit(0);
+    }
+    Scenery* scene = Menu::getGameModeByUserInput(gamemode,frameNum,sequence);
+    GameSession session(scene, name);
+    Game::session = session;
 }

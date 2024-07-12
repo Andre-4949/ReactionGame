@@ -1,9 +1,10 @@
 #include "gtest/gtest.h"
 #include "../include/Scene/Scenery.h"
+#include "../include/HelperClasses/Utils.h"
 
 class KittiObjectTest : public ::testing::Test {
 protected:
-    std::string path = Scenery::generateLabelFolderPath(0);
+    std::string path = Util::fileUtil::generateLabelFolderPath(0);
     Label label = Label();
     KittiObject kittiObject = KittiObject();
 

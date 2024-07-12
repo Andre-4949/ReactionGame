@@ -1,12 +1,14 @@
 #include <ctime>
 #include <chrono>
 #include <opencv2/highgui/highgui.hpp>
+#include <utility>
 #include <opencv2/highgui/highgui_c.h>
 
 #include "../../include/PreGameControlling/GameSession.h"
 #include "../../include/PreGameControlling/Game.h"
+#include "../../include/Scene/GameModes/DirectClickReaction.h"
 
-GameSession::GameSession(Scenery *pScene, std::string pName) : scene(pScene), name(pName) {
+GameSession::GameSession(Scenery *pScene, std::string pName) : scene(pScene), name(std::move(pName)) {
     cv::namedWindow(this->windowName, 1);
 }
 

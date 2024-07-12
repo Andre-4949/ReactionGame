@@ -1,5 +1,6 @@
 #include "../../../include/Scene/GameModes/DirectClickReaction.h"
 #include "../../../include/PreGameControlling/Game.h"
+#include "../../../include/HelperClasses/Utils.h"
 
 DirectClickReaction::DirectClickReaction(int pNumberOfFrames, int pSequence) :
         Scenery(pNumberOfFrames, pSequence) {
@@ -14,7 +15,7 @@ void DirectClickReaction::onPlayerClickedCorrect(int x, int y){
     saveTime();
     Scenery::showClickedPoint(x, y, cv::Scalar(0, 255, 0));
     render();
-    Scenery::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
+    Util::timing::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
 }
 
 void DirectClickReaction::onPlayerMissedClick(int x, int y){
@@ -24,7 +25,7 @@ void DirectClickReaction::onPlayerMissedClick(int x, int y){
     Scenery::showClickedPoint(x, y, cv::Scalar(0, 0, 255));
     Scenery::drawDistToCorrectBox(x, y, randomObj);
     render();
-    Scenery::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
+    Util::timing::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
 }
 
 
@@ -40,6 +41,6 @@ void DirectClickReaction::processClicks(int x, int y) {
 }
 
 void DirectClickReaction::makeRandomObjVisible() {
-    Scenery::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 2);
+    Util::timing::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 2);
     frames.front().getBoundingBoxOfRandomObject().setVisible(true);
 }

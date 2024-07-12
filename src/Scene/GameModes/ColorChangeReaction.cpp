@@ -1,4 +1,5 @@
 #include "../../../include/Scene/GameModes/ColorChangeReaction.h"
+#include "../../../include/HelperClasses/Utils.h"
 #include <random>
 
 
@@ -16,14 +17,14 @@ void ColorChangeReaction::onPlayerMissedClick(int x, int y){
     showClickedPoint(x, y, cv::Scalar(0, 0, 255));
     drawDistToCorrectBox(x, clickedPoint.getY(), randomObj);
     render();
-    Scenery::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
+    Util::timing::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
 }
 
 void ColorChangeReaction::onPlayerClickedCorrect(int x, int y){
     saveTime();
     showClickedPoint(x, y, cv::Scalar(0, 255, 0));
     render();
-    Scenery::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
+    Util::timing::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
 }
 
 void ColorChangeReaction::processSpaceBarInput() {
@@ -57,7 +58,7 @@ void ColorChangeReaction::makeRandomObjVisible() {
     std::uniform_int_distribution<std::mt19937::result_type> dist(1 * Constants::SECONDSTOMILLISECONDS,
                                                                   2 * Constants::SECONDSTOMILLISECONDS);
     int random_milliseconds = dist(rng);
-    Scenery::waitMilliSeconds(random_milliseconds);
+    Util::timing::waitMilliSeconds(random_milliseconds);
     frames.front().getBoundingBoxOfRandomObject().setColor(cv::Scalar(0, 0, 255));
 }
 

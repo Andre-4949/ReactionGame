@@ -1,5 +1,6 @@
 
 #include "../../../include/Scene/GameModes/SelectCarsReaction.h"
+#include "../../../include/HelperClasses/Utils.h"
 
 SelectCarsReaction::SelectCarsReaction(int pNumberOfFrames, int pSequence) : ColorChangeReaction(pNumberOfFrames,
                                                                                                  pSequence) {
@@ -24,7 +25,7 @@ void SelectCarsReaction::makeRandomObjVisible() {
 
 void SelectCarsReaction::showSolution() {
     render();
-    waitMilliSeconds(1.5 * Constants::SECONDSTOMILLISECONDS);
+    Util::timing::waitMilliSeconds(1.5 * Constants::SECONDSTOMILLISECONDS);
     waitingOnInput = false;
 }
 

@@ -1,5 +1,5 @@
 #include "GameSession.h"
-#include <String>
+#include <string>
 
 #ifndef REACTIONGAME_MENU_H
 #define REACTIONGAME_MENU_H
@@ -14,14 +14,18 @@ private:
 
     std::string getStringInput();
 
-    int numOfSequences = 21;
-
     int numOfGamemodes = 5;
 
 public:
+
+    static inline const int numOfSequences = 21;
+
     GameSession getOptions();
 
-    void printResults(ResultsHandler resultsHandler);
+    static Scenery* getGameModeByUserInput(int gamemodeNum, int numberOfFrames, int sequence);
+
+    static void printResults(ResultsHandler resultsHandler);
+
 };
 
 

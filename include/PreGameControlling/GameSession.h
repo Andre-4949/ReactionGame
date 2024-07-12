@@ -8,7 +8,7 @@
 class GameSession {
 private:
     bool gameSessionRunning = true;
-    Scenery *scene;
+    Scenery *scene = nullptr;
     std::string name;
     std::string windowName = "ReactionGame";
 public:

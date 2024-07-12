@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 #include "../include/Scene/Scenery.h"
 #include "../include/Scene/GameModes/DirectClickReaction.h"
+#include "../include/HelperClasses/Utils.h"
 
 /**
  * Known objects in Frames/Sequence:
@@ -15,9 +16,9 @@ protected:
     Frame frame;
 
     Frame getFrame(int sequence, int frameNum) {
-        std::string labelsPath = Scenery::generateLabelFolderPath(sequence);
+        std::string labelsPath = Util::fileUtil::generateLabelFolderPath(sequence);
         std::vector<Label> labels = Label::loadLabelsFromFile(labelsPath);
-        std::string imagePath = Scenery::generateImagePath(frameNum, sequence);
+        std::string imagePath = Util::fileUtil::generateImagePath(frameNum, sequence);
         return {labels, cv::imread(imagePath), frameNum};
     }
 

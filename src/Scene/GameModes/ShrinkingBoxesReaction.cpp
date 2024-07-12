@@ -1,4 +1,5 @@
 #include "../../../include/Scene/GameModes/ShrinkingBoxesReaction.h"
+#include "../../../include/HelperClasses/Utils.h"
 
 ShrinkingBoxesReaction::ShrinkingBoxesReaction(int pNumberOfFrames, int pSequence) : DirectClickReaction(
         pNumberOfFrames, pSequence) {
@@ -17,7 +18,7 @@ void setCopyAsNewImg(Frame& frame){
 void ShrinkingBoxesReaction::doWhileWaitingOnInput() {
     //calculate time since last shrinking tick --> decide if its time again
     auto now = std::chrono::high_resolution_clock::now();
-    double currentTimeDiff = Scenery::getTimeDifference(now, lastShrinkedTimePoint);
+    double currentTimeDiff = Util::timing::getTimeDifference(now, lastShrinkedTimePoint);
     if (currentTimeDiff > (double) (Constants::SECONDSTOMILLISECONDS * shrinkingTimeDiff)) {
         Frame &currentFrame = frames.front();
         GTBoundingBox &boundingBoxOfRandomObj = currentFrame.getBoundingBoxOfRandomObject();
