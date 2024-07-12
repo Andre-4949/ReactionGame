@@ -21,7 +21,8 @@ bool isIntInputValid(int input, int max){
 }
 
 void printOptionsOutput(inputType t, int maxValue){
-std::vector<std::string> outputByInputType = 
+    //int value of corresponding enum --> index of vector
+    std::vector<std::string> outputByInputType = 
     {
         "Welche Bildsequenz moechtest du durchgehen? (1-" + std::to_string(maxValue) + ")",
         "Wie viele Bilder moechtest du durchgehen? (bis zu " + std::to_string(maxValue) + ")",
@@ -34,6 +35,7 @@ int Menu::getIntInput(inputType t, int maxValue) {
     int input;
     bool regularInput;
     printOptionsOutput(t, maxValue);
+    //is false if user inputs non-int
     if(std::cin >> input){
         if (isIntInputValid(input, maxValue)){
             std::cout << std::endl;
@@ -48,6 +50,7 @@ int Menu::getIntInput(inputType t, int maxValue) {
 
 int getAmountOfFilesInFolder(std::string folderPath){
     auto dirIter = std::filesystem::directory_iterator(folderPath);
+    //iterates over directory with given Path and counts regular files
     int fileCount = std::count_if(
     dirIter,
     {},
@@ -81,12 +84,13 @@ Scenery* getGameModeByUserInput(int input, int numberOfFrames, int sequence){
 
 GameSession Menu::getOptions() {
     std::string playerName = getStringInput();
-    int sequence = getIntInput(tSequence, 21) - 1;
+    // sequence - 1 because it later serves as an index --> minimum is 0
+    int sequence = getIntInput(tSequence, numOfSequences) - 1;
 
     int fileCount = getAmountOfFilesInFolder(Scenery::generateImgFolderPathString(sequence));
 
     int numberOfFrames = getIntInput(tNumberOfFrames, fileCount);
-    int gameMode = getIntInput(tGameMode, 5);
+    int gameMode = getIntInput(tGameMode, numOfGamemodes);
     Scenery *scene;
     scene = getGameModeByUserInput(gameMode, numberOfFrames, sequence);
     GameSession session(scene, playerName);

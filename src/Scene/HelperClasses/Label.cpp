@@ -3,12 +3,14 @@
 Label makeLabelFromLine(std::string line){
     std::istringstream ss(line);
 
+    //make vars for every feature in a line
     int frame, trackId, truncated, occluded;
     float alpha, bboxLeft, bboxTop, bboxRight, bboxBottom;
     float height, width, length;
     float locationX, locationY, locationZ, rotationY;
     std::string type;
 
+    //read one line and set all vars
     ss >> frame >> trackId >> type >> truncated >> occluded >> alpha >> bboxLeft >> bboxTop >> bboxRight
      >> bboxBottom >> height >> width >> length >> locationX >> locationY >> locationZ >> rotationY;
     
@@ -16,7 +18,7 @@ Label makeLabelFromLine(std::string line){
         std::cerr << "Error reading line: " << line << std::endl;
         return Label();
     }
-    
+    //make bounding-box out of parsed bbox-coordinates
     GTBoundingBox bbox(static_cast<int>(bboxLeft), static_cast<int>(bboxTop),
    static_cast<int>(bboxRight - bboxLeft), static_cast<int>(bboxBottom - bboxTop));
 
@@ -32,6 +34,7 @@ std::vector<Label> Label::loadLabelsFromFile(const std::string &filename) {
     }
     std::string line;
     Label currLabel;
+    //iterate over every line and make a label for each one
     while (std::getline(file, line)) {
         currLabel = makeLabelFromLine(line);
         labels.push_back(currLabel);

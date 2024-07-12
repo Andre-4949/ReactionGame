@@ -85,6 +85,8 @@ public:
     static std::string generateImagePath(int frameNum, int sequenceNum);
 
     double getTimeDifference(std::chrono::_V2::system_clock::time_point later, std::chrono::_V2::system_clock::time_point earlier);
+
+    virtual void evaluateInput(std::vector<KittiObject> &objects, int x, int y);
 };
 
 

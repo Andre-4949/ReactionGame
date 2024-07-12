@@ -15,20 +15,22 @@ void setCopyAsNewImg(Frame& frame){
 
 
 void ShrinkingBoxesReaction::doWhileWaitingOnInput() {
+    //calculate time since last shrinking tick --> decide if its time again
     auto now = std::chrono::high_resolution_clock::now();
     double currentTimeDiff = Scenery::getTimeDifference(now, lastShrinkedTimePoint);
     if (currentTimeDiff > (double) (Constants::SECONDSTOMILLISECONDS * shrinkingTimeDiff)) {
-        lastShrinkedTimePoint = std::chrono::high_resolution_clock::now();
         Frame &currentFrame = frames.front();
         GTBoundingBox &boundingBoxOfRandomObj = currentFrame.getBoundingBoxOfRandomObject();
-        currentFrame.getBoundingBoxOfRandomObject().moveTopLeft(this->deltaX, this->deltaY);
-        currentFrame.getBoundingBoxOfRandomObject().moveBottomRight(-this->deltaX, -this->deltaY);
+        boundingBoxOfRandomObj.moveTopLeft(this->deltaX, this->deltaY);
+        boundingBoxOfRandomObj.moveBottomRight(-(this->deltaX), -(this->deltaY));
         currentFrame.setAllKittiObjectsInvisible();
         setCopyAsNewImg(currentFrame);
-        currentFrame.getBoundingBoxOfRandomObject().setVisible(true);
+        boundingBoxOfRandomObj.setVisible(true);
         render();
+        lastShrinkedTimePoint = std::chrono::high_resolution_clock::now();
     }
 }
+
 
 void ShrinkingBoxesReaction::calcDeltaX(){
     double tempDeltaX;
@@ -38,6 +40,7 @@ void ShrinkingBoxesReaction::calcDeltaX(){
     this->deltaX = (int) tempDeltaX;
 }
 
+
 void ShrinkingBoxesReaction::calcDeltaY(){
     double tempDeltaY;
     tempDeltaY = initialRandomObjBottomRight.getY() - initialRandomObjTopLeft.getY();
@@ -45,6 +48,7 @@ void ShrinkingBoxesReaction::calcDeltaY(){
     tempDeltaY /= 2 * ((double)defaultTimeToWaitForOneFrame / Constants::SECONDSTOMILLISECONDS);
     this->deltaY = (int)tempDeltaY;
 }
+
 
 void ShrinkingBoxesReaction::makeRandomObjVisible() {
     DirectClickReaction::makeRandomObjVisible();

@@ -11,7 +11,7 @@ SelectCarsReaction::SelectCarsReaction(int pNumberOfFrames, int pSequence) : Col
 void SelectCarsReaction::processClicks(int x, int y) {
     if (frames.empty() || !waitingOnInput) return;
     std::vector<KittiObject> &selectedObjs = this->getClickedObjects(x, y);
-    paintSolution(selectedObjs, x, y);
+    evaluateInput(selectedObjs, x, y);
     ++this->sequence %= 20;
     showSolution();
 }
@@ -28,11 +28,11 @@ void SelectCarsReaction::showSolution() {
     waitingOnInput = false;
 }
 
-void SelectCarsReaction::paintSolution(std::vector<KittiObject> selectedObjs, int clickedX, int clickedY) {
-    if (selectedObjs.empty() || selectedObjs.back().getLabel().getMType() != Labeltypes::CAR) {
-        SelectCarsReaction::onPlayerMissedClick(clickedX, clickedY);
+void SelectCarsReaction::evaluateInput(std::vector<KittiObject> &objects, int x, int y) {
+    if (objects.empty() || objects.back().getLabel().getMType() != Labeltypes::CAR) {
+        SelectCarsReaction::onPlayerMissedClick(x, y);
     } else {
-        SelectCarsReaction::onPlayerClickedCorrect(clickedX, clickedY);
+        SelectCarsReaction::onPlayerClickedCorrect(x, y);
     }
 
 }
@@ -48,13 +48,15 @@ void SelectCarsReaction::onPlayerMissedClick(int x, int y) {
 
 void SelectCarsReaction::onPlayerClickedCorrect(int x, int y) {
     saveTime();
-
     showClickedPoint(x, y, cv::Scalar(0, 255, 0));
     if(frames.empty()) return;
-    this->frames.front().colorObjectsOfType(Labeltypes::CAR, cv::Scalar(0, 255, 255));
+    Frame &currentFrame = this->frames.front();
+    //color all cars yellow
+    currentFrame.colorObjectsOfType(Labeltypes::CAR, cv::Scalar(0, 255, 255));
     std::vector<KittiObject> &selectedObjs = this->getClickedObjects(x, y);
+    //color clicked car green
     KittiObject carToPaint = selectedObjs.back();
-    for (KittiObject &item: this->frames.front().getObjects()) {
+    for (KittiObject &item: currentFrame.getObjects()) {
         if (item == carToPaint) {
             item.setColor(0, 255, 0);
             break;

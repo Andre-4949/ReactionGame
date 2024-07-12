@@ -250,3 +250,24 @@ std::string Scenery::generateImagePath(int frameNum, int sequenceNum) {
     std::string imgFolderPath = generateImgFolderPathString(sequenceNum);
     return imgFolderPath + "\\" + imgFileName;
 }
+
+void Scenery::evaluateInput(std::vector<KittiObject> &objects, int x, int y){
+    Frame currentFrame = frames.front();
+    KittiObject randomObj = currentFrame.getRandomlySelectedObject();
+    
+     //missed every object
+    if (objects.empty()) {
+        onPlayerMissedClick(x, y);
+        return;
+    }
+    KittiObject clickedObj = objects.back();
+    //clicked correct object
+    if (clickedObj == randomObj) {
+        onPlayerClickedCorrect(x, y);
+    }
+    //clicked wrong object
+    else{
+        onPlayerMissedClick(x, y);
+    }
+    objects.clear();
+}

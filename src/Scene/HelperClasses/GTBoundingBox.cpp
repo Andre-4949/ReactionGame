@@ -9,7 +9,7 @@ bool GTBoundingBox::getClicked(int x, int y) {
 
 void GTBoundingBox::render() {
     if (!this->isVisible)return;
-    cv::Mat img = Game::session.getScene()->getFrames().front().getImg();
+    cv::Mat img = Game::session.getCurrentImage();
     cv::rectangle(img, topLeft.toCvPoint(), bottomRight.toCvPoint(), color, 2);
 }
 

@@ -29,21 +29,14 @@ void DirectClickReaction::onPlayerMissedClick(int x, int y){
 
 
 void DirectClickReaction::processClicks(int x, int y) {
+    //skip over function if user already clicked
     if (frames.empty() || !waitingOnInput)return;
     Frame currentFrame = frames.front();
     KittiObject randomObj = currentFrame.getRandomlySelectedObject();
     waitingOnInput = false;
     std::vector<KittiObject> clickedObjs = this->getClickedObjects(x, y);
-    if (clickedObjs.empty()) {
-        onPlayerMissedClick(x, y);
-        return;
-    }
-    KittiObject clickedObj = clickedObjs.back();
-    if (clickedObj == randomObj) {
-        onPlayerClickedCorrect(x, y);
-    }else{
-        onPlayerMissedClick(x, y);
-    }
+    evaluateInput(clickedObjs, x, y);
+
 }
 
 void DirectClickReaction::makeRandomObjVisible() {

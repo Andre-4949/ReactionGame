@@ -10,23 +10,26 @@ GameSession::GameSession(Scenery *pScene, std::string pName) : scene(pScene), na
     cv::namedWindow(this->windowName, 1);
 }
 
+//gets called every mouse click, move or scroll --> extract leftclicks
 void mouseCallbackAdapter(int event, int x, int y, int flags, void *userdata) {
     Game::session.mouseEvents(event, x, y, flags, userdata);
 }
 
 void GameSession::loop() {
+    //Game Window setup
     cv::setWindowProperty(this->windowName, cv::WindowPropertyFlags::WND_PROP_FULLSCREEN,
                           cv::WindowPropertyFlags::WND_PROP_FULLSCREEN);
     cv::setMouseCallback(this->windowName, mouseCallbackAdapter, nullptr);
-
     scene->loadLabels();
     scene->loadFrames();
+    //main game-loop
     while (this->gameSessionRunning) {
         update();
         if (cv::pollKey() == 27)this->gameSessionRunning = false;
     }
 }
 
+//render call gets passed through all the way to each bounding-box
 void GameSession::render() {
     scene->render();
     if (this->scene->getFrames().size() > 0) {
@@ -51,6 +54,10 @@ Scenery *GameSession::getScene() {
 
 const std::string &GameSession::getWindowName() const {
     return windowName;
+}
+
+const cv::Mat& GameSession::getCurrentImage() const{
+    return scene->getFrames().front().getImg();
 }
 
 void GameSession::setGameSessionRunning(bool gameSessionRunning) {

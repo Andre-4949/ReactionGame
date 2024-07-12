@@ -14,13 +14,13 @@ public:
 
     void showSolution();
 
-    void paintSolution(std::vector<KittiObject> selectedObjs, int clickedX, int clickedY);
-
     void onPlayerMissedClick(int x, int y) override;
 
     void onPlayerClickedCorrect(int x, int y) override;
 
     void paintPlayerClickedCar(std::vector<KittiObject> selectedObjs);
+
+    void evaluateInput(std::vector<KittiObject> &objects, int x, int y);
 };
 
 

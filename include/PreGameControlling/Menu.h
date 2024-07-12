@@ -14,6 +14,10 @@ private:
 
     std::string getStringInput();
 
+    int numOfSequences = 21;
+
+    int numOfGamemodes = 5;
+
 public:
     GameSession getOptions();
 
