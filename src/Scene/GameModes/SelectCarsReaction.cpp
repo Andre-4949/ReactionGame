@@ -39,21 +39,22 @@ void SelectCarsReaction::evaluateInput(std::vector<KittiObject> &objects, int x,
 }
 
 void SelectCarsReaction::onPlayerMissedClick(int x, int y) {
+    Frame &currentFrame = this->frames.front();
     savePenaltyTime();
-    showClickedPoint(x, y, cv::Scalar(0, 0, 255));
-    for(KittiObject obj: this->frames.front().getObjectsOfType(Labeltypes::CAR)){
+    showClickedPoint(x, y, Constants::RED);
+    for(KittiObject obj: currentFrame.getObjectsOfType(Labeltypes::CAR)){
         drawDistToCorrectBox(x, y, obj);
     }
-    this->frames.front().colorObjectsOfType(Labeltypes::CAR, cv::Scalar(0, 0, 255));
+    currentFrame.colorObjectsOfType(Labeltypes::CAR, Constants::RED);
 }
 
 void SelectCarsReaction::onPlayerClickedCorrect(int x, int y) {
     saveTime();
-    showClickedPoint(x, y, cv::Scalar(0, 255, 0));
+    showClickedPoint(x, y, Constants::GREEN);
     if(frames.empty()) return;
     Frame &currentFrame = this->frames.front();
     //color all cars yellow
-    currentFrame.colorObjectsOfType(Labeltypes::CAR, cv::Scalar(0, 255, 255));
+    currentFrame.colorObjectsOfType(Labeltypes::CAR, Constants::YELLOW);
     std::vector<KittiObject> &selectedObjs = this->getClickedObjects(x, y);
     //color clicked car green
     KittiObject carToPaint = selectedObjs.back();

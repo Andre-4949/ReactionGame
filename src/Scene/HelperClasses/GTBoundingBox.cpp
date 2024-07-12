@@ -4,12 +4,13 @@
 #include "../../../include/PreGameControlling/Game.h"
 
 bool GTBoundingBox::getClicked(int x, int y) {
-    return this->topLeft.getX() < x && this->topLeft.getY() < y && this->bottomRight.getX() > x && this->bottomRight.getY() > y;
+    return this->topLeft.getX() <= x && this->topLeft.getY() <= y && this->bottomRight.getX() >= x && this->bottomRight.getY() >= y;
 }
 
 void GTBoundingBox::render() {
     if (!this->isVisible)return;
-    cv::Mat img = Game::session.getCurrentImage();
+    // cv::Mat img = Game::session.getCurrentImage();
+    cv::Mat img = Game::session.getScene()->getFrames().front().getImg();
     cv::rectangle(img, topLeft.toCvPoint(), bottomRight.toCvPoint(), color, 2);
 }
 

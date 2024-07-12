@@ -1,5 +1,4 @@
 #include "../../../include/Scene/GameModes/ColorChangeReaction.h"
-#include "../../../include/HelperClasses/Utils.h"
 #include <random>
 
 
@@ -14,7 +13,7 @@ void ColorChangeReaction::onPlayerMissedClick(int x, int y){
     Frame currentFrame = frames.front();
     KittiObject randomObj = currentFrame.getRandomlySelectedObject();
     savePenaltyTime();
-    showClickedPoint(x, y, cv::Scalar(0, 0, 255));
+    showClickedPoint(x, y, Constants::RED);
     drawDistToCorrectBox(x, clickedPoint.getY(), randomObj);
     render();
     Util::timing::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
@@ -22,7 +21,7 @@ void ColorChangeReaction::onPlayerMissedClick(int x, int y){
 
 void ColorChangeReaction::onPlayerClickedCorrect(int x, int y){
     saveTime();
-    showClickedPoint(x, y, cv::Scalar(0, 255, 0));
+    showClickedPoint(x, y, Constants::GREEN);
     render();
     Util::timing::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
 }
@@ -33,7 +32,7 @@ void ColorChangeReaction::processSpaceBarInput() {
     waitingOnInput = false;
     Frame currentFrame = frames.front();
     KittiObject randomObj = currentFrame.getRandomlySelectedObject();
-    randomObj.setColor(cv::Scalar(255,0,0));
+    randomObj.setColor(Constants::BLUE);
     evaluateInput(selectedObjs, clickedPoint.getX(), clickedPoint.getY());
 }
 
@@ -65,6 +64,6 @@ void ColorChangeReaction::makeRandomObjVisible() {
 
 void ColorChangeReaction::setupFrame() {
     this->frames.front().setAllKittiObjectsVisible();
-    this->frames.front().setColorOfAllObjects(cv::Scalar(255, 0, 0));
+    this->frames.front().setColorOfAllObjects(Constants::BLUE);
     Scenery::setupFrame();
 }

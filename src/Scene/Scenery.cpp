@@ -146,7 +146,7 @@ void Scenery::drawDistToCorrectBox(int x, int y, KittiObject correctObj) {
             interSectionPoint = getHorizontalIntersectionPoint(slope, yIntercept, -correctBox.getBottomRight().getY());
         }
     }
-    cv::line(img, helper::Point(x, -y).toCvPoint(), interSectionPoint.toCvPoint(), cv::Scalar(0, 0, 255), 2);
+    cv::line(img, helper::Point(x, -y).toCvPoint(), interSectionPoint.toCvPoint(), Constants::RED, 2);
 }
 
 void Scenery::update() {

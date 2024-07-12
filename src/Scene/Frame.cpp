@@ -95,8 +95,10 @@ void Frame::setLabelFilter(const std::unordered_set<std::string> &labelFilter) {
 }
 
 void Frame::colorObjectsOfType(std::string type, cv::Scalar color) {
-    for ( auto &item: this->getObjectsOfType(type)){
-        item.setColor(color);
+    for (int i = 0; i < this->objects.size(); ++i) {
+        if (objects[i].getLabel().getMType() == type) {
+            objects[i].setColor(color);
+        }
     }
 }
 
