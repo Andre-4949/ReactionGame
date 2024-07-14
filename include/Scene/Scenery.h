@@ -26,53 +26,55 @@ protected:
     bool waitingOnInput = false;
     double penaltyTime = 5.0;
 public:
-
+    //neccesities
     Scenery(int pNumberOfFrames, int pSequence);
-
-    virtual void processClicks(int x, int y) = 0;
 
     virtual void update();
 
     void render();
 
-    std::vector<KittiObject> &getClickedObjects(int x, int y);
-
-    void saveTime();
-
-    void savePenaltyTime();
-
-    const ResultsHandler &getResultsHandler() const;
-
+    //frame-handling
     void loadFrames();
-
-
-    const std::queue<Frame> &getFrames() const;
 
     void loadFrame(int frameNum);
 
-    const std::queue<std::string> &getFrameNames() const;
+    bool checkAllFramesShown();
+
+    virtual void setupFrame();
 
     virtual void loadLabels();
 
-    int getSequence() const;
+    //input-handling
+    virtual void processClicks(int x, int y) = 0;
 
-    bool checkAllFramesShown();
+    std::vector<KittiObject> &getClickedObjects(int x, int y);
+
+    virtual void evaluateInput(std::vector<KittiObject> &objects, int x, int y);
+
+    //drawing
+    virtual void onPlayerMissedClick(int x, int y);
+
+    virtual void onPlayerClickedCorrect(int x, int y);
 
     virtual void makeRandomObjVisible() = 0;
-
-    virtual void setupFrame();
 
     void showClickedPoint(int x, int y, cv::Scalar color);
 
     void drawDistToCorrectBox(int x, int y, KittiObject correctObj);
 
+    // other stuff 
     virtual void doWhileWaitingOnInput();
 
-    virtual void onPlayerMissedClick(int x, int y) = 0;
+    void saveTime(double time = -1.0);
 
-    virtual void onPlayerClickedCorrect(int x, int y) = 0;
+    //getters
+    int getSequence() const;
 
-    virtual void evaluateInput(std::vector<KittiObject> &objects, int x, int y);
+    const std::queue<Frame> &getFrames() const;
+
+    const std::queue<std::string> &getFrameNames() const;
+
+    const ResultsHandler &getResultsHandler() const;
 };
 
 

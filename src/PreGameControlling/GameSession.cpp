@@ -22,7 +22,6 @@ void GameSession::loop() {
     cv::setWindowProperty(this->windowName, cv::WindowPropertyFlags::WND_PROP_FULLSCREEN,
                           cv::WindowPropertyFlags::WND_PROP_FULLSCREEN);
     cv::setMouseCallback(this->windowName, mouseCallbackAdapter, nullptr);
-    scene->loadLabels();
     scene->loadFrames();
     //main game-loop
     while (this->gameSessionRunning) {

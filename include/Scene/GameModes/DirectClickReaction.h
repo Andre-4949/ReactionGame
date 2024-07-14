@@ -10,15 +10,9 @@ public:
 
     void processClicks(int x, int y) override;
 
-    // void update() override;
-
     virtual void makeRandomObjVisible() override;
 
     ~DirectClickReaction();
-
-    virtual void onPlayerClickedCorrect(int x, int y) override;
-
-    virtual void onPlayerMissedClick(int x, int y) override;
 
 };
 

@@ -30,3 +30,7 @@ KittiObject::KittiObject() = default;
 bool KittiObject::operator==(KittiObject &other) {
     return label.getBoundingBox() == other.getLabel().getBoundingBox();
 }
+
+bool KittiObject::operator!=(KittiObject &other) {
+    return !(*this == other);
+}

@@ -22,6 +22,8 @@ public:
     Label &getLabel();
 
     bool operator==(KittiObject &other);
+
+    bool operator!=(KittiObject &other);
 };
 
 

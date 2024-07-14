@@ -11,20 +11,15 @@ Scenery::Scenery(int pNumberOfFrames, int pSequence) : numberOfFrames(pNumberOfF
     Util::environmentalVar::checkIfKittiPathIsSet();
 }
 
-void Scenery::saveTime() {
+void Scenery::saveTime(double time) {
+    if(time >= 0.0){
+        resultsHandler.addTime(time);
+        return;
+    }
     auto now = std::chrono::high_resolution_clock::now(); 
     double clickTime = Util::timing::getTimeDifference(now, showingObjTimePoint) / Constants::SECONDSTOMILLISECONDS;
     resultsHandler.addTime(clickTime);
 }
-
-void Scenery::savePenaltyTime() {
-    resultsHandler.addTime(penaltyTime);
-}
-
-
-// void Scenery::mouseEvents(int event, int x, int y, int flags, void *userdata) {
-
-// }
 
 std::vector<KittiObject> &Scenery::getClickedObjects(int x, int y) {
     return this->frames.front().processClicks(x, y);
@@ -34,7 +29,7 @@ void Scenery::render() {
     if (this->frames.empty())return;
     this->frames.front().render();
     if (this->getFrames().size() > 0) {
-        cv::imshow(Game::session.getWindowName(), this->getFrames().front().getImg());
+        cv::imshow(Game::session.getWindowName(), Game::session.getCurrentImage());
     }
     cv::waitKey(1);
 }
@@ -90,8 +85,8 @@ int Scenery::getSequence() const {
 }
 
 bool Scenery::checkAllFramesShown() {
-    //+3 due to preloaded frames
-    if (currentFrameNumber >= numberOfFrames + 3) {
+    //+2: +3 due to preloaded frames, -1 due to currentFrameNumber being an index and therefore starting at 0
+    if (currentFrameNumber >= numberOfFrames + 2) {
         Game::session.setGameSessionRunning(false);
         return true;
     }
@@ -155,6 +150,9 @@ void Scenery::update() {
         std::cout << "frame skipped, because no object was found that matches given labelfilter." << std::endl;
         frames.pop();
         frameNames.pop();
+
+        //increase numberOfFrames to account for skipped frame
+        numberOfFrames++;
         return;
     }
     setupFrame();
@@ -163,14 +161,14 @@ void Scenery::update() {
         [this]() { this->doWhileWaitingOnInput();}
     );
     if (waitingOnInput) {
-        savePenaltyTime();
+        saveTime(penaltyTime);
     }
     this->frames.pop();
     this->frameNames.pop();
 }
 
 void Scenery::doWhileWaitingOnInput(){
-    //keep empty, as method is not overridden in every child class
+    //keep empty implementation, as method is not overridden in every child class
 }
 
 void Scenery::setupFrame(){
@@ -186,19 +184,31 @@ void Scenery::evaluateInput(std::vector<KittiObject> &objects, int x, int y){
     Frame currentFrame = frames.front();
     KittiObject randomObj = currentFrame.getRandomlySelectedObject();
     
-     //missed every object
-    if (objects.empty()) {
+    //missed every object or clicked wrong object 
+    if (objects.empty() || objects.back() != randomObj) {
         onPlayerMissedClick(x, y);
-        return;
     }
-    KittiObject clickedObj = objects.back();
     //clicked correct object
-    if (clickedObj == randomObj) {
+    else{
         onPlayerClickedCorrect(x, y);
     }
-    //clicked wrong object
-    else{
-        onPlayerMissedClick(x, y);
-    }
+    render();
+    Util::timing::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
     objects.clear();
+}
+
+void Scenery::onPlayerClickedCorrect(int x, int y){
+    saveTime();
+    Frame &currentFrame = frames.front();
+    KittiObject &randomObj = currentFrame.getRandomlySelectedObject();
+    Scenery::showClickedPoint(x, y, Constants::GREEN);
+    randomObj.setColor(Constants::GREEN);
+}
+
+void Scenery::onPlayerMissedClick(int x, int y){
+    saveTime(penaltyTime);
+    Frame currentFrame = frames.front();
+    KittiObject randomObj = currentFrame.getRandomlySelectedObject();
+    Scenery::showClickedPoint(x, y, Constants::RED);
+    Scenery::drawDistToCorrectBox(x, y, randomObj);
 }

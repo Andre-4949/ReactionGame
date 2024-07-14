@@ -3,9 +3,12 @@
 
 
 void Game::start() {
+    //Set up game with programm parameters if all are specified
     if(argc==5){
         parseGameSession();
-    } else {
+    }
+    //Otherwise get them through user command line inputs
+    else {
         setupGameSession();
     }
     Game::session.loop();

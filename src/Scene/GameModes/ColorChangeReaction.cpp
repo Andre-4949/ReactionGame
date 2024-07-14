@@ -10,25 +10,8 @@ ColorChangeReaction::ColorChangeReaction(int pNumberOfFrames, int pSequence) : S
 ColorChangeReaction::~ColorChangeReaction() {
 }
 
-void ColorChangeReaction::onPlayerMissedClick(int x, int y){
-    Frame currentFrame = frames.front();
-    KittiObject randomObj = currentFrame.getRandomlySelectedObject();
-    savePenaltyTime();
-    showClickedPoint(x, y, Constants::RED);
-    drawDistToCorrectBox(x, clickedPoint.getY(), randomObj);
-    render();
-    Util::timing::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
-}
-
-void ColorChangeReaction::onPlayerClickedCorrect(int x, int y){
-    saveTime();
-    showClickedPoint(x, y, Constants::GREEN);
-    render();
-    Util::timing::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
-}
-
 void ColorChangeReaction::processSpaceBarInput() {
-    //skip over function if user already clicked and pressed spacebar
+    //skip over function if user already clicked and pressed spacebar  --> !waitingOnInput
     if (frames.empty() || !waitingOnInput)return;
     waitingOnInput = false;
     Frame currentFrame = frames.front();
@@ -52,7 +35,7 @@ void ColorChangeReaction::processClicks(int x, int y) {
 
 
 void ColorChangeReaction::makeRandomObjVisible() {
-    //wait random time 1-2 seconds before drawin box around chosen object
+    //wait random time between 1-2 seconds before drawing box around chosen object
     std::random_device device;
     std::mt19937 rng(device());
     std::uniform_int_distribution<std::mt19937::result_type> dist(1 * Constants::SECONDSTOMILLISECONDS,

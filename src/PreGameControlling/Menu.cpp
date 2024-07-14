@@ -69,7 +69,7 @@ Scenery *Menu::getGameModeByUserInput(int gamemodeNum, int numberOfFrames, int s
             scene = new ShrinkingBoxesReaction(numberOfFrames, sequence);
             break;
         default:
-            std::cout << "No gamemode could be chosen by the given inputs. Try to use values between 1 and 5." << std::endl;
+            // std::cout << "No gamemode could be chosen by the given inputs. Try to use values between 1 and 5." << std::endl;
             exit(0);
             break;
     }
@@ -78,11 +78,10 @@ Scenery *Menu::getGameModeByUserInput(int gamemodeNum, int numberOfFrames, int s
 
 GameSession Menu::getOptions() {
     std::string playerName = getStringInput();
-    // sequence - 1 because it later serves as an index --> minimum is 0
+
+    // sequence - 1, since it later serves as an index --> minimum is 0
     int sequence = getIntInput(tSequence, numOfSequences) - 1;
-
     int fileCount = Util::fileUtil::getAmountOfFilesInFolder(Util::fileUtil::generateImgFolderPathString(sequence));
-
     int numberOfFrames = getIntInput(tNumberOfFrames, fileCount);
     int gameMode = getIntInput(tGameMode, numOfGamemodes);
     Scenery *scene = Menu::getGameModeByUserInput(gameMode, numberOfFrames, sequence);
