@@ -30,7 +30,7 @@ public:
 
     void setWindowName(const std::string &windowName);
 
-    const cv::Mat &getCurrentImage() const;
+    const cv::Mat &getCurrentImg() const;
 
     void setCurrentImage(const cv::Mat &currentImage);
 

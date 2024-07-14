@@ -1,8 +1,8 @@
-#include "GameSession.h"
-#include <string>
-
 #ifndef REACTIONGAME_MENU_H
 #define REACTIONGAME_MENU_H
+
+#include "GameSession.h"
+#include <string>
 
 enum inputType {
     tSequence, tNumberOfFrames, tGameMode

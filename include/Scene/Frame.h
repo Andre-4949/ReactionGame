@@ -44,7 +44,7 @@ public:
 
     const cv::Mat &getImg() const;
 
-    const cv::Mat &getOrigImg() const;
+    const cv::Mat &getOriginalImg() const;
 
     const std::unordered_set<std::string> &getLabelFilter() const;
 

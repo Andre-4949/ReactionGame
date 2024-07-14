@@ -25,6 +25,8 @@ public:
     
     void calcDeltaY();
 
+    void setCopyAsNewImg(Frame& frame);
+
 };
 
 #endif //REACTIONGAME_SHRINKINGBOXESREACTION_H

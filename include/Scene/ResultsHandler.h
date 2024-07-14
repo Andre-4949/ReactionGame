@@ -1,8 +1,8 @@
-#include <vector>
-#include <string>
-
 #ifndef REACTIONGAME_RESULTSHANDLER_H
 #define REACTIONGAME_RESULTSHANDLER_H
+
+#include <vector>
+#include <string>
 
 class ResultsHandler {
     std::vector<double> times;

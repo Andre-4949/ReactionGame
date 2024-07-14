@@ -1,8 +1,7 @@
-#include "../Scenery.h"
-
 #ifndef REACTIONGAME_COLORCHANGEREACTION_H
 #define REACTIONGAME_COLORCHANGEREACTION_H
 
+#include "../Scenery.h"
 
 class ColorChangeReaction : public Scenery {
 private:

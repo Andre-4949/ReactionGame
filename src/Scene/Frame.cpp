@@ -1,5 +1,6 @@
 #include <random>
 #include "../../include/Scene/Frame.h"
+#include "../../include/PreGameControlling/Game.h"
 
 void Frame::render() {
     for (KittiObject &item: this->objects) {
@@ -54,6 +55,7 @@ void Frame::setObjects(const std::vector<KittiObject> &objects) {
 }
 
 Frame::Frame(std::vector<Label> labels, cv::Mat img, int frameNumber) {
+
     img.copyTo(origImg);
     for (Label &item: labels) {
         if (item.getMFrame() == frameNumber && Frame::labelFilter.find(item.getMType()) != Frame::labelFilter.end()) {
@@ -62,6 +64,7 @@ Frame::Frame(std::vector<Label> labels, cv::Mat img, int frameNumber) {
         }
     }
     this->img = img;
+
 }
 
 void Frame::setImg(const cv::Mat &img) {
@@ -72,7 +75,7 @@ const cv::Mat &Frame::getImg() const {
     return img;
 }
 
-const cv::Mat &Frame::getOrigImg() const {
+const cv::Mat &Frame::getOriginalImg() const {
     return origImg;
 }
 

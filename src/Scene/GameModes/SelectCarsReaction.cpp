@@ -25,30 +25,34 @@ void SelectCarsReaction::makeRandomObjVisible() {
 void SelectCarsReaction::evaluateInput(std::vector<KittiObject> &objects, int x, int y) {
     // missed every object or clicked object isn't a car
     if (objects.empty() || objects.back().getLabel().getMType() != Labeltypes::CAR) {
-        SelectCarsReaction::onPlayerMissedClick(x, y);
-    } else {
-        SelectCarsReaction::onPlayerClickedCorrect(x, y);
+        saveTime(penaltyTime);
+        drawPlayerMissedClick(x, y);
+    } 
+    //clicked correct object
+    else {
+        saveTime();
+        drawPlayerClickedCorrect(x, y);
     }
     render();
     Util::timing::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
     objects.clear();
 }
 
-void SelectCarsReaction::onPlayerMissedClick(int x, int y) {
+void SelectCarsReaction::drawPlayerMissedClick(int x, int y) {
     Frame &currentFrame = this->frames.front();
-    saveTime(penaltyTime);
-    showClickedPoint(x, y, Constants::RED);
+    drawHandler.drawClickedPoint(x, y, Constants::RED);
+
+    //draw distance to every box that would've been correct and make them red
     for(KittiObject obj: currentFrame.getObjectsOfType(Labeltypes::CAR)){
-        drawDistToCorrectBox(x, y, obj);
+        GTBoundingBox box = obj.getLabel().getBoundingBox();
+        drawHandler.drawDistToCorrectBox(x, y, box);
     }
     currentFrame.colorObjectsOfType(Labeltypes::CAR, Constants::RED);
 }
 
-void SelectCarsReaction::onPlayerClickedCorrect(int x, int y) {
-    saveTime();
-    showClickedPoint(x, y, Constants::GREEN);
-    if(frames.empty()) return;
+void SelectCarsReaction::drawPlayerClickedCorrect(int x, int y) {
     Frame &currentFrame = this->frames.front();
+    drawHandler.drawClickedPoint(x, y, Constants::GREEN);
 
     //color all cars yellow
     currentFrame.colorObjectsOfType(Labeltypes::CAR, Constants::YELLOW);

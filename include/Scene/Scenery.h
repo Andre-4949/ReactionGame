@@ -1,11 +1,11 @@
 #ifndef REACTIONGAME_SCENERY_H
 #define REACTIONGAME_SCENERY_H
 
-
 #include <vector>
 #include "Frame.h"
 #include "KittiObject.h"
 #include "ResultsHandler.h"
+#include "DrawHandler.h"
 #include "queue"
 #include "HelperClasses/Constants.h"
 
@@ -21,6 +21,7 @@ protected:
     std::queue<Frame> frames = {};
     std::unordered_map<int, std::vector<Label>> currentLabels = {};
     ResultsHandler resultsHandler;
+    DrawHandler drawHandler;
     static inline int currentFrameNumber = 0;
     std::chrono::_V2::system_clock::time_point showingObjTimePoint;
     bool waitingOnInput = false;
@@ -32,6 +33,8 @@ public:
     virtual void update();
 
     void render();
+
+    virtual void makeRandomObjVisible() = 0;
 
     //frame-handling
     void loadFrames();
@@ -51,17 +54,6 @@ public:
 
     virtual void evaluateInput(std::vector<KittiObject> &objects, int x, int y);
 
-    //drawing
-    virtual void onPlayerMissedClick(int x, int y);
-
-    virtual void onPlayerClickedCorrect(int x, int y);
-
-    virtual void makeRandomObjVisible() = 0;
-
-    void showClickedPoint(int x, int y, cv::Scalar color);
-
-    void drawDistToCorrectBox(int x, int y, KittiObject correctObj);
-
     // other stuff 
     virtual void doWhileWaitingOnInput();
 
@@ -75,6 +67,7 @@ public:
     const std::queue<std::string> &getFrameNames() const;
 
     const ResultsHandler &getResultsHandler() const;
+
 };
 
 

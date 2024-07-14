@@ -1,8 +1,7 @@
-#include "../Scenery.h"
-
 #ifndef REACTIONGAME_DIRECTCLICKREACTION_H
 #define REACTIONGAME_DIRECTCLICKREACTION_H
 
+#include "../Scenery.h"
 
 class DirectClickReaction : public Scenery {
 public:

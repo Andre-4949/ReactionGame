@@ -1,8 +1,7 @@
-#include "GameSession.h"
-
 #ifndef REACTIONGAME_GAME_H
 #define REACTIONGAME_GAME_H
 
+#include "GameSession.h"
 
 class Game {
     int argc;

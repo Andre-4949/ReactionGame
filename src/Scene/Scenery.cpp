@@ -29,7 +29,7 @@ void Scenery::render() {
     if (this->frames.empty())return;
     this->frames.front().render();
     if (this->getFrames().size() > 0) {
-        cv::imshow(Game::session.getWindowName(), Game::session.getCurrentImage());
+        cv::imshow(Game::session.getWindowName(), Game::session.getCurrentImg());
     }
     cv::waitKey(1);
 }
@@ -38,12 +38,14 @@ const ResultsHandler &Scenery::getResultsHandler() const {
     return resultsHandler;
 }
 
+
 void Scenery::loadFrame(int frameNum) {
     std::string imgPath = Util::fileUtil::generateImagePath(frameNum, sequence);
     if (!std::filesystem::exists(imgPath)) {
         std::cout << "Could not find image at: " << imgPath << std::endl;
         return;
     }
+
     frameNames.push(imgPath);
     cv::Mat img = cv::imread(imgPath);
     Frame currentFrame(currentLabels[sequence], img, currentFrameNumber);
@@ -93,57 +95,6 @@ bool Scenery::checkAllFramesShown() {
     return false;
 }
 
-void Scenery::showClickedPoint(int x, int y, cv::Scalar color) {
-    cv::Mat img = getFrames().front().getImg();
-    helper::Point clickedPoint = helper::Point(x, y);
-    cv::circle(img, clickedPoint.toCvPoint(), 3, color, -1);
-}
-
-helper::Point getVerticalIntersectionPoint(double slope, double yIntercept, int boxX) {
-    int intersectionX = boxX;
-    int intersectionY = -(slope * boxX + yIntercept);
-    return helper::Point(intersectionX, intersectionY);
-}
-
-helper::Point getHorizontalIntersectionPoint(double slope, double yIntercept, int boxY) {
-    int intersectionY = -boxY;
-    int intersectionX = (1 / slope) * (boxY - yIntercept);
-    return helper::Point(intersectionX, intersectionY);
-}
-
-
-void Scenery::drawDistToCorrectBox(int x, int y, KittiObject correctObj) {
-    y *= -1;
-    cv::Mat img = getFrames().front().getImg();
-    helper::Point interSectionPoint;
-    GTBoundingBox correctBox = correctObj.getLabel().getBoundingBox();
-    int boxCenterX = correctBox.getCenter().getX();
-    int boxCenterY = -(correctBox.getCenter().getY());
-    int distX = boxCenterX - x;
-    int distY = boxCenterY - y;
-    double slope = ((distY) / (double) distX);
-    double yIntercept = y - (slope * x);
-    int distBorderX = std::min(abs(x - correctBox.getTopLeft().getX()), abs(x - correctBox.getBottomRight().getX()));
-    int distBorderY = std::min(abs(y+correctBox.getTopLeft().getY()), abs(y+correctBox.getBottomRight().getY()));
-    if(x <= correctBox.getBottomRight().getX() && x >= correctBox.getTopLeft().getX()) distBorderX = 0;
-    if(y >= -correctBox.getBottomRight().getY() && y <= -correctBox.getTopLeft().getY()) distBorderY = 0;
-
-    if (distBorderX > distBorderY) {
-        if (distX > 0) {
-            interSectionPoint = getVerticalIntersectionPoint(slope, yIntercept, correctBox.getTopLeft().getX());
-        } else {
-            interSectionPoint = getVerticalIntersectionPoint(slope, yIntercept, correctBox.getBottomRight().getX());
-        }
-    } else {
-        if (distY < 0) {
-            interSectionPoint = getHorizontalIntersectionPoint(slope, yIntercept, -correctBox.getTopLeft().getY());
-        } else {
-            interSectionPoint = getHorizontalIntersectionPoint(slope, yIntercept, -correctBox.getBottomRight().getY());
-        }
-    }
-    cv::line(img, helper::Point(x, -y).toCvPoint(), interSectionPoint.toCvPoint(), Constants::RED, 2);
-}
-
 void Scenery::update() {
     if (checkAllFramesShown() || frames.empty()) return;
     if (this->frames.front().getObjects().empty()){
@@ -181,34 +132,21 @@ void Scenery::setupFrame(){
 }
 
 void Scenery::evaluateInput(std::vector<KittiObject> &objects, int x, int y){
-    Frame currentFrame = frames.front();
-    KittiObject randomObj = currentFrame.getRandomlySelectedObject();
-    
+    Frame &currentFrame = frames.front();
+    KittiObject &randomObj = currentFrame.getRandomlySelectedObject();
+    drawHandler.setImg(currentFrame.getImg());
+
     //missed every object or clicked wrong object 
     if (objects.empty() || objects.back() != randomObj) {
-        onPlayerMissedClick(x, y);
+        saveTime(penaltyTime);
+        drawHandler.drawPlayerMissedClick(x, y, randomObj);
     }
     //clicked correct object
     else{
-        onPlayerClickedCorrect(x, y);
+        saveTime();
+        drawHandler.drawPlayerClickedCorrect(x, y, randomObj);
     }
     render();
     Util::timing::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
     objects.clear();
-}
-
-void Scenery::onPlayerClickedCorrect(int x, int y){
-    saveTime();
-    Frame &currentFrame = frames.front();
-    KittiObject &randomObj = currentFrame.getRandomlySelectedObject();
-    Scenery::showClickedPoint(x, y, Constants::GREEN);
-    randomObj.setColor(Constants::GREEN);
-}
-
-void Scenery::onPlayerMissedClick(int x, int y){
-    saveTime(penaltyTime);
-    Frame currentFrame = frames.front();
-    KittiObject randomObj = currentFrame.getRandomlySelectedObject();
-    Scenery::showClickedPoint(x, y, Constants::RED);
-    Scenery::drawDistToCorrectBox(x, y, randomObj);
 }

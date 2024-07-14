@@ -57,7 +57,7 @@ const std::string &GameSession::getWindowName() const {
     return windowName;
 }
 
-const cv::Mat& GameSession::getCurrentImage() const{
+const cv::Mat& GameSession::getCurrentImg() const{
     return scene->getFrames().front().getImg();
 }
 

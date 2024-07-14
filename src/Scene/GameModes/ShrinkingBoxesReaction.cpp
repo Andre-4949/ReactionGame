@@ -6,10 +6,12 @@ ShrinkingBoxesReaction::ShrinkingBoxesReaction(int pNumberOfFrames, int pSequenc
     lastShrinkedTimePoint = std::chrono::high_resolution_clock::now();
 }
 
-void setCopyAsNewImg(Frame& frame){
+void ShrinkingBoxesReaction::setCopyAsNewImg(Frame& frame){
     cv::Mat imgCopy;
-    frame.getOrigImg().copyTo(imgCopy);
+    frame.getOriginalImg().copyTo(imgCopy);
     frame.setImg(imgCopy);
+    drawHandler.setImg(imgCopy);
+    
 }
 
 

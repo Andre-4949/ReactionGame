@@ -42,7 +42,7 @@ void ColorChangeReaction::makeRandomObjVisible() {
                                                                   2 * Constants::SECONDSTOMILLISECONDS);
     int random_milliseconds = dist(rng);
     Util::timing::waitMilliSeconds(random_milliseconds);
-    frames.front().getBoundingBoxOfRandomObject().setColor(cv::Scalar(0, 0, 255));
+    frames.front().getBoundingBoxOfRandomObject().setColor(Constants::RED);
 }
 
 

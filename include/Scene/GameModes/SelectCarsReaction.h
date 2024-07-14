@@ -1,7 +1,6 @@
 #ifndef REACTIONGAME_SELECTCARSREACTION_H
 #define REACTIONGAME_SELECTCARSREACTION_H
 
-
 #include "ColorChangeReaction.h"
 
 class SelectCarsReaction : public ColorChangeReaction {
@@ -14,9 +13,9 @@ public:
 
     void showSolution();
 
-    void onPlayerMissedClick(int x, int y) override;
+    void drawPlayerMissedClick(int x, int y);
 
-    void onPlayerClickedCorrect(int x, int y) override;
+    void drawPlayerClickedCorrect(int x, int y);
 
     void paintPlayerClickedCar(std::vector<KittiObject> selectedObjs);
 
