@@ -14,9 +14,6 @@ void ShrinkingBoxesReaction::setCopyAsNewImg(Frame& frame){
     
 }
 
-
-
-
 void ShrinkingBoxesReaction::doWhileWaitingOnInput() {
     //calculate time since last shrinking tick --> decide if its time to shrink again
     auto now = std::chrono::high_resolution_clock::now();

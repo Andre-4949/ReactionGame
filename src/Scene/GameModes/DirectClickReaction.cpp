@@ -7,13 +7,11 @@ DirectClickReaction::DirectClickReaction(int pNumberOfFrames, int pSequence) :
     Frame::labelFilter = {Labeltypes::CAR};
 }
 
-DirectClickReaction::~DirectClickReaction() {
-
-}
-
 void DirectClickReaction::processClicks(int x, int y) {
+
     //skip over function if user already clicked --> !waitingOnInput
     if (frames.empty() || !waitingOnInput)return;
+    
     Frame currentFrame = frames.front();
     KittiObject randomObj = currentFrame.getRandomlySelectedObject();
     waitingOnInput = false;

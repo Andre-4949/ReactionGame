@@ -11,7 +11,6 @@ class DrawHandler {
     cv::Mat img;
 public:
     DrawHandler();
-    ~DrawHandler();
 
     void drawPlayerMissedClick(int x, int y, KittiObject correctObj);
 
@@ -22,7 +21,6 @@ public:
     void drawDistToCorrectBox(int x, int y, GTBoundingBox correctObj);
 
     void setImg(const cv::Mat &img);
-
 
 };
 

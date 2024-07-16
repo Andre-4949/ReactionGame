@@ -7,12 +7,11 @@ ColorChangeReaction::ColorChangeReaction(int pNumberOfFrames, int pSequence) : S
     Frame::labelFilter = {Labeltypes::CAR};
 }
 
-ColorChangeReaction::~ColorChangeReaction() {
-}
-
 void ColorChangeReaction::processSpaceBarInput() {
+
     //skip over function if user already clicked and pressed spacebar  --> !waitingOnInput
     if (frames.empty() || !waitingOnInput)return;
+
     waitingOnInput = false;
     Frame currentFrame = frames.front();
     KittiObject randomObj = currentFrame.getRandomlySelectedObject();
@@ -26,6 +25,7 @@ void ColorChangeReaction::processClicks(int x, int y) {
     selectedObjs = this->getClickedObjects(x, y);
     clickedPoint.setX(x);
     clickedPoint.setY(y);
+
     //wait 3 seconds for player to confirm input by pressing spacebar
     if ((char) cv::waitKey(3 * Constants::SECONDSTOMILLISECONDS) == ' ') {
         processSpaceBarInput();
@@ -35,6 +35,7 @@ void ColorChangeReaction::processClicks(int x, int y) {
 
 
 void ColorChangeReaction::makeRandomObjVisible() {
+
     //wait random time between 1-2 seconds before drawing box around chosen object
     std::random_device device;
     std::mt19937 rng(device());

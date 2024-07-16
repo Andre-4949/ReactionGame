@@ -46,7 +46,6 @@ void Scenery::loadFrame(int frameNum) {
         return;
     }
 
-    frameNames.push(imgPath);
     cv::Mat img = cv::imread(imgPath);
     Frame currentFrame(currentLabels[sequence], img, currentFrameNumber);
     frames.push(currentFrame);
@@ -68,10 +67,6 @@ const std::queue<Frame> &Scenery::getFrames() const {
     return frames;
 }
 
-const std::queue<std::string> &Scenery::getFrameNames() const {
-    return frameNames;
-}
-
 void Scenery::loadLabels() {
     std::string labelsPath = Util::fileUtil::generateLabelFolderPath(sequence);
     if (!std::filesystem::exists(labelsPath))return;
@@ -80,10 +75,6 @@ void Scenery::loadLabels() {
         std::cout << "Program stops as there are no labels to be found. This could cause the programm to end." << std::endl;
         exit(404);
     }
-}
-
-int Scenery::getSequence() const {
-    return sequence;
 }
 
 bool Scenery::checkAllFramesShown() {
@@ -100,7 +91,6 @@ void Scenery::update() {
     if (this->frames.front().getObjects().empty()){
         std::cout << "frame skipped, because no object was found that matches given labelfilter." << std::endl;
         frames.pop();
-        frameNames.pop();
 
         //increase numberOfFrames to account for skipped frame
         numberOfFrames++;
@@ -116,7 +106,6 @@ void Scenery::update() {
         std::cout << "Schon eingeschlafen? Zu langsam reagiert! (+5 Sekunden Strafe)" << std::endl;
     }
     this->frames.pop();
-    this->frameNames.pop();
 }
 
 void Scenery::doWhileWaitingOnInput(){
@@ -137,19 +126,22 @@ void Scenery::evaluateInput(std::vector<KittiObject> &objects, int x, int y){
     KittiObject &randomObj = currentFrame.getRandomlySelectedObject();
     drawHandler.setImg(currentFrame.getImg());
 
-    //missed every object or clicked wrong object 
-    if (objects.empty() || objects.back() != randomObj) {
-        saveTime(penaltyTime);
-        drawHandler.drawPlayerMissedClick(x, y, randomObj);
-        std::cout << "Das war nicht richtig :/ (+5 Sekunden Strafe)" << std::endl;
-
+    bool correctObjClicked = false;
+    for(KittiObject obj: objects){
+        if(obj == randomObj) correctObjClicked = true;
     }
+
     //clicked correct object
-    else{
+    if(correctObjClicked){
         saveTime();
         drawHandler.drawPlayerClickedCorrect(x, y, randomObj);
         std::cout << "Richtig! (weitere Reaktionszeit gespeichert)" << std::endl;
-
+    }
+    //missed every object or clicked wrong object 
+    else{
+        saveTime(penaltyTime);
+        drawHandler.drawPlayerMissedClick(x, y, randomObj);
+        std::cout << "Das war nicht richtig :/ (+5 Sekunden Strafe)" << std::endl;
     }
     render();
     Util::timing::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);

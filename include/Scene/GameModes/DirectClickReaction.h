@@ -11,8 +11,6 @@ public:
 
     virtual void makeRandomObjVisible() override;
 
-    ~DirectClickReaction();
-
 };
 
 

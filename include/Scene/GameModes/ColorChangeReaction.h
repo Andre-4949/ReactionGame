@@ -18,7 +18,6 @@ public:
 
     void setupFrame() override;
 
-    ~ColorChangeReaction();
 };
 
 

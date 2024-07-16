@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 #include "../include/Scene/Scenery.h"
 #include "../include/HelperClasses/Utils.h"
+#include "../include/Scene/HelperClasses/Constants.h"
 
 class KittiObjectTest : public ::testing::Test {
 protected:
@@ -22,16 +23,16 @@ TEST_F(KittiObjectTest, KittiObjectConstructor) {
 }
 
 TEST_F(KittiObjectTest, KittiObjectColorGetterAndSetter) {
-    cv::Scalar color = cv::Scalar(255, 0, 0);
-    kittiObject.setColor(0, 0, 255);
+    cv::Scalar color = Constants::RED;
+    kittiObject.setColor(Constants::RED);
     ASSERT_TRUE(kittiObject.getLabel().getBoundingBox().getColor() == color);
 
-    color = cv::Scalar(0, 0, 255);
-    kittiObject.setColor(255,0,0);
+    color = Constants::BLUE;
+    kittiObject.setColor(Constants::BLUE);
     ASSERT_TRUE(kittiObject.getLabel().getBoundingBox().getColor() == color);
 
-    color = cv::Scalar(0,255,0);
-    kittiObject.setColor(0,255,0);
+    color = Constants::GREEN;
+    kittiObject.setColor(Constants::GREEN);
     ASSERT_TRUE(kittiObject.getLabel().getBoundingBox().getColor() == color);
 }
 

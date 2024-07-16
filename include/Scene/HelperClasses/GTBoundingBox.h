@@ -23,15 +23,13 @@ public:
 
     bool getClicked(int x, int y);
 
-    const cv::Scalar &getColor() const;
+    const cv::Scalar getColor() const;
 
     void setColor(const cv::Scalar &color);
 
-    bool getIsVisible() const;
-
     void setVisible(bool newVisible);
 
-    helper::Point &getTopLeft();
+    helper::Point getTopLeft();
 
     helper::Point getBottomRight();
 
@@ -40,6 +38,8 @@ public:
     void moveBottomRight(int x, int y);
 
     helper::Point getCenter();
+
+    bool getIsVisible() const;
 
     bool operator==(GTBoundingBox b);
 };

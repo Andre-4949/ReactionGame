@@ -26,7 +26,7 @@ GTBoundingBox::GTBoundingBox(int x, int y, int width, int height) {
 
 }
 
-const cv::Scalar &GTBoundingBox::getColor() const {
+const cv::Scalar GTBoundingBox::getColor() const {
     return color;
 }
 
@@ -42,7 +42,7 @@ void GTBoundingBox::setVisible(bool newVisible) {
     this->isVisible = newVisible;
 }
 
-helper::Point &GTBoundingBox::getTopLeft() {
+helper::Point GTBoundingBox::getTopLeft() {
     return this->topLeft;
 }
 

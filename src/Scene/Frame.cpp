@@ -89,14 +89,6 @@ GTBoundingBox &Frame::getBoundingBoxOfRandomObject() {
     return this->objects[this->indexOfRandomObject].getLabel().getBoundingBox();
 }
 
-const std::unordered_set<std::string> &Frame::getLabelFilter() const {
-    return labelFilter;
-}
-
-void Frame::setLabelFilter(const std::unordered_set<std::string> &labelFilter) {
-    Frame::labelFilter = labelFilter;
-}
-
 void Frame::colorObjectsOfType(std::string type, cv::Scalar color) {
     for (int i = 0; i < this->objects.size(); ++i) {
         if (objects[i].getLabel().getMType() == type) {

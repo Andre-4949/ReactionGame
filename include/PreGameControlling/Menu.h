@@ -17,7 +17,8 @@ private:
     int numOfGamemodes = 5;
 
 public:
-
+    Menu();
+    
     static inline const int numOfSequences = 21;
 
     GameSession getOptions();

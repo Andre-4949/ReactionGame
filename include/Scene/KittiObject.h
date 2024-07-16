@@ -15,8 +15,6 @@ public:
 
     void setColor(const cv::Scalar &color);
 
-    void setColor(int r, int g, int b);
-
     bool processClicks(int x, int y);
 
     Label &getLabel();

@@ -11,10 +11,6 @@ void KittiObject::setColor(const cv::Scalar &color) {
     this->label.getBoundingBox().setColor(color);
 }
 
-void KittiObject::setColor(int r, int g, int b) {
-    this->setColor(cv::Scalar(b, g, r));
-}
-
 bool KittiObject::processClicks(int x, int y) {
     return this->label.getBoundingBox().getClicked(x, y);
 }

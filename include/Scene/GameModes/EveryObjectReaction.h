@@ -6,7 +6,6 @@
 class EveryObjectReaction : public DirectClickReaction {
 public:
     EveryObjectReaction(int pNumberOfFrames, int pSequence);
-
 };
 
 

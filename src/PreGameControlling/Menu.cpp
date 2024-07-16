@@ -7,6 +7,10 @@
 #include "../../include/Scene/GameModes/ShrinkingBoxesReaction.h"
 #include "../../include/HelperClasses/Utils.h"
 
+Menu::Menu(){
+    
+}
+
 std::string Menu::getStringInput() {
     std::string output;
     std::cout << "Spielername eingeben: " << std::endl;

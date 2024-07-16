@@ -9,10 +9,6 @@ DrawHandler::DrawHandler() {
 
 };
 
-DrawHandler::~DrawHandler() {
-
-};
-
 void DrawHandler::drawPlayerClickedCorrect(int x, int y, KittiObject &correctObj) {
     drawClickedPoint(x, y, Constants::GREEN);
     correctObj.setColor(Constants::GREEN);

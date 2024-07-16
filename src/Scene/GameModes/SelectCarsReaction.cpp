@@ -23,19 +23,25 @@ void SelectCarsReaction::makeRandomObjVisible() {
 
 
 void SelectCarsReaction::evaluateInput(std::vector<KittiObject> &objects, int x, int y) {
+    Frame &currentFrame = frames.front();
+    drawHandler.setImg(currentFrame.getImg());
+    bool correctObjClicked = false;
+    for(KittiObject obj: objects){
+        if(obj.getLabel().getMType() == Labeltypes::CAR) correctObjClicked = true;
+    }
+    
+    //clicked correct object
+    if(correctObjClicked){
+        saveTime();
+        drawPlayerClickedCorrect(x, y);
+        std::cout << "Richtig! (weitere Reaktionszeit gespeichert)" << std::endl;
+    }
     // missed every object or clicked object isn't a car
-    if (objects.empty() || objects.back().getLabel().getMType() != Labeltypes::CAR) {
+    else{
         saveTime(penaltyTime);
         drawPlayerMissedClick(x, y);
         std::cout << "Das war nicht richtig :/ (+5 Sekunden Strafe)" << std::endl;
     } 
-    //clicked correct object
-    else {
-        saveTime();
-        drawPlayerClickedCorrect(x, y);
-        std::cout << "Richtig! (weitere Reaktionszeit gespeichert)" << std::endl;
-
-    }
     render();
     Util::timing::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
     objects.clear();

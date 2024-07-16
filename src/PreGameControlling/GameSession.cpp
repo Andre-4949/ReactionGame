@@ -18,11 +18,13 @@ void mouseCallbackAdapter(int event, int x, int y, int flags, void *userdata) {
 }
 
 void GameSession::loop() {
+    
     //Game Window setup
     cv::setWindowProperty(this->windowName, cv::WindowPropertyFlags::WND_PROP_FULLSCREEN,
                           cv::WindowPropertyFlags::WND_PROP_FULLSCREEN);
     cv::setMouseCallback(this->windowName, mouseCallbackAdapter, nullptr);
     scene->loadFrames();
+
     //main game-loop
     while (this->gameSessionRunning) {
         update();

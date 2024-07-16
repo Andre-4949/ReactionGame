@@ -34,7 +34,7 @@ public:
 
     std::vector<KittiObject> &getObjects();
 
-    KittiObject& getRandomlySelectedObject() ;
+    KittiObject& getRandomlySelectedObject();
 
     GTBoundingBox &getBoundingBoxOfRandomObject();
 
@@ -45,10 +45,6 @@ public:
     const cv::Mat &getImg() const;
 
     const cv::Mat &getOriginalImg() const;
-
-    const std::unordered_set<std::string> &getLabelFilter() const;
-
-    void setLabelFilter(const std::unordered_set<std::string> &labelFilter);
 
     void colorObjectsOfType(std::string type, cv::Scalar color);
 
