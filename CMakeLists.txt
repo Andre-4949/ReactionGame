@@ -12,7 +12,9 @@ file(GLOB_RECURSE SRC include/*.h include/*.hpp src/*/*.cpp)
 if (NOT "$ENV{OPEN_CV_PATH}" STREQUAL "")
     set(OpenCV_DIR "$ENV{OPEN_CV_PATH}" CACHE INTERNAL "Acquired opencv path from environmental variables")
 else ()
-    message(FATAL_ERROR "opencv has not been found, this build process requires opencv as an essential library. Please edit this CMakeLists.txt file or add the opencv folder to your environmental variables")
+    message(FATAL_ERROR "opencv has not been found, this build process requires opencv as an essential library.
+    Please set the open cv path manually in this CMakeLists.txt under the variable name \"OpenCV_DIR\" or
+    set OPEN_CV_PATH in your environmental variables. The path should end with \"../build/install/\".")
 endif ()
 
 include(FetchContent)

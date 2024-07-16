@@ -4,7 +4,7 @@
 #include "HelperClasses/Constants.h"
 #include "KittiObject.h"
 
-enum relativePosition{left, right, top, bottom};
+enum RelativePosition{left, right, top, bottom};
 
 
 class DrawHandler {
