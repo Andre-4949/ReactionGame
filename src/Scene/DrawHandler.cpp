@@ -6,8 +6,7 @@ RelativePosition determinePointPositionHorizontal(int distCenterX);
 RelativePosition determinePointPositionVertical(int distCenterY);
 
 DrawHandler::DrawHandler() {
-    // cv::Mat img = Game::session.getCurrentImg();
-    // setImg(img);
+
 };
 
 DrawHandler::~DrawHandler() {

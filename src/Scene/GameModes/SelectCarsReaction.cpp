@@ -27,11 +27,14 @@ void SelectCarsReaction::evaluateInput(std::vector<KittiObject> &objects, int x,
     if (objects.empty() || objects.back().getLabel().getMType() != Labeltypes::CAR) {
         saveTime(penaltyTime);
         drawPlayerMissedClick(x, y);
+        std::cout << "Das war nicht richtig :/ (+5 Sekunden Strafe)" << std::endl;
     } 
     //clicked correct object
     else {
         saveTime();
         drawPlayerClickedCorrect(x, y);
+        std::cout << "Richtig! (weitere Reaktionszeit gespeichert)" << std::endl;
+
     }
     render();
     Util::timing::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);

@@ -113,6 +113,7 @@ void Scenery::update() {
     );
     if (waitingOnInput) {
         saveTime(penaltyTime);
+        std::cout << "Schon eingeschlafen? Zu langsam reagiert! (+5 Sekunden Strafe)" << std::endl;
     }
     this->frames.pop();
     this->frameNames.pop();
@@ -140,11 +141,15 @@ void Scenery::evaluateInput(std::vector<KittiObject> &objects, int x, int y){
     if (objects.empty() || objects.back() != randomObj) {
         saveTime(penaltyTime);
         drawHandler.drawPlayerMissedClick(x, y, randomObj);
+        std::cout << "Das war nicht richtig :/ (+5 Sekunden Strafe)" << std::endl;
+
     }
     //clicked correct object
     else{
         saveTime();
         drawHandler.drawPlayerClickedCorrect(x, y, randomObj);
+        std::cout << "Richtig! (weitere Reaktionszeit gespeichert)" << std::endl;
+
     }
     render();
     Util::timing::waitMilliSeconds(Constants::SECONDSTOMILLISECONDS * 1);
