@@ -12,7 +12,7 @@ void Game::start() {
         setupGameSession();
     }
     Game::session.loop();
-    Menu::printResults(Game::session.getScene()->getResultsHandler());
+    Menu::printResults(Game::session.getGameMode()->getResultsHandler());
 }
 
 Game::Game(int argc, char* argv[]) {
@@ -24,7 +24,7 @@ Game::Game(int argc, char* argv[]) {
 
 void Game::setupGameSession() {
     Menu menu;
-    Game::session = menu.getOptions();
+    Game::session = menu.readOptions();
 }
 
 void Game::parseGameSession() {

@@ -7,16 +7,17 @@ class ColorChangeReaction : public GameMode {
 private:
     std::vector<KittiObject> selectedObjs;
     helper::Point clickedPoint;
-public:
-    explicit ColorChangeReaction(int pNumberOfFrames, int pSequence);
 
     void processClicks(int x, int y) override;
 
     void processSpaceBarInput();
 
+    void setupFrame() override;
+
     void makeRandomObjVisible() override;
 
-    void setupFrame() override;
+public:
+    explicit ColorChangeReaction(int pNumberOfFrames, int pSequence);
 };
 
 

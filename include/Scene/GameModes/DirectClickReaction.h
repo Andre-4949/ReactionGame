@@ -4,13 +4,13 @@
 #include "../GameMode.h"
 
 class DirectClickReaction : public GameMode {
+    void processClicks(int x, int y) override;
+
 public:
     explicit DirectClickReaction(int pNumberOfFrames, int pSequence);
 
-    void processClicks(int x, int y) override;
-
     void makeRandomObjVisible() override;
-
+    
 };
 
 

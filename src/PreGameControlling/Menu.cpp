@@ -54,7 +54,7 @@ int Menu::getIntInput(const inputType t,const int maxValue) {
 }
 
 
-GameMode *Menu::getGameModeByUserInput(const int gamemodeNum, const int numberOfFrames, const int sequence) {
+GameMode* Menu::getGameModeByUserInput(const int gamemodeNum, const int numberOfFrames, const int sequence) {
     GameMode *scene;
     switch (gamemodeNum) {
         case 1:
@@ -80,7 +80,7 @@ GameMode *Menu::getGameModeByUserInput(const int gamemodeNum, const int numberOf
     return scene;
 }
 
-GameSession Menu::getOptions() {
+GameSession Menu::readOptions() {
     std::string playerName = getStringInput();
 
     // sequence - 1, since it later serves as an index --> minimum is 0

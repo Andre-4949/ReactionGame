@@ -14,6 +14,7 @@ private:
     std::string m_type;     //Class of the bounding box (e.g. Pedestrian, Car, Cyclist) --> DontCare should be ignored
 
     GTBoundingBox boundingBox;
+
 public:
     Label() : m_frame(0), m_type(""), boundingBox(cv::Rect()) {}
 

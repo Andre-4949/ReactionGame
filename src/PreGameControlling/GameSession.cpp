@@ -51,7 +51,7 @@ void GameSession::mouseEvents(const int event, const int x, const int y, const i
     }
 }
 
-GameMode *GameSession::getScene() {
+GameMode *GameSession::getGameMode() {
     return scene;
 }
 

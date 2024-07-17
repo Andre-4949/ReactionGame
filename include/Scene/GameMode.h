@@ -25,16 +25,10 @@ protected:
     std::chrono::_V2::system_clock::time_point showingObjTimePoint;
     bool waitingOnInput = false;
     double penaltyTime = 5.0;
-public:
-    GameMode(int pNumberOfFrames, int pSequence);
 
-    virtual void update();
 
-    void render();
 
     virtual void makeRandomObjVisible() = 0;
-
-    void loadFrames();
 
     void loadFrame(int frameNum);
 
@@ -44,19 +38,28 @@ public:
 
     virtual void loadLabels();
 
-    virtual void processClicks(int x, int y) = 0;
-
-    std::vector<KittiObject> &getClickedObjects(int x, int y);
-
     virtual void evaluateInput(std::vector<KittiObject> &objects, int x, int y);
 
     virtual void doWhileWaitingOnInput();
 
     void saveTime(double time = -1);
 
-    const std::queue<Frame> &getFrames() const;
+public:
+    GameMode(int pNumberOfFrames, int pSequence);
+
+    virtual void update();
+    
+    void render();
+
+    virtual void processClicks(int x, int y) = 0;
+    
+    void loadFrames();
 
     const ResultsHandler &getResultsHandler() const;
+    
+    const std::queue<Frame> &getFrames() const;
+
+    std::vector<KittiObject> &getClickedObjects(int x, int y);
 
 };
 

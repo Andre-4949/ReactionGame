@@ -13,9 +13,6 @@ private:
     const double shrinkingTimeDiff = 0.25;
     std::chrono::_V2::system_clock::time_point lastShrunkTimePoint;
 
-public:
-    ShrinkingBoxesReaction(int pNumberOfFrames, int pSequence);
-
     void doWhileWaitingOnInput() override;
 
     void makeRandomObjVisible() override;
@@ -25,6 +22,9 @@ public:
     void calcDeltaY();
 
     void setCopyAsNewImg(Frame& frame);
+
+public:
+    ShrinkingBoxesReaction(int pNumberOfFrames, int pSequence);    
 
 };
 

@@ -16,12 +16,12 @@ private:
 
     const int numOfGamemodes = 5;
 
+    static const int numOfSequences = 21;
+
 public:
     Menu();
     
-    static inline const int numOfSequences = 21;
-
-    GameSession getOptions();
+    GameSession readOptions();
 
     static GameMode* getGameModeByUserInput(int gamemodeNum, int numberOfFrames, int sequence);
 

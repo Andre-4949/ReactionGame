@@ -11,6 +11,12 @@ private:
     GameMode *scene = nullptr;
     std::string name;
     std::string windowName = "ReactionGame";
+
+    void render();
+
+    void update();
+
+
 public:
     GameSession() = default;
 
@@ -18,13 +24,9 @@ public:
 
     void loop();
 
-    void render();
+    void mouseEvents(int event, int x, int y, int flags, void *userdata); 
 
-    void update();
-
-    void mouseEvents(int event, int x, int y, int flags, void *userdata);
-
-    GameMode *getScene();
+    GameMode *getGameMode();
 
     const std::string &getWindowName();
 
