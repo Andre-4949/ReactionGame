@@ -1,9 +1,9 @@
 #ifndef REACTIONGAME_DIRECTCLICKREACTION_H
 #define REACTIONGAME_DIRECTCLICKREACTION_H
 
-#include "../Scenery.h"
+#include "../GameMode.h"
 
-class DirectClickReaction : public Scenery {
+class DirectClickReaction : public GameMode {
 public:
     explicit DirectClickReaction(int pNumberOfFrames, int pSequence);
 

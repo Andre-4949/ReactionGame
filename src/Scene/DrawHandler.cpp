@@ -90,8 +90,13 @@ int calcBorderDistY(int y, GTBoundingBox correctBox) {
 }
 
 RelativePosition
-determinePointPosition(int distNearestXBorder, int distNearestYBorder, int distCenterX, int distCenterY) {
-    if (distNearestXBorder > distNearestYBorder) {
+determinePointPosition(int distNearestXBorder, int distNearestYBorder, int distCenterX, int distCenterY, GTBoundingBox correctBox) {
+    //line to box-center crosses horizontal border if point is above (imagined) diagonal line from center through nearest corner point
+    //                                                     (or below if point is below the box)
+    //slopes of these imagined lines = (+-boxHeight)/(+-boxWidth)
+    int boxWidth = correctBox.getBottomRight().getX() - correctBox.getTopLeft().getX();
+    int boxHeight = correctBox.getBottomRight().getY() - correctBox.getTopLeft().getY();
+    if (distNearestXBorder * boxHeight > distNearestYBorder * boxWidth) {
         return determinePointPositionHorizontal(distCenterX);
     }
     return determinePointPositionVertical(distCenterY);
@@ -120,7 +125,7 @@ void DrawHandler::drawDistToCorrectBox(int x, int y, GTBoundingBox correctBox) {
     int distCenterY = boxCenterY - y;
 
     RelativePosition pointPosition = determinePointPosition(distNearestXBorder, distNearestYBorder, distCenterX,
-                                                            distCenterY);
+                                                            distCenterY, correctBox);
 
     //slope: m = (y1 - y2)/(x1 - x2)
     double slope = ((distCenterY) / (double) distCenterX);

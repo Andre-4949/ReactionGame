@@ -1,9 +1,9 @@
 #ifndef REACTIONGAME_COLORCHANGEREACTION_H
 #define REACTIONGAME_COLORCHANGEREACTION_H
 
-#include "../Scenery.h"
+#include "../GameMode.h"
 
-class ColorChangeReaction : public Scenery {
+class ColorChangeReaction : public GameMode {
 private:
     std::vector<KittiObject> selectedObjs;
     helper::Point clickedPoint;

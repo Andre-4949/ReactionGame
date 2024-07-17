@@ -23,7 +23,7 @@ public:
 
     GameSession getOptions();
 
-    static Scenery* getGameModeByUserInput(int gamemodeNum, int numberOfFrames, int sequence);
+    static GameMode* getGameModeByUserInput(int gamemodeNum, int numberOfFrames, int sequence);
 
     static void printResults(ResultsHandler resultsHandler);
 

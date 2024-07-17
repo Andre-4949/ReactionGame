@@ -3,18 +3,18 @@
 #define REACTIONGAME_GAMESESSION_H
 
 #include <string>
-#include "../Scene/Scenery.h"
+#include "../Scene/GameMode.h"
 
 class GameSession {
 private:
     bool gameSessionRunning = true;
-    Scenery *scene = nullptr;
+    GameMode *scene = nullptr;
     std::string name;
     std::string windowName = "ReactionGame";
 public:
     GameSession() {};
 
-    GameSession(Scenery *pScene, std::string pName);
+    GameSession(GameMode *pScene, std::string pName);
 
     void loop();
 
@@ -24,7 +24,7 @@ public:
 
     void mouseEvents(int event, int x, int y, int flags, void *userdata);
 
-    Scenery *getScene();
+    GameMode *getScene();
 
     const std::string &getWindowName() const;
 

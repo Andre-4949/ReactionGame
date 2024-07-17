@@ -54,8 +54,8 @@ int Menu::getIntInput(inputType t, int maxValue) {
 }
 
 
-Scenery *Menu::getGameModeByUserInput(int gamemodeNum, int numberOfFrames, int sequence) {
-    Scenery *scene;
+GameMode *Menu::getGameModeByUserInput(int gamemodeNum, int numberOfFrames, int sequence) {
+    GameMode *scene;
     switch (gamemodeNum) {
         case 1:
             scene = new DirectClickReaction(numberOfFrames, sequence);
@@ -88,7 +88,7 @@ GameSession Menu::getOptions() {
     int fileCount = Util::fileUtil::getAmountOfFilesInFolder(Util::fileUtil::generateImgFolderPathString(sequence));
     int numberOfFrames = getIntInput(tNumberOfFrames, fileCount);
     int gameMode = getIntInput(tGameMode, numOfGamemodes);
-    Scenery *scene = Menu::getGameModeByUserInput(gameMode, numberOfFrames, sequence);
+    GameMode *scene = Menu::getGameModeByUserInput(gameMode, numberOfFrames, sequence);
     GameSession session(scene, playerName);
     return session;
 }

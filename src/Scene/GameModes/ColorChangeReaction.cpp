@@ -3,7 +3,7 @@
 #include <random>
 
 
-ColorChangeReaction::ColorChangeReaction(int pNumberOfFrames, int pSequence) : Scenery(pNumberOfFrames, pSequence) {
+ColorChangeReaction::ColorChangeReaction(int pNumberOfFrames, int pSequence) : GameMode(pNumberOfFrames, pSequence) {
     Frame::labelFilter = {Labeltypes::CAR};
 }
 
@@ -50,5 +50,5 @@ void ColorChangeReaction::makeRandomObjVisible() {
 void ColorChangeReaction::setupFrame() {
     this->frames.front().setAllKittiObjectsVisible();
     this->frames.front().setColorOfAllObjects(Constants::BLUE);
-    Scenery::setupFrame();
+    GameMode::setupFrame();
 }

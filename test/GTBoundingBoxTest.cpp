@@ -5,7 +5,7 @@
 class GTBoundingBoxTest : public ::testing::Test{
 protected:
     GTBoundingBox box = GTBoundingBox(0,0,10,10);
-    GTBoundingBox box1= GTBoundingBox(box);
+    GTBoundingBox box1 = GTBoundingBox(box);
     cv::Rect rect = cv::Rect(0,0,10,10);
     helper::Point calculateCenter(){
         helper::Point center = box.getTopLeft();

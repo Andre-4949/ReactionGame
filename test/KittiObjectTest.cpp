@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "../include/Scene/Scenery.h"
+#include "../include/Scene/GameMode.h"
 #include "../include/HelperClasses/Utils.h"
 #include "../include/Scene/HelperClasses/Constants.h"
 

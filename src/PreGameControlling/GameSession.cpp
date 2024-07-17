@@ -8,7 +8,7 @@
 #include "../../include/PreGameControlling/Game.h"
 #include "../../include/Scene/GameModes/DirectClickReaction.h"
 
-GameSession::GameSession(Scenery *pScene, std::string pName) : scene(pScene), name(std::move(pName)) {
+GameSession::GameSession(GameMode *pScene, std::string pName) : scene(pScene), name(std::move(pName)) {
     cv::namedWindow(this->windowName, 1);
 }
 
@@ -51,7 +51,7 @@ void GameSession::mouseEvents(int event, int x, int y, int flags, void *userdata
     }
 }
 
-Scenery *GameSession::getScene() {
+GameMode *GameSession::getScene() {
     return scene;
 }
 

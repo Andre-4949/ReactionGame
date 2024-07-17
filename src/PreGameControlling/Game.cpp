@@ -43,7 +43,7 @@ void Game::parseGameSession() {
         std::cout << "Provided Arguments couldn't be parsed." << std::endl;
         exit(0);
     }
-    Scenery* scene = Menu::getGameModeByUserInput(gamemode,frameNum,sequence);
+    GameMode* scene = Menu::getGameModeByUserInput(gamemode,frameNum,sequence);
     GameSession session(scene, name);
     Game::session = session;
 }

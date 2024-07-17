@@ -3,7 +3,7 @@
 #include "../../../include/HelperClasses/Utils.h"
 
 DirectClickReaction::DirectClickReaction(int pNumberOfFrames, int pSequence) :
-        Scenery(pNumberOfFrames, pSequence) {
+        GameMode(pNumberOfFrames, pSequence) {
     Frame::labelFilter = {Labeltypes::CAR};
 }
 
