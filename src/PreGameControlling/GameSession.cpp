@@ -55,11 +55,11 @@ GameMode *GameSession::getScene() {
     return scene;
 }
 
-const std::string &GameSession::getWindowName() const {
+const std::string &GameSession::getWindowName(){
     return windowName;
 }
 
-const cv::Mat& GameSession::getCurrentImg() const{
+const cv::Mat& GameSession::getCurrentImg(){
     return scene->getFrames().front().getImg();
 }
 

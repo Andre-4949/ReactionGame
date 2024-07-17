@@ -12,9 +12,9 @@ class Menu {
 private:
     int getIntInput(inputType t, int maxValue);
 
-    std::string getStringInput();
+    std::string getStringInput() ;
 
-    int numOfGamemodes = 5;
+    const int numOfGamemodes = 5;
 
 public:
     Menu();

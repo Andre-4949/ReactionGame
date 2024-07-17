@@ -26,13 +26,13 @@ public:
 
     GameMode *getScene();
 
-    const std::string &getWindowName() const;
+    const std::string &getWindowName();
 
-    void setWindowName(const std::string &windowName);
+    const void setWindowName(std::string &windowName) const;
 
-    const cv::Mat &getCurrentImg() const;
+    const cv::Mat &getCurrentImg();
 
-    void setCurrentImage(const cv::Mat &currentImage);
+    void setCurrentImage(cv::Mat &currentImage);
 
     void setGameSessionRunning(bool gameSessionRunning);
 };

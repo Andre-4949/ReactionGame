@@ -16,7 +16,7 @@ int Util::fileUtil::getAmountOfFilesInFolder(std::string folderPath) {
     return fileCount;
 }
 
-std::string Util::fileUtil::generateImgFolderPathString(int sequenceNr) {
+std::string Util::fileUtil::generateImgFolderPathString(int sequenceNr){
     std::string folderPath = std::getenv("KITTI_PATH");
     std::string imgPath = folderPath + R"(\data_tracking_image_2\training\image_02\)";
     std::string sequenceStr = std::to_string(sequenceNr);

@@ -7,7 +7,7 @@ ColorChangeReaction::ColorChangeReaction(int pNumberOfFrames, int pSequence) : G
     Frame::labelFilter = {Labeltypes::CAR};
 }
 
-void ColorChangeReaction::processSpaceBarInput() {
+void ColorChangeReaction::processSpaceBarInput(){
 
     //skip over function if user already clicked and pressed spacebar  --> !waitingOnInput
     if (frames.empty() || !waitingOnInput)return;
