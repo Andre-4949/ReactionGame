@@ -11,7 +11,7 @@ void KittiObject::setColor(const cv::Scalar &color) {
     this->label.getBoundingBox().setColor(color);
 }
 
-bool KittiObject::processClicks(int x, int y) {
+const bool KittiObject::processClicks(const int x, const int y) {
     return this->label.getBoundingBox().getClicked(x, y);
 }
 
@@ -19,7 +19,7 @@ Label &KittiObject::getLabel() {
     return this->label;
 }
 
-KittiObject::KittiObject(Label label) : label(std::move(label)) {}
+KittiObject::KittiObject(const Label label) : label(std::move(label)) {}
 
 KittiObject::KittiObject() = default;
 

@@ -18,8 +18,8 @@ private:
 public:
     Label() : m_frame(0), m_type(""), boundingBox(cv::Rect()) {}
 
-    Label(int frame, std::string type, GTBoundingBox bbox) : m_frame(frame), m_type(std::move(type)),
-                                                             boundingBox(std::move(bbox)) {}
+    Label(const int frame, const std::string type, const GTBoundingBox bbox) : m_frame(frame), m_type(std::move(type)),
+                                                                               boundingBox(std::move(bbox)) {}
 
     static std::vector<Label> loadLabelsFromFile(const std::string &filename);
 

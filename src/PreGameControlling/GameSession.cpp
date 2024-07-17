@@ -45,21 +45,21 @@ void GameSession::update() {
     scene->update();
 }
 
-void GameSession::mouseEvents(const int event, const int x, const int y, const int flags, void *userdata) {
+void GameSession::mouseEvents(const int event, const int x, const int y, const int flags, void *userdata) const{
     if (event == cv::EVENT_LBUTTONDOWN) {
         scene->processClicks(x, y);
     }
 }
 
-GameMode *GameSession::getGameMode() {
+GameMode *GameSession::getGameMode() const {
     return scene;
 }
 
-const std::string &GameSession::getWindowName(){
+const std::string &GameSession::getWindowName() const {
     return windowName;
 }
 
-const cv::Mat& GameSession::getCurrentImg(){
+const cv::Mat& GameSession::getCurrentImg()const{
     return scene->getFrames().front().getImg();
 }
 

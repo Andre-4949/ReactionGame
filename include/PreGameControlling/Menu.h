@@ -23,7 +23,7 @@ public:
     
     GameSession readOptions();
 
-    static GameMode* getGameModeByUserInput(int gamemodeNum, int numberOfFrames, int sequence);
+    static GameMode* getGameModeByUserInput(const int gamemodeNum, const int numberOfFrames, const int sequence);
 
     static void printResults(ResultsHandler resultsHandler);
 

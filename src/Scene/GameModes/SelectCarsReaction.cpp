@@ -22,7 +22,7 @@ void SelectCarsReaction::makeRandomObjVisible() {
 }
 
 
-void SelectCarsReaction::evaluateInput(std::vector<KittiObject> &objects, int x, int y) {
+void SelectCarsReaction::evaluateInput(std::vector<KittiObject> &objects, const int x, const int y) {
     Frame &currentFrame = frames.front();
     drawHandler.setImg(currentFrame.getImg());
     bool correctObjClicked = false;

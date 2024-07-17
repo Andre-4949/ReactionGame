@@ -24,7 +24,7 @@ private:
     void setCopyAsNewImg(Frame& frame);
 
 public:
-    ShrinkingBoxesReaction(int pNumberOfFrames, int pSequence);    
+    ShrinkingBoxesReaction(const int pNumberOfFrames, const int pSequence);
 
 };
 

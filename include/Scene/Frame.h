@@ -19,15 +19,13 @@ public:
 
     Frame();
 
-    Frame(std::vector<Label> labels, cv::Mat img, int imageNumber);
+    Frame(std::vector<Label>& labels, const cv::Mat& img, int imageNumber);
 
     void render();
 
-    std::vector<KittiObject> &processClicks(int x, int y);
+    std::vector<KittiObject> &processClicks(const int x, const int y);
 
-    void chooseRandomObject();
-    
-    void setObjects(const std::vector<KittiObject> &objects);
+    [[maybe_unused]] void chooseRandomObject();
 
     std::vector<KittiObject> &getObjects();
 
@@ -41,15 +39,15 @@ public:
 
     const cv::Mat &getOriginalImg() const;
 
-    std::vector<KittiObject> getObjectsOfType(std::string type);
+    std::vector<KittiObject> getObjectsOfType(const std::string& type);
 
     void setAllKittiObjectsVisible();
 
     void setAllKittiObjectsInvisible();
 
-    void setColorOfAllObjects(cv::Scalar color);
+    void setColorOfAllObjects(const cv::Scalar& color);
 
-    void colorObjectsOfType(std::string type, cv::Scalar color);
+    void colorObjectsOfType(const std::string& type, const cv::Scalar& color);
 };
 
 

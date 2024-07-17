@@ -1,13 +1,13 @@
 #include "../../include/Scene/DrawHandler.h"
 #include "../../include/PreGameControlling/Game.h"
 
-RelativePosition determinePointPositionHorizontal(int distCenterX);
+RelativePosition determinePointPositionHorizontal(const int distCenterX);
 
-RelativePosition determinePointPositionVertical(int distCenterY);
+RelativePosition determinePointPositionVertical(const int distCenterY);
 
 DrawHandler::DrawHandler() = default;
 
-[[maybe_unused]] void DrawHandler::drawPlayerClickedCorrect(int x, int y, KittiObject &correctObj) {
+[[maybe_unused]] void DrawHandler::drawPlayerClickedCorrect(const int x, const int y, KittiObject &correctObj) {
     drawClickedPoint(x, y, Constants::GREEN);
     correctObj.setColor(Constants::GREEN);
 };
@@ -24,26 +24,26 @@ void DrawHandler::drawClickedPoint(const int x, const int y, cv::Scalar color) {
 };
 
 
-helper::Point calcVerticalIntersectionPoint(double slope, double yIntercept, int boxX) {
-    int intersectionX = boxX;
+helper::Point calcVerticalIntersectionPoint(const double slope, const double yIntercept, const int boxX) {
+    const int intersectionX = boxX;
 
     //y-value: y = m*x + c
-    int intersectionY = slope * boxX + yIntercept;
+    const int intersectionY = slope * boxX + yIntercept;
 
     return helper::Point(intersectionX, intersectionY);
 }
 
-helper::Point calcHorizontalIntersectionPoint(double slope, double yIntercept, int boxY) {
-    int intersectionY = boxY;
+helper::Point calcHorizontalIntersectionPoint(const double slope, const double yIntercept, const int boxY) {
+    const int intersectionY = boxY;
 
     //x-value: y = m*x + c <=> x = (y - c)/m = (1/m)*(y - c)
-    double intersectionX = ((double)boxY - yIntercept) / slope;
+    const double intersectionX = ((double)boxY - yIntercept) / slope;
 
     return helper::Point((int)intersectionX, intersectionY);
 }
 
 helper::Point
-calcIntersectionPoint(double slope, double yIntercept, GTBoundingBox correctBox, RelativePosition pointPosition) {
+calcIntersectionPoint(const double slope, const double yIntercept, GTBoundingBox correctBox, const RelativePosition pointPosition) {
     switch (pointPosition) {
         case left:
             return calcVerticalIntersectionPoint(slope, yIntercept, correctBox.getTopLeft().getX());
@@ -59,7 +59,7 @@ calcIntersectionPoint(double slope, double yIntercept, GTBoundingBox correctBox,
     }
 }
 
-int calcBorderDistX(int x, GTBoundingBox correctBox) {
+int calcBorderDistX(const int x, GTBoundingBox correctBox) {
     //determine shorter distance to left or right border
     int distLeft = abs(x - correctBox.getTopLeft().getX());
     int distRight = abs(x - correctBox.getBottomRight().getX());
@@ -73,7 +73,7 @@ int calcBorderDistX(int x, GTBoundingBox correctBox) {
     return distBorderX;
 }
 
-int calcBorderDistY(int y, GTBoundingBox correctBox) {
+int calcBorderDistY(const int y, GTBoundingBox correctBox) {
     //determine shorter distance to top or bottom border
     int distTop = abs(y - correctBox.getTopLeft().getY());
     int distBottom = abs(y - correctBox.getBottomRight().getY());
@@ -88,50 +88,50 @@ int calcBorderDistY(int y, GTBoundingBox correctBox) {
 }
 
 RelativePosition
-determinePointPosition(int distNearestXBorder, int distNearestYBorder, int distCenterX, int distCenterY, GTBoundingBox correctBox) {
+determinePointPosition(const int distNearestXBorder, const int distNearestYBorder, const int distCenterX, const int distCenterY, GTBoundingBox correctBox) {
     //line to box-center crosses horizontal border if point is above (imagined) diagonal line from center through nearest corner point
     //                                                     (or below if point is below the box)
     //slopes of these imagined lines = (+-boxHeight)/(+-boxWidth)
-    int boxWidth = correctBox.getBottomRight().getX() - correctBox.getTopLeft().getX();
-    int boxHeight = correctBox.getBottomRight().getY() - correctBox.getTopLeft().getY();
+    const int boxWidth = correctBox.getBottomRight().getX() - correctBox.getTopLeft().getX();
+    const int boxHeight = correctBox.getBottomRight().getY() - correctBox.getTopLeft().getY();
     if (distNearestXBorder * boxHeight > distNearestYBorder * boxWidth) {
         return determinePointPositionHorizontal(distCenterX);
     }
     return determinePointPositionVertical(distCenterY);
 }
 
-RelativePosition determinePointPositionVertical(int distCenterY) {
+RelativePosition determinePointPositionVertical(const int distCenterY) {
     if (distCenterY > 0) {
         return top;
     }
     return bottom;
 }
 
-RelativePosition determinePointPositionHorizontal(int distCenterX) {
+RelativePosition determinePointPositionHorizontal(const int distCenterX) {
     if (distCenterX > 0) {
         return left;
     }
     return right;
 }
 
-void DrawHandler::drawDistToCorrectBox(int x, int y, GTBoundingBox correctBox) {
-    int distNearestXBorder = calcBorderDistX(x, correctBox);
-    int distNearestYBorder = calcBorderDistY(y, correctBox);
-    int boxCenterX = correctBox.getCenter().getX();
-    int boxCenterY = correctBox.getCenter().getY();
-    int distCenterX = boxCenterX - x;
-    int distCenterY = boxCenterY - y;
+void DrawHandler::drawDistToCorrectBox(const int x, const int y, GTBoundingBox correctBox) {
+    const int distNearestXBorder = calcBorderDistX(x, correctBox);
+    const int distNearestYBorder = calcBorderDistY(y, correctBox);
+    const int boxCenterX = correctBox.getCenter().getX();
+    const int boxCenterY = correctBox.getCenter().getY();
+    const int distCenterX = boxCenterX - x;
+    const int distCenterY = boxCenterY - y;
 
-    RelativePosition pointPosition = determinePointPosition(distNearestXBorder, distNearestYBorder, distCenterX,
+    const RelativePosition pointPosition = determinePointPosition(distNearestXBorder, distNearestYBorder, distCenterX,
                                                             distCenterY, correctBox);
 
     //slope: m = (y1 - y2)/(x1 - x2)
-    double slope = ((distCenterY) / (double) distCenterX);
+    const double slope = ((distCenterY) / (double) distCenterX);
 
     //y-intercept: y = m*x + c ; P(x0,y0) on the line --> y0 = m*x0 + c <=> c = y0 - m*x0
-    double yIntercept = y - (slope * x);
+    const double yIntercept = y - (slope * x);
 
-    helper::Point interSectionPoint = calcIntersectionPoint(slope, yIntercept, correctBox, pointPosition);
+    const helper::Point interSectionPoint = calcIntersectionPoint(slope, yIntercept, correctBox, pointPosition);
 
     cv::line(img, helper::Point(x, y).toCvPoint(), interSectionPoint.toCvPoint(), Constants::RED, 2);
 };

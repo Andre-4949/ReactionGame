@@ -7,21 +7,21 @@
 #include "../../include/HelperClasses/Utils.h"
 #include <filesystem>
 
-GameMode::GameMode(int pNumberOfFrames, int pSequence) : numberOfFrames(pNumberOfFrames), sequence(pSequence) {
+GameMode::GameMode(const int pNumberOfFrames,const int pSequence) : numberOfFrames(pNumberOfFrames), sequence(pSequence) {
     Util::environmentalVar::checkIfKittiPathIsSet();
 }
 
-void GameMode::saveTime(double time) {
+void GameMode::saveTime(const double time) {
     if(time >= 0.0){
         resultsHandler.addTime(time);
         return;
     }
-    auto now = std::chrono::high_resolution_clock::now(); 
-    double clickTime = Util::timing::getTimeDifference(now, showingObjTimePoint) / Constants::SECONDSTOMILLISECONDS;
+    const auto now = std::chrono::high_resolution_clock::now();
+    const double clickTime = Util::timing::getTimeDifference(now, showingObjTimePoint) / Constants::SECONDSTOMILLISECONDS;
     resultsHandler.addTime(clickTime);
 }
 
-std::vector<KittiObject> &GameMode::getClickedObjects(int x, int y) {
+std::vector<KittiObject> &GameMode::getClickedObjects(const int x,const  int y) {
     return this->frames.front().processClicks(x, y);
 }
 
@@ -39,7 +39,7 @@ const ResultsHandler &GameMode::getResultsHandler() const {
 }
 
 
-void GameMode::loadFrame(int frameNum) {
+void GameMode::loadFrame(const int frameNum) {
     const std::string imgPath = Util::fileUtil::generateImagePath(frameNum, sequence);
     if (!std::filesystem::exists(imgPath)) {
         std::cout << "Could not find image at: " << imgPath << std::endl;
@@ -47,7 +47,7 @@ void GameMode::loadFrame(int frameNum) {
     }
 
     const cv::Mat img = cv::imread(imgPath);
-    Frame currentFrame(currentLabels[sequence], img, currentFrameNumber);
+    const Frame currentFrame(currentLabels[sequence], img, currentFrameNumber);
     frames.push(currentFrame);
 }
 
@@ -68,7 +68,7 @@ const std::queue<Frame> &GameMode::getFrames() const {
 }
 
 void GameMode::loadLabels() {
-    std::string labelsPath = Util::fileUtil::generateLabelFolderPath(sequence);
+    const std::string labelsPath = Util::fileUtil::generateLabelFolderPath(sequence);
     if (!std::filesystem::exists(labelsPath))return;
     currentLabels[sequence] = Label::loadLabelsFromFile(labelsPath);
     if (currentLabels.empty()) {
@@ -77,7 +77,7 @@ void GameMode::loadLabels() {
     }
 }
 
-bool GameMode::checkAllFramesShown() {
+const bool GameMode::checkAllFramesShown() {
     //+2: +3 due to preloaded frames, -1 due to currentFrameNumber being an index and therefore starting at 0
     if (currentFrameNumber >= numberOfFrames + 2) {
         Game::session.setGameSessionRunning(false);
@@ -121,7 +121,7 @@ void GameMode::setupFrame(){
     waitingOnInput = true;
 }
 
-void GameMode::evaluateInput(std::vector<KittiObject> &objects, int x, int y){
+void GameMode::evaluateInput(std::vector<KittiObject> &objects, const int x, const int y){
     Frame &currentFrame = frames.front();
     KittiObject &randomObj = currentFrame.getRandomlySelectedObject();
     drawHandler.setImg(currentFrame.getImg());

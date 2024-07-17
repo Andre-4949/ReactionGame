@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <iostream>
 
-ResultsHandler::ResultsHandler(std::string pName) : name(pName) {
+ResultsHandler::ResultsHandler(const std::string pName) : name(pName) {
 }
 
 void ResultsHandler::calcAvgTime() {
@@ -17,13 +17,13 @@ void ResultsHandler::calcBest3Times() {
     std::vector<double> sortedTimes = times;
     std::sort(sortedTimes.begin(), sortedTimes.end());
     //print out less times if less times were tracked
-    int index3 = sortedTimes.size() >= 3 ? 3 : (int) sortedTimes.size();
+    const int index3 = sortedTimes.size() >= 3 ? 3 : (int) sortedTimes.size();
 
-    std::vector<double> newBest3Times(sortedTimes.begin(), sortedTimes.begin() + index3);
+    const std::vector<double> newBest3Times(sortedTimes.begin(), sortedTimes.begin() + index3);
     best3Times = newBest3Times;
 }
 
-void ResultsHandler::printResults() {
+void ResultsHandler::printResults() const {
     std::cout << "Das Spiel ist vorbei! Hier deine Daten: " << std::endl;
     std::cout << "Deine durchschnittliche Reaktionszeit: " << avgTime << " Sekunden" << std::endl;
     std::cout << "Deine " << best3Times.size() << " besten Zeiten: " << std::endl;
@@ -32,6 +32,6 @@ void ResultsHandler::printResults() {
     }
 }
 
-void ResultsHandler::addTime(double time_in_seconds) {
+void ResultsHandler::addTime(const double time_in_seconds) {
     times.push_back(time_in_seconds);
 }

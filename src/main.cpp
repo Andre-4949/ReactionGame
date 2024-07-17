@@ -9,7 +9,7 @@
 #define peace return
 #define out 0
 
-int main(int argc, char* argv[]) {
+int main(const int argc, const char* argv[]) {
     Game(argc, argv).start();
     peace out;
 }

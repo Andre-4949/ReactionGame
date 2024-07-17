@@ -17,11 +17,11 @@ void helper::Point::move(const int x, const int y) {
     this->y += y;
 }
 
-int helper::Point::getX(){
+const int helper::Point::getX() const{
     return x;
 }
 
-int helper::Point::getY(){
+const int helper::Point::getY()const{
     return y;
 }
 

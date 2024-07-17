@@ -4,7 +4,7 @@
 #include "../GameMode.h"
 
 class DirectClickReaction : public GameMode {
-    void processClicks(int x, int y) override;
+    void processClicks(const int x,const int y) override;
 
 public:
     explicit DirectClickReaction(int pNumberOfFrames, int pSequence);

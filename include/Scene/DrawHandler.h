@@ -12,13 +12,13 @@ class DrawHandler {
 public:
     DrawHandler();
 
-    [[maybe_unused]] void drawPlayerMissedClick(int x, int y, KittiObject correctObj);
+    [[maybe_unused]] void drawPlayerMissedClick(const int x, const int y, KittiObject correctObj);
 
-    [[maybe_unused]] void drawPlayerClickedCorrect(int x, int y, KittiObject &correctObj);
+    [[maybe_unused]] void drawPlayerClickedCorrect(const int x, const int y, KittiObject &correctObj);
 
-    void drawClickedPoint(int x, int y, cv::Scalar color);
+    void drawClickedPoint(const int x, const int y, cv::Scalar color);
 
-    void drawDistToCorrectBox(int x, int y, GTBoundingBox correctObj);
+    void drawDistToCorrectBox(const int x, const int y, GTBoundingBox correctObj);
 
     void setImg(const cv::Mat &img);
 

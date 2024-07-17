@@ -8,7 +8,7 @@ void Frame::render() {
     }
 }
 
-std::vector<KittiObject> &Frame::processClicks(int x, int y) {
+std::vector<KittiObject> &Frame::processClicks(const int x, const int y) {
     std::vector<KittiObject> *clickedObjects = new std::vector<KittiObject>();
     for (KittiObject &item: this->objects) {
         if (item.processClicks(x, y))
@@ -25,7 +25,7 @@ KittiObject& Frame::getRandomlySelectedObject() {
     return this->objects[indexOfRandomObject];
 }
 
-void Frame::chooseRandomObject() {
+[[maybe_unused]] void Frame::chooseRandomObject() {
     using namespace std;
     random_device device;
     mt19937 rng(device());
@@ -50,11 +50,7 @@ Frame::Frame() {
 
 }
 
-void Frame::setObjects(const std::vector<KittiObject> &objects) {
-    Frame::objects = objects;
-}
-
-Frame::Frame(std::vector<Label> labels, cv::Mat img, int frameNumber) {
+Frame::Frame(std::vector<Label>& labels, const cv::Mat& img, const int frameNumber) {
 
     img.copyTo(origImg);
     for (Label &item: labels) {
@@ -79,7 +75,7 @@ const cv::Mat &Frame::getOriginalImg() const {
     return origImg;
 }
 
-void Frame::setColorOfAllObjects(cv::Scalar color) {
+void Frame::setColorOfAllObjects(const cv::Scalar& color) {
     for (KittiObject &item: this->objects) {
         item.setColor(color);
     }
@@ -89,7 +85,7 @@ GTBoundingBox &Frame::getBoundingBoxOfRandomObject() {
     return this->objects[this->indexOfRandomObject].getLabel().getBoundingBox();
 }
 
-void Frame::colorObjectsOfType(std::string type, cv::Scalar color) {
+void Frame::colorObjectsOfType(const std::string& type, const cv::Scalar& color) {
     for (int i = 0; i < this->objects.size(); ++i) {
         if (objects[i].getLabel().getMType() == type) {
             objects[i].setColor(color);
@@ -97,7 +93,7 @@ void Frame::colorObjectsOfType(std::string type, cv::Scalar color) {
     }
 }
 
-std::vector<KittiObject> Frame::getObjectsOfType(std::string type) {
+std::vector<KittiObject> Frame::getObjectsOfType(const std::string& type) {
     std::vector<KittiObject> objsOfType;
 
     for (int i = 0; i < this->objects.size(); ++i) {

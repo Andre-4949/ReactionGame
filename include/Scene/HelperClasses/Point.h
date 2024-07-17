@@ -7,21 +7,21 @@ namespace helper {
     class Point{
         int x, y;
     public:
-        Point(int x, int y);
+        Point(const int x, const int y);
 
         Point();
 
-        void move(int x, int y);
+        void move(const int x, const int y);
 
         bool operator==(const Point p);
 
-        int getX();
+        const int getX() const;
 
-        int getY();
+        const int getY() const;
 
-        void setX(int x);
+        void setX(const int x);
 
-        void setY(int y);
+        void setY(const int y);
 
         cv::Point2i toCvPoint() const;
     };

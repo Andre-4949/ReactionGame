@@ -8,16 +8,16 @@ private:
     std::vector<KittiObject> selectedObjs;
     helper::Point clickedPoint;
 
-    void processClicks(int x, int y) override;
+    void processClicks(const int x, const int y) override;
 
     void processSpaceBarInput();
 
-    void setupFrame() override;
+    void setupFrame() override ;
 
     void makeRandomObjVisible() override;
 
 public:
-    explicit ColorChangeReaction(int pNumberOfFrames, int pSequence);
+    explicit ColorChangeReaction(const int pNumberOfFrames, const int pSequence);
 };
 
 

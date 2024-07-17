@@ -24,17 +24,15 @@ public:
 
     void loop();
 
-    void mouseEvents(int event, int x, int y, int flags, void *userdata); 
+    void mouseEvents(const int event, const int x, const int y, const int flags, void *userdata) const;
 
-    GameMode *getGameMode();
+    GameMode *getGameMode() const;
 
-    const std::string &getWindowName();
+    const std::string &getWindowName() const;
 
-    const cv::Mat &getCurrentImg();
+    const cv::Mat &getCurrentImg() const;
 
-    void setCurrentImage(cv::Mat &currentImage);
-
-    void setGameSessionRunning(bool gameSessionRunning);
+    void setGameSessionRunning(const bool gameSessionRunning);
 };
 
 

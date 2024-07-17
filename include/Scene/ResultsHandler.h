@@ -16,7 +16,7 @@ public:
 
     void calcBest3Times();
 
-    void printResults();
+    void printResults() const;
 
     void addTime(double time_in_seconds);
 

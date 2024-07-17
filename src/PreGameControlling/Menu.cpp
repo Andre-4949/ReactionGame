@@ -84,7 +84,7 @@ GameSession Menu::readOptions() {
     std::string playerName = getStringInput();
 
     // sequence - 1, since it later serves as an index --> minimum is 0
-    int sequence = getIntInput(tSequence, numOfSequences) - 1;
+    const int sequence = getIntInput(tSequence, numOfSequences) - 1;
     const int fileCount = Util::fileUtil::getAmountOfFilesInFolder(Util::fileUtil::generateImgFolderPathString(sequence));
     const int numberOfFrames = getIntInput(tNumberOfFrames, fileCount);
     const int gameMode = getIntInput(tGameMode, numOfGamemodes);

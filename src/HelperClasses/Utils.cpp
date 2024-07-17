@@ -16,7 +16,7 @@ int Util::fileUtil::getAmountOfFilesInFolder(const std::string& folderPath) {
     return fileCount;
 }
 
-std::string Util::fileUtil::generateImgFolderPathString(int sequenceNr){
+std::string Util::fileUtil::generateImgFolderPathString(const int sequenceNr){
     std::string folderPath = std::getenv("KITTI_PATH");
     std::string imgPath = folderPath + R"(\data_tracking_image_2\training\image_02\)";
     std::string sequenceStr = std::to_string(sequenceNr);
@@ -25,7 +25,7 @@ std::string Util::fileUtil::generateImgFolderPathString(int sequenceNr){
     return imgPath;
 }
 
-std::string Util::fileUtil::generateLabelFolderPath(int sequence) {
+std::string Util::fileUtil::generateLabelFolderPath(const int sequence) {
     environmentalVar::checkIfKittiPathIsSet();
     std::string folderPath = std::getenv("KITTI_PATH");
     std::string labelsPath = folderPath + R"(\data_tracking_label_2\training\label_02\)";
@@ -36,7 +36,7 @@ std::string Util::fileUtil::generateLabelFolderPath(int sequence) {
     return labelsPath;
 }
 
-std::string Util::fileUtil::generateImagePath(int frameNum, int sequenceNum) {
+std::string Util::fileUtil::generateImagePath(const int frameNum, const int sequenceNum) {
     std::string imgFileName = std::to_string(frameNum);
     imgFileName = Util::stringUtil::addStringUntilWidthIsReached(imgFileName, "0", 6) + ".png";
     const std::string imgFolderPath = Util::fileUtil::generateImgFolderPathString(sequenceNum);
@@ -45,7 +45,7 @@ std::string Util::fileUtil::generateImagePath(int frameNum, int sequenceNum) {
 
 std::string
 Util::stringUtil::addStringUntilWidthIsReached(std::string originalStr, const std::string& stringToAppendOrInsert,
-                                               int maxWidth) {
+                                               const int maxWidth) {
     while (originalStr.length() < maxWidth) {
         originalStr.insert(0, stringToAppendOrInsert);
     }
@@ -75,13 +75,13 @@ void Util::environmentalVar::checkIfKittiPathIsSet() {
 
 }
 
-void Util::timing::waitMilliSeconds(int time, const std::function<bool(void)>& breakCondition,
+void Util::timing::waitMilliSeconds(const int time, const std::function<bool(void)>& breakCondition,
                                     const std::function<void()>& doWhileWaiting) {
-    auto showFrameStart = std::chrono::high_resolution_clock::now();
+    const auto showFrameStart = std::chrono::high_resolution_clock::now();
     while (1) {
         doWhileWaiting();
-        auto now = std::chrono::high_resolution_clock::now();
-        double timeSinceImgShown = getTimeDifference(now, showFrameStart);
+        const auto now = std::chrono::high_resolution_clock::now();
+        const double timeSinceImgShown = getTimeDifference(now, showFrameStart);
         if (timeSinceImgShown >= time)break;
         if (breakCondition()) break;
         if (cv::pollKey() == 27) {
@@ -89,13 +89,11 @@ void Util::timing::waitMilliSeconds(int time, const std::function<bool(void)>& b
             break;
         };
     }
-
-
 }
 
-double Util::timing::getTimeDifference(std::chrono::_V2::system_clock::time_point later,
-                                       std::chrono::_V2::system_clock::time_point earlier) {
+const double Util::timing::getTimeDifference(const std::chrono::_V2::system_clock::time_point later,
+                                       const std::chrono::_V2::system_clock::time_point earlier) {
     using namespace std::chrono;
-    double timeDifference = duration_cast<milliseconds>(later - earlier).count();
+    const double timeDifference = duration_cast<milliseconds>(later - earlier).count();
     return timeDifference;
 }

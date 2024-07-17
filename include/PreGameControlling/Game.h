@@ -6,12 +6,12 @@
 class Game {
     int argc;
     std::vector<std::string> argv;
-    void setupGameSession();
-    void parseGameSession();
+    void setupGameSession()const;
+    void parseGameSession()const;
 public:
     static inline GameSession session = GameSession();
 
-    Game(int argc, char* argv[]);
+    Game(const int argc, const char* argv[]);
 
     void start();
 

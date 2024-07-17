@@ -66,8 +66,26 @@ To show the user where he clicked, especially when playing ShrinkingBoxReaction,
 To run and compile this project you need to have cmake(preferably the gui version) and a working c++ compiler installed.
 Any other requirement will be checked by the program during the build and run process.
 If a requirement is not fulfilled there will be an error message which explains what to do.
-
-List of requirements:
+Create build folder:
+```shell
+mkdir build
+cd build
+```
+Build command for application (execute in build folder):
+```shell
+cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug ..
+cmake --build . --target ReactionGame
+cmake --build . --target ReactionGame_app
+```
+Build command for GoogleTest (execute in build folder):
+```shell
+cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug ..
+cmake --build . --target ReactionGame
+cmake --build . --target ReactionGameTest
+```
+Run .exe file, located in the build folder, or the build/test folder depending on what you built.
+<br><br>
+List of requirements, if you don't just try to build it and see what the error messages say:
 - Environmental variables:
   - OPEN_CV_PATH : path to opencv (should end on \"...build/install/\")
   - KITTI_PATH : points a folder with the following structure containing the KITTI-images and their corresponding labels

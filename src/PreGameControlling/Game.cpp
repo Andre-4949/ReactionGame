@@ -15,19 +15,19 @@ void Game::start() {
     Menu::printResults(Game::session.getGameMode()->getResultsHandler());
 }
 
-Game::Game(int argc, char* argv[]) {
+Game::Game(const int argc, const char* argv[]) {
     this->argc = argc;
     for (int i = 0; i < argc; ++i) {
         this->argv.emplace_back(argv[i]);
     }
 }
 
-void Game::setupGameSession() {
+void Game::setupGameSession() const {
     Menu menu;
     Game::session = menu.readOptions();
 }
 
-void Game::parseGameSession() {
+void Game::parseGameSession() const{
     std::string name = argv[1];
     std::string gamemodeAsStr = argv[2];
     std::string sequenceAsStr = argv[3];
@@ -44,6 +44,6 @@ void Game::parseGameSession() {
         exit(0);
     }
     GameMode* scene = Menu::getGameModeByUserInput(gamemode,frameNum,sequence);
-    GameSession session(scene, name);
+    const GameSession session(scene, name);
     Game::session = session;
 }

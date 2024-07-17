@@ -19,7 +19,7 @@ Label makeLabelFromLine(std::string line){
         return Label();
     }
     //make bounding-box out of parsed bbox-coordinates
-    GTBoundingBox bbox(static_cast<int>(bboxLeft), static_cast<int>(bboxTop),
+    const GTBoundingBox bbox(static_cast<int>(bboxLeft), static_cast<int>(bboxTop),
    static_cast<int>(bboxRight - bboxLeft), static_cast<int>(bboxBottom - bboxTop));
 
     return Label(frame, type, bbox);

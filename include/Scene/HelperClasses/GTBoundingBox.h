@@ -15,31 +15,31 @@ private:
     cv::Scalar color = cv::Scalar(0, 0, 255);
 public:
 
-    GTBoundingBox(cv::Rect rect);
+    explicit GTBoundingBox(const cv::Rect rect);
 
-    GTBoundingBox(int x, int y, int width, int height);
+    GTBoundingBox(const int x, const int y, const int width, const int height);
 
     void render();
 
-    bool getClicked(int x, int y);
+    bool getClicked(const int x, const int y);
 
-    cv::Scalar getColor() const;
+    [[nodiscard]] cv::Scalar getColor() const;
 
     void setColor(const cv::Scalar &color);
 
-    void setVisible(bool newVisible);
+    void setVisible(const bool newVisible);
 
-    helper::Point getTopLeft();
+    helper::Point getTopLeft() const;
 
-    helper::Point getBottomRight();
+    helper::Point getBottomRight() const;
 
-    void moveTopLeft(int x, int y);
+    void moveTopLeft(const int x, const int y);
 
-    void moveBottomRight(int x, int y);
+    void moveBottomRight(const int x, const int y);
 
-    helper::Point getCenter();
+    helper::Point getCenter() const;
 
-    bool getIsVisible() const;
+    [[nodiscard]] bool getIsVisible() const;
 
     bool operator==(GTBoundingBox b);
 };

@@ -5,7 +5,7 @@
 
 class EveryObjectReaction : public DirectClickReaction {
 public:
-    EveryObjectReaction(int pNumberOfFrames, int pSequence);
+    EveryObjectReaction(const int pNumberOfFrames, const int pSequence);
 };
 
 

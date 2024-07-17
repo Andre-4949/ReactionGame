@@ -3,7 +3,7 @@
 #include <opencv2/imgproc.hpp>
 #include "../../../include/PreGameControlling/Game.h"
 
-bool GTBoundingBox::getClicked(int x, int y) {
+bool GTBoundingBox::getClicked(const int x, const int y) {
     return this->topLeft.getX() <= x && this->topLeft.getY() <= y && this->bottomRight.getX() >= x && this->bottomRight.getY() >= y;
 }
 
@@ -13,7 +13,7 @@ void GTBoundingBox::render() {
     cv::rectangle(img, topLeft.toCvPoint(), bottomRight.toCvPoint(), color, 2);
 }
 
-GTBoundingBox::GTBoundingBox(cv::Rect rect) {
+GTBoundingBox::GTBoundingBox(const cv::Rect rect) {
     this->topLeft = helper::Point(rect.x, rect.y);
     this->bottomRight = helper::Point(rect.x + rect.width, rect.y + rect.height);
     this->center = helper::Point(rect.x + (rect.width/2), rect.y + (rect.height/2));
@@ -41,15 +41,15 @@ void GTBoundingBox::setVisible(const bool newVisible) {
     this->isVisible = newVisible;
 }
 
-helper::Point GTBoundingBox::getTopLeft() {
+helper::Point GTBoundingBox::getTopLeft() const {
     return this->topLeft;
 }
 
-helper::Point GTBoundingBox::getBottomRight() {
+helper::Point GTBoundingBox::getBottomRight() const {
     return this->bottomRight;
 }
 
-helper::Point GTBoundingBox::getCenter() {
+helper::Point GTBoundingBox::getCenter() const {
     return center;
 }
 

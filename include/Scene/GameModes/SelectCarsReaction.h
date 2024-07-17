@@ -4,17 +4,17 @@
 #include "ColorChangeReaction.h"
 
 class SelectCarsReaction : public ColorChangeReaction {
-    void processClicks(int x, int y) override;
+    void processClicks(const int x, const int y) override;
 
     void makeRandomObjVisible() override;
 
-    void drawPlayerMissedClick(int x, int y);
+    void drawPlayerMissedClick(const int x, const int y);
 
-    void drawPlayerClickedCorrect(int x, int y);
+    void drawPlayerClickedCorrect(const int x, const int y);
 
-    void evaluateInput( std::vector<KittiObject> &objects, int x, int y) override;
+    void evaluateInput(std::vector<KittiObject> &objects, const int x, const int y) override;
 public:
-    SelectCarsReaction(int pNumberOfFrames, int pSequence);
+    SelectCarsReaction(const int pNumberOfFrames, const int pSequence);
 };
 
 
