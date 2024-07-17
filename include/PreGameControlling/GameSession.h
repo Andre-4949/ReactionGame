@@ -5,35 +5,34 @@
 #include <string>
 #include "../Scene/GameMode.h"
 
-class GameSession {
+class GameSession
+{
 private:
-    bool gameSessionRunning = true;
-    GameMode *scene = nullptr;
-    std::string name;
-    std::string windowName = "ReactionGame";
+	bool gameSessionRunning = true;
+	GameMode* scene = nullptr;
+	std::string name;
+	std::string windowName = "ReactionGame";
 
-    void render();
+	void render();
 
-    void update();
-
+	void update();
 
 public:
-    GameSession() = default;
+	GameSession() = default;
 
-    GameSession(GameMode *pScene, std::string pName);
+	GameSession(GameMode* pScene, std::string pName);
 
-    void loop();
+	void loop();
 
-    void mouseEvents(const int event, const int x, const int y, const int flags, void *userdata) const;
+	void mouseEvents(const int event, const int x, const int y, const int flags, void* userdata) const;
 
-    GameMode *getGameMode() const;
+	GameMode* getGameMode() const;
 
-    const std::string &getWindowName() const;
+	const std::string & getWindowName() const;
 
-    const cv::Mat &getCurrentImg() const;
+	const cv::Mat & getCurrentImg() const;
 
-    void setGameSessionRunning(const bool gameSessionRunning);
+	void setGameSessionRunning(const bool gameSessionRunning);
 };
-
 
 #endif //REACTIONGAME_GAMESESSION_H

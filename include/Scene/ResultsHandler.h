@@ -4,22 +4,22 @@
 #include <vector>
 #include <string>
 
-class ResultsHandler {
-    std::vector<double> times;
-    std::string name;
-    double avgTime;
-    std::vector<double> best3Times;
+class ResultsHandler
+{
+	std::vector<double> times;
+	std::string name;
+	double avgTime;
+	std::vector<double> best3Times;
 public:
-    ResultsHandler(std::string pName = "");
+	ResultsHandler(std::string pName = "");
 
-    void calcAvgTime();
+	void calcAvgTime();
 
-    void calcBest3Times();
+	void calcBest3Times();
 
-    void printResults() const;
+	void printResults() const;
 
-    void addTime(double time_in_seconds);
-
+	void addTime(double time_in_seconds);
 };
 
 #endif //REACTIONGAME_RESULTSHANDLER_H

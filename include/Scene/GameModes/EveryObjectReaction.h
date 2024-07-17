@@ -3,10 +3,10 @@
 
 #include "DirectClickReaction.h"
 
-class EveryObjectReaction : public DirectClickReaction {
+class EveryObjectReaction : public DirectClickReaction
+{
 public:
-    EveryObjectReaction(const int pNumberOfFrames, const int pSequence);
+	EveryObjectReaction(const int pNumberOfFrames, const int pSequence);
 };
-
 
 #endif //REACTIONGAME_EVERYOBJECTREACTION_H

@@ -3,22 +3,22 @@
 
 #include "../GameMode.h"
 
-class ColorChangeReaction : public GameMode {
+class ColorChangeReaction : public GameMode
+{
 private:
-    std::vector<KittiObject> selectedObjs;
-    helper::Point clickedPoint;
+	std::vector<KittiObject> selectedObjs;
+	helper::Point clickedPoint;
 
-    void processClicks(const int x, const int y) override;
+	void processClicks(const int x, const int y) override;
 
-    void processSpaceBarInput();
+	void processSpaceBarInput();
 
-    void setupFrame() override ;
+	void setupFrame() override;
 
-    void makeRandomObjVisible() override;
+	void makeRandomObjVisible() override;
 
 public:
-    explicit ColorChangeReaction(const int pNumberOfFrames, const int pSequence);
+	explicit ColorChangeReaction(const int pNumberOfFrames, const int pSequence);
 };
-
 
 #endif //REACTIONGAME_COLORCHANGEREACTION_H

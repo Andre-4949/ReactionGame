@@ -3,18 +3,21 @@
 
 #include "GameSession.h"
 
-class Game {
-    int argc;
-    std::vector<std::string> argv;
-    void setupGameSession()const;
-    void parseGameSession()const;
+class Game
+{
+	int argc;
+	std::vector<std::string> argv;
+
+	void setupGameSession() const;
+
+	void parseGameSession() const;
+
 public:
-    static inline GameSession session = GameSession();
+	static inline GameSession session = GameSession();
 
-    Game(const int argc, const char* argv[]);
+	Game(const int argc, const char* argv[]);
 
-    void start();
-
+	void start();
 };
 
 #endif //REACTIONGAME_GAME_H

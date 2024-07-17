@@ -4,24 +4,29 @@
 #include "HelperClasses/Constants.h"
 #include "KittiObject.h"
 
-enum RelativePosition{left, right, top, bottom};
+enum RelativePosition
+{
+	left,
+	right,
+	top,
+	bottom
+};
 
-
-class DrawHandler {
-    cv::Mat img;
+class DrawHandler
+{
+	cv::Mat img;
 public:
-    DrawHandler();
+	DrawHandler();
 
-    [[maybe_unused]] void drawPlayerMissedClick(const int x, const int y, KittiObject correctObj);
+	[[maybe_unused]] void drawPlayerMissedClick(const int x, const int y, KittiObject correctObj);
 
-    [[maybe_unused]] void drawPlayerClickedCorrect(const int x, const int y, KittiObject &correctObj);
+	[[maybe_unused]] void drawPlayerClickedCorrect(const int x, const int y, KittiObject & correctObj);
 
-    void drawClickedPoint(const int x, const int y, cv::Scalar color);
+	void drawClickedPoint(const int x, const int y, cv::Scalar color);
 
-    void drawDistToCorrectBox(const int x, const int y, GTBoundingBox correctObj);
+	void drawDistToCorrectBox(const int x, const int y, GTBoundingBox correctObj);
 
-    void setImg(const cv::Mat &img);
-
+	void setImg(const cv::Mat & img);
 };
 
 #endif //REACTIONGAME_DRAWHANDLER_H

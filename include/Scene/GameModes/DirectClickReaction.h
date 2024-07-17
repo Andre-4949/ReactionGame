@@ -3,15 +3,14 @@
 
 #include "../GameMode.h"
 
-class DirectClickReaction : public GameMode {
-    void processClicks(const int x,const int y) override;
+class DirectClickReaction : public GameMode
+{
+	void processClicks(const int x, const int y) override;
 
 public:
-    explicit DirectClickReaction(int pNumberOfFrames, int pSequence);
+	explicit DirectClickReaction(int pNumberOfFrames, int pSequence);
 
-    void makeRandomObjVisible() override;
-    
+	void makeRandomObjVisible() override;
 };
-
 
 #endif //REACTIONGAME_DIRECTCLICKREACTION_H

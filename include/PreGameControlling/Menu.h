@@ -4,30 +4,30 @@
 #include "GameSession.h"
 #include <string>
 
-enum inputType {
-    tSequence, tNumberOfFrames, tGameMode
+enum inputType
+{
+	tSequence,
+	tNumberOfFrames,
+	tGameMode
 };
 
-class Menu {
+class Menu
+{
 private:
-    int getIntInput(inputType t, int maxValue);
+	int getIntInput(inputType t, int maxValue);
 
-    std::string getStringInput() ;
+	std::string getStringInput();
 
-    const int numOfGamemodes = 5;
-
-    static const int numOfSequences = 21;
-
+	const int numOfGamemodes = 5;
+	static const int numOfSequences = 21;
 public:
-    Menu();
-    
-    GameSession readOptions();
+	Menu();
 
-    static GameMode* getGameModeByUserInput(const int gamemodeNum, const int numberOfFrames, const int sequence);
+	GameSession readOptions();
 
-    static void printResults(ResultsHandler resultsHandler);
+	static GameMode* getGameModeByUserInput(const int gamemodeNum, const int numberOfFrames, const int sequence);
 
+	static void printResults(ResultsHandler resultsHandler);
 };
-
 
 #endif //REACTIONGAME_MENU_H
