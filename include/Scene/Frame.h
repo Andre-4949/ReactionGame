@@ -13,6 +13,7 @@ private:
     int indexOfRandomObject;
     cv::Mat img;
     cv::Mat origImg;
+
 public:
     static inline std::unordered_set<std::string> labelFilter = {Labeltypes::CAR};
 
@@ -20,17 +21,13 @@ public:
 
     Frame(std::vector<Label> labels, cv::Mat img, int imageNumber);
 
-    void setObjects(const std::vector<KittiObject> &objects);
-
     void render();
 
     std::vector<KittiObject> &processClicks(int x, int y);
 
     void chooseRandomObject();
-
-    void setAllKittiObjectsVisible();
-
-    void setAllKittiObjectsInvisible();
+    
+    void setObjects(const std::vector<KittiObject> &objects);
 
     std::vector<KittiObject> &getObjects();
 
@@ -38,17 +35,21 @@ public:
 
     GTBoundingBox &getBoundingBoxOfRandomObject();
 
-    void setColorOfAllObjects(cv::Scalar color);
-
     void setImg(const cv::Mat &img);
 
     const cv::Mat &getImg() const;
 
     const cv::Mat &getOriginalImg() const;
 
-    void colorObjectsOfType(std::string type, cv::Scalar color);
-
     std::vector<KittiObject> getObjectsOfType(std::string type);
+
+    void setAllKittiObjectsVisible();
+
+    void setAllKittiObjectsInvisible();
+
+    void setColorOfAllObjects(cv::Scalar color);
+
+    void colorObjectsOfType(std::string type, cv::Scalar color);
 };
 
 
