@@ -13,7 +13,7 @@ namespace helper {
 
         void move(int x, int y);
 
-        bool operator==(helper::Point p);
+        bool operator==(const Point p);
 
         int getX();
 
@@ -23,7 +23,7 @@ namespace helper {
 
         void setY(int y);
 
-        cv::Point2i toCvPoint();
+        cv::Point2i toCvPoint() const;
     };
 }
 #endif //REACTIONGAME_POINT_H

@@ -9,7 +9,7 @@ public:
 
     void processClicks(int x, int y) override;
 
-    virtual void makeRandomObjVisible() override;
+    void makeRandomObjVisible() override;
 
 };
 

@@ -11,15 +11,11 @@ public:
 
     void makeRandomObjVisible() override;
 
-    void showSolution();
-
     void drawPlayerMissedClick(int x, int y);
 
     void drawPlayerClickedCorrect(int x, int y);
 
-    void paintPlayerClickedCar(std::vector<KittiObject> selectedObjs);
-
-    void evaluateInput(std::vector<KittiObject> &objects, int x, int y);
+    void evaluateInput( std::vector<KittiObject> &objects, int x, int y) override;
 };
 
 

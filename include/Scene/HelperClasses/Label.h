@@ -10,7 +10,7 @@
 
 class Label {
 private:
-    int m_frame;            //Frame number, where the bounding box corresponds to
+    [[maybe_unused]] int m_frame;            //Frame number, where the bounding box corresponds to
     std::string m_type;     //Class of the bounding box (e.g. Pedestrian, Car, Cyclist) --> DontCare should be ignored
 
     GTBoundingBox boundingBox;
@@ -22,9 +22,9 @@ public:
 
     static std::vector<Label> loadLabelsFromFile(const std::string &filename);
 
-    const std::string &getMType() const;
+    [[nodiscard]] const std::string &getMType() const;
 
-    int getMFrame() const;
+    [[nodiscard]] int getMFrame() const;
 
     GTBoundingBox &getBoundingBox();
 };

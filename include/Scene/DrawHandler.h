@@ -12,9 +12,9 @@ class DrawHandler {
 public:
     DrawHandler();
 
-    void drawPlayerMissedClick(int x, int y, KittiObject correctObj);
+    [[maybe_unused]] void drawPlayerMissedClick(int x, int y, KittiObject correctObj);
 
-    void drawPlayerClickedCorrect(int x, int y, KittiObject &correctObj);
+    [[maybe_unused]] void drawPlayerClickedCorrect(int x, int y, KittiObject &correctObj);
 
     void drawClickedPoint(int x, int y, cv::Scalar color);
 

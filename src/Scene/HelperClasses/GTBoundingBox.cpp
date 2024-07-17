@@ -19,14 +19,13 @@ GTBoundingBox::GTBoundingBox(cv::Rect rect) {
     this->center = helper::Point(rect.x + (rect.width/2), rect.y + (rect.height/2));
 }
 
-GTBoundingBox::GTBoundingBox(int x, int y, int width, int height) {
+GTBoundingBox::GTBoundingBox(const int x, const int y, const int width, const int height) {
     this->topLeft = helper::Point(x, y);
     this->bottomRight = helper::Point(x + width, y + height);
     this->center = helper::Point(x + (width/2), y + (height/2));
-
 }
 
-const cv::Scalar GTBoundingBox::getColor() const {
+cv::Scalar GTBoundingBox::getColor() const {
     return color;
 }
 
@@ -38,7 +37,7 @@ bool GTBoundingBox::getIsVisible() const {
     return isVisible;
 }
 
-void GTBoundingBox::setVisible(bool newVisible) {
+void GTBoundingBox::setVisible(const bool newVisible) {
     this->isVisible = newVisible;
 }
 
@@ -54,14 +53,14 @@ helper::Point GTBoundingBox::getCenter() {
     return center;
 }
 
-bool GTBoundingBox::operator==(GTBoundingBox b) {
+bool GTBoundingBox::operator==(const GTBoundingBox b) {
     return this->topLeft == b.topLeft && this->bottomRight == b.bottomRight;
 }
 
-void GTBoundingBox::moveTopLeft(int x, int y){
+void GTBoundingBox::moveTopLeft(const int x,const int y){
     this->topLeft = helper::Point(this->topLeft.getX()+x, this->topLeft.getY()+y);
 }
 
-void GTBoundingBox::moveBottomRight(int x, int y){
+void GTBoundingBox::moveBottomRight(const int x,const int y){
     this->bottomRight = helper::Point(this->bottomRight.getX()+x, this->bottomRight.getY()+y);;
 }

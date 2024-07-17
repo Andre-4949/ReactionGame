@@ -9,15 +9,14 @@ class ShrinkingBoxesReaction : public DirectClickReaction {
 private:
     helper::Point initialRandomObjTopLeft;
     helper::Point initialRandomObjBottomRight;
-    int deltaX, deltaY;
+    int deltaX, deltaY=0;
     const double shrinkingTimeDiff = 0.25;
-    std::chrono::_V2::system_clock::time_point lastShrinkedTimePoint;
-
+    std::chrono::_V2::system_clock::time_point lastShrunkTimePoint;
 
 public:
     ShrinkingBoxesReaction(int pNumberOfFrames, int pSequence);
 
-    virtual void doWhileWaitingOnInput() override;
+    void doWhileWaitingOnInput() override;
 
     void makeRandomObjVisible() override;
 

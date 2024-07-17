@@ -12,7 +12,7 @@ private:
     std::string name;
     std::string windowName = "ReactionGame";
 public:
-    GameSession() {};
+    GameSession() = default;
 
     GameSession(GameMode *pScene, std::string pName);
 
@@ -27,8 +27,6 @@ public:
     GameMode *getScene();
 
     const std::string &getWindowName();
-
-    const void setWindowName(std::string &windowName) const;
 
     const cv::Mat &getCurrentImg();
 

@@ -17,7 +17,6 @@ public:
     void makeRandomObjVisible() override;
 
     void setupFrame() override;
-
 };
 
 

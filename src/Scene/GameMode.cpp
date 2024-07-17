@@ -40,13 +40,13 @@ const ResultsHandler &GameMode::getResultsHandler() const {
 
 
 void GameMode::loadFrame(int frameNum) {
-    std::string imgPath = Util::fileUtil::generateImagePath(frameNum, sequence);
+    const std::string imgPath = Util::fileUtil::generateImagePath(frameNum, sequence);
     if (!std::filesystem::exists(imgPath)) {
         std::cout << "Could not find image at: " << imgPath << std::endl;
         return;
     }
 
-    cv::Mat img = cv::imread(imgPath);
+    const cv::Mat img = cv::imread(imgPath);
     Frame currentFrame(currentLabels[sequence], img, currentFrameNumber);
     frames.push(currentFrame);
 }

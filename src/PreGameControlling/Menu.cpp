@@ -36,7 +36,7 @@ void printOptionsOutput(inputType t, int maxValue) {
     std::cout << outputByInputType[t] << std::endl;
 }
 
-int Menu::getIntInput(inputType t, int maxValue) {
+int Menu::getIntInput(const inputType t,const int maxValue) {
     int input;
     bool regularInput;
     printOptionsOutput(t, maxValue);
@@ -54,7 +54,7 @@ int Menu::getIntInput(inputType t, int maxValue) {
 }
 
 
-GameMode *Menu::getGameModeByUserInput(int gamemodeNum, int numberOfFrames, int sequence) {
+GameMode *Menu::getGameModeByUserInput(const int gamemodeNum, const int numberOfFrames, const int sequence) {
     GameMode *scene;
     switch (gamemodeNum) {
         case 1:
@@ -85,9 +85,9 @@ GameSession Menu::getOptions() {
 
     // sequence - 1, since it later serves as an index --> minimum is 0
     int sequence = getIntInput(tSequence, numOfSequences) - 1;
-    int fileCount = Util::fileUtil::getAmountOfFilesInFolder(Util::fileUtil::generateImgFolderPathString(sequence));
-    int numberOfFrames = getIntInput(tNumberOfFrames, fileCount);
-    int gameMode = getIntInput(tGameMode, numOfGamemodes);
+    const int fileCount = Util::fileUtil::getAmountOfFilesInFolder(Util::fileUtil::generateImgFolderPathString(sequence));
+    const int numberOfFrames = getIntInput(tNumberOfFrames, fileCount);
+    const int gameMode = getIntInput(tGameMode, numOfGamemodes);
     GameMode *scene = Menu::getGameModeByUserInput(gameMode, numberOfFrames, sequence);
     GameSession session(scene, playerName);
     return session;

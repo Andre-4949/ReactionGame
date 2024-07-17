@@ -5,22 +5,20 @@ RelativePosition determinePointPositionHorizontal(int distCenterX);
 
 RelativePosition determinePointPositionVertical(int distCenterY);
 
-DrawHandler::DrawHandler() {
+DrawHandler::DrawHandler() = default;
 
-};
-
-void DrawHandler::drawPlayerClickedCorrect(int x, int y, KittiObject &correctObj) {
+[[maybe_unused]] void DrawHandler::drawPlayerClickedCorrect(int x, int y, KittiObject &correctObj) {
     drawClickedPoint(x, y, Constants::GREEN);
     correctObj.setColor(Constants::GREEN);
 };
 
-void DrawHandler::drawPlayerMissedClick(int x, int y, KittiObject correctObj) {
+[[maybe_unused]] void DrawHandler::drawPlayerMissedClick(const int x, const int y, KittiObject correctObj) {
     drawClickedPoint(x, y, Constants::RED);
     GTBoundingBox correctBox = correctObj.getLabel().getBoundingBox();
     drawDistToCorrectBox(x, y, correctBox);
 };
 
-void DrawHandler::drawClickedPoint(int x, int y, cv::Scalar color) {
+void DrawHandler::drawClickedPoint(const int x, const int y, cv::Scalar color) {
     helper::Point clickedPoint = helper::Point(x, y);
     cv::circle(img, clickedPoint.toCvPoint(), 3, color, -1);
 };

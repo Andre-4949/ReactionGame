@@ -2,12 +2,12 @@
 #include "../../../include/PreGameControlling/Game.h"
 #include "../../../include/HelperClasses/Utils.h"
 
-DirectClickReaction::DirectClickReaction(int pNumberOfFrames, int pSequence) :
+DirectClickReaction::DirectClickReaction(const int pNumberOfFrames, const int pSequence) :
         GameMode(pNumberOfFrames, pSequence) {
     Frame::labelFilter = {Labeltypes::CAR};
 }
 
-void DirectClickReaction::processClicks(int x, int y) {
+void DirectClickReaction::processClicks(const int x, const int y) {
 
     //skip over function if user already clicked --> !waitingOnInput
     if (frames.empty() || !waitingOnInput)return;
@@ -17,7 +17,6 @@ void DirectClickReaction::processClicks(int x, int y) {
     waitingOnInput = false;
     std::vector<KittiObject> clickedObjs = this->getClickedObjects(x, y);
     evaluateInput(clickedObjs, x, y);
-
 }
 
 void DirectClickReaction::makeRandomObjVisible() {

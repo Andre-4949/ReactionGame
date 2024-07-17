@@ -3,7 +3,7 @@
 #include <random>
 
 
-ColorChangeReaction::ColorChangeReaction(int pNumberOfFrames, int pSequence) : GameMode(pNumberOfFrames, pSequence) {
+ColorChangeReaction::ColorChangeReaction(const int pNumberOfFrames,const int pSequence) : GameMode(pNumberOfFrames, pSequence) {
     Frame::labelFilter = {Labeltypes::CAR};
 }
 
@@ -19,7 +19,7 @@ void ColorChangeReaction::processSpaceBarInput(){
     evaluateInput(selectedObjs, clickedPoint.getX(), clickedPoint.getY());
 }
 
-void ColorChangeReaction::processClicks(int x, int y) {
+void ColorChangeReaction::processClicks(const int x, const int y) {
     if (frames.empty())
         return;
     selectedObjs = this->getClickedObjects(x, y);
@@ -41,7 +41,7 @@ void ColorChangeReaction::makeRandomObjVisible() {
     std::mt19937 rng(device());
     std::uniform_int_distribution<std::mt19937::result_type> dist(1 * Constants::SECONDSTOMILLISECONDS,
                                                                   2 * Constants::SECONDSTOMILLISECONDS);
-    int random_milliseconds = dist(rng);
+    const int random_milliseconds = dist(rng);
     Util::timing::waitMilliSeconds(random_milliseconds);
     frames.front().getBoundingBoxOfRandomObject().setColor(Constants::RED);
 }

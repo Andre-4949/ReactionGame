@@ -10,21 +10,21 @@ namespace Util {
 
         std::string generateLabelFolderPath(int sequence);
 
-        int getAmountOfFilesInFolder(std::string folderPath);
+        int getAmountOfFilesInFolder(const std::string& folderPath);
 
         std::string generateImagePath(int frameNum, int sequenceNum);
 
     };
     namespace stringUtil {
         std::string
-        addStringUntilWidthIsReached(std::string originalStr, std::string stringToAppendOrInsert, int maxWidth);
+        addStringUntilWidthIsReached(std::string originalStr, const std::string& stringToAppendOrInsert, int maxWidth);
     }
     namespace environmentalVar {
         void checkIfKittiPathIsSet();
     }
 
     namespace timing{
-        void waitMilliSeconds(int time, std::function<bool(void)> breakCondition=[](){return false;}, std::function<void()> doWhileWaiting=[](){});
+        void waitMilliSeconds(int time, const std::function<bool(void)>& breakCondition=[](){return false;}, const std::function<void()>& doWhileWaiting=[](){});
         double getTimeDifference(std::chrono::_V2::system_clock::time_point later, std::chrono::_V2::system_clock::time_point earlier);
     }
 

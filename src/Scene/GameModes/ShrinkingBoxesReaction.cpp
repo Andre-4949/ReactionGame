@@ -1,23 +1,23 @@
 #include "../../../include/Scene/GameModes/ShrinkingBoxesReaction.h"
 #include "../../../include/HelperClasses/Utils.h"
 
-ShrinkingBoxesReaction::ShrinkingBoxesReaction(int pNumberOfFrames, int pSequence) : DirectClickReaction(
-        pNumberOfFrames, pSequence) {
-    lastShrinkedTimePoint = std::chrono::high_resolution_clock::now();
+ShrinkingBoxesReaction::ShrinkingBoxesReaction(const int pNumberOfFrames, const int pSequence) : DirectClickReaction(
+        pNumberOfFrames, pSequence), deltaX(0), deltaY(0), shrinkingTimeDiff(0.25) {
+    lastShrunkTimePoint = std::chrono::high_resolution_clock::now();
 }
 
-void ShrinkingBoxesReaction::setCopyAsNewImg(Frame& frame){
+void ShrinkingBoxesReaction::setCopyAsNewImg(Frame &frame) {
     cv::Mat imgCopy;
     frame.getOriginalImg().copyTo(imgCopy);
     frame.setImg(imgCopy);
     drawHandler.setImg(imgCopy);
-    
+
 }
 
 void ShrinkingBoxesReaction::doWhileWaitingOnInput() {
     //calculate time since last shrinking tick --> decide if its time to shrink again
-    auto now = std::chrono::high_resolution_clock::now();
-    double currentTimeDiff = Util::timing::getTimeDifference(now, lastShrinkedTimePoint);
+    const auto now = std::chrono::high_resolution_clock::now();
+    const double currentTimeDiff = Util::timing::getTimeDifference(now, lastShrunkTimePoint);
     if (currentTimeDiff > (double) (Constants::SECONDSTOMILLISECONDS * shrinkingTimeDiff)) {
         Frame &currentFrame = frames.front();
         GTBoundingBox &boundingBoxOfRandomObj = currentFrame.getBoundingBoxOfRandomObject();
@@ -30,30 +30,32 @@ void ShrinkingBoxesReaction::doWhileWaitingOnInput() {
         boundingBoxOfRandomObj.setVisible(true);
         render();
 
-        lastShrinkedTimePoint = std::chrono::high_resolution_clock::now();
+        lastShrunkTimePoint = std::chrono::high_resolution_clock::now();
     }
 }
 
 
-void ShrinkingBoxesReaction::calcDeltaX(){
+void ShrinkingBoxesReaction::calcDeltaX() {
     double tempDeltaX;
     // delta = starting width * (time between shrinks / total time)  
     //--> so that after the total time (-> after every shrink) the width becomes 0
     tempDeltaX = initialRandomObjBottomRight.getX() - initialRandomObjTopLeft.getX();
     tempDeltaX *= shrinkingTimeDiff;
-    tempDeltaX /= 2 * ((double)defaultTimeToWaitForOneFrame / Constants::SECONDSTOMILLISECONDS); // /2 since border moves from both sides
+    tempDeltaX /= 2 * ((double) defaultTimeToWaitForOneFrame /
+                       Constants::SECONDSTOMILLISECONDS); // /2 since border moves from both sides
     this->deltaX = (int) tempDeltaX;
 }
 
 
-void ShrinkingBoxesReaction::calcDeltaY(){
+void ShrinkingBoxesReaction::calcDeltaY() {
     double tempDeltaY;
     // delta = starting height * (time between shrinks / total time)  
     //--> so that after the total time (-> after every shrink) the height becomes 0
     tempDeltaY = initialRandomObjBottomRight.getY() - initialRandomObjTopLeft.getY();
     tempDeltaY *= shrinkingTimeDiff;
-    tempDeltaY /= 2 * ((double)defaultTimeToWaitForOneFrame / Constants::SECONDSTOMILLISECONDS); // /2 since border moves from both sides
-    this->deltaY = (int)tempDeltaY;
+    tempDeltaY /= 2 * ((double) defaultTimeToWaitForOneFrame /
+                       Constants::SECONDSTOMILLISECONDS); // /2 since border moves from both sides
+    this->deltaY = (int) tempDeltaY;
 }
 
 
