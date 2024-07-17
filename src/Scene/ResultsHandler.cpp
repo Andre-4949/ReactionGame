@@ -16,9 +16,16 @@ void ResultsHandler::calcAvgTime() {
 void ResultsHandler::calcBest3Times() {
     std::vector<double> sortedTimes = times;
     std::sort(sortedTimes.begin(), sortedTimes.end());
-    //print out less times if less times were tracked
-    const int index3 = sortedTimes.size() >= 3 ? 3 : (int) sortedTimes.size();
 
+    //print out less times if less times were tracked
+    int index3;
+    if(sortedTimes.size() >= 3)
+    {
+        index3 = 3;
+    }
+    else{
+        index3 = sortedTimes.size();
+    }
     const std::vector<double> newBest3Times(sortedTimes.begin(), sortedTimes.begin() + index3);
     best3Times = newBest3Times;
 }
